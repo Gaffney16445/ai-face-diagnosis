@@ -1,101 +1,103 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>AI顔診断</title>
 
 <style>
-
 body {
-    margin: 0;
-    font-family: sans-serif;
-    background: #f5f5f5;
-    text-align: center;
+  margin: 0;
+  font-family: sans-serif;
+  background: #f5f5f5;
+  text-align: center;
 }
 
 .container {
-    width: 90%;
-    max-width: 420px;
-    margin: 40px auto;
+  width: 90%;
+  max-width: 420px;
+  margin: 40px auto;
 }
 
 .card {
-    background: white;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
 }
 
 h1 {
-    font-size: 30px;
+  font-size: 30px;
 }
 
 p {
-    color: #555;
-    line-height: 1.7;
+  color: #555;
+  line-height: 1.7;
 }
 
 input {
-    width: 100%;
-    padding: 15px;
-    margin: 15px 0;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 16px;
+  width: 100%;
+  padding: 15px;
+  margin: 15px 0;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
 }
 
 .consent {
-    text-align: left;
-    background: #f7f7f7;
-    padding: 15px;
-    border-radius: 10px;
-    margin: 15px 0;
-    font-size: 14px;
+  text-align: left;
+  background: #f7f7f7;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 15px 0;
+  font-size: 14px;
 }
 
 .checkbox {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .checkbox input {
-    width: auto;
-    margin: 0;
+  width: auto;
+  margin: 0;
 }
 
 button {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 10px;
-    background: #222;
-    color: white;
-    font-size: 16px;
-    margin-top: 10px;
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #222;
+  color: white;
+  font-size: 16px;
+  margin-top: 10px;
 }
 
 button:disabled {
-    background: #aaa;
+  background: #aaa;
 }
 
 #cameraArea,
-#resultArea {
-    display: none;
+#resultArea,
+#completeArea {
+  display: none;
 }
 
 video,
 #photo {
-    width: 100%;
-    border-radius: 15px;
-    margin-top: 15px;
-    background: black;
+  width: 100%;
+  border-radius: 15px;
+  margin-top: 15px;
+  background: black;
 }
 
+.loading {
+  font-size: 18px;
+  margin: 20px 0;
+}
 </style>
 </head>
 
@@ -103,96 +105,112 @@ video,
 
 <div class="container">
 
-    <!-- 最初の画面 -->
+  <!-- 開始画面 -->
+  <div class="card" id="startArea">
 
-    <div class="card" id="startArea">
+    <h1>AI顔診断</h1>
 
-        <h1>AI顔診断</h1>
+    <p>
+      あなたの顔をAIが診断します。
+    </p>
 
-        <p>
-            あなたの顔をAIが診断します。
-        </p>
+    <input
+      id="nickname"
+      type="text"
+      placeholder="ニックネーム"
+      maxlength="20"
+    >
 
-        <input
-            id="nickname"
-            type="text"
-            placeholder="ニックネーム"
-            maxlength="20"
-        >
+    <div class="consent">
 
-        <div class="consent">
+      <strong>写真の利用について</strong>
 
-            <strong>写真の利用について</strong>
+      <p>
+        AI顔診断を行うため、カメラで顔写真を撮影します。
+        撮影した写真はサーバーへ送信され、不正チェックに使用します。
+      </p>
 
-            <p>
-                AI顔診断を行うため、カメラで顔写真を撮影します。
-                撮影した写真はサーバーへ送信され、
-                AIが不正チェックを行います。
-            </p>
+      <p>
+        写真は診断・不正チェックの目的で使用します。
+      </p>
 
-            <p>
-                写真は診断・不正チェックの目的で使用します。
-            </p>
+      <label class="checkbox">
 
-            <label class="checkbox">
+        <input type="checkbox" id="agree">
 
-                <input type="checkbox" id="agree">
+        <span>
+          内容を確認し、写真の撮影・送信に同意します
+        </span>
 
-                <span>
-                    内容を確認し、写真の撮影・送信に同意します
-                </span>
-
-            </label>
-
-        </div>
-
-        <button id="startButton" disabled>
-            AI顔診断を開始
-        </button>
+      </label>
 
     </div>
 
+    <button id="startButton" disabled>
+      AI顔診断を開始
+    </button>
 
-    <!-- カメラ画面 -->
-
-    <div class="card" id="cameraArea">
-
-        <h1>カメラ撮影</h1>
-
-        <p>
-            カメラに顔を映してください。
-        </p>
-
-        <video
-            id="camera"
-            autoplay
-            playsinline>
-        </video>
-
-        <button id="takePhoto">
-            📸 撮影する
-        </button>
-
-    </div>
+  </div>
 
 
-    <!-- 撮影後 -->
+  <!-- カメラ画面 -->
+  <div class="card" id="cameraArea">
 
-    <div class="card" id="resultArea">
+    <h1>カメラ撮影</h1>
 
-        <h1>撮影完了</h1>
+    <p>
+      カメラに顔を映してください。
+    </p>
 
-        <p>
-            撮影した写真です。
-        </p>
+    <video
+      id="camera"
+      autoplay
+      playsinline
+    ></video>
 
-        <img id="photo">
+    <button id="takePhoto">
+      📸 撮影する
+    </button>
 
-        <button id="retakePhoto">
-            もう一度撮影
-        </button>
+  </div>
 
-    </div>
+
+  <!-- 撮影結果 -->
+  <div class="card" id="resultArea">
+
+    <h1>撮影完了</h1>
+
+    <p>
+      撮影した写真です。
+    </p>
+
+    <img id="photo">
+
+    <button id="sendPhoto">
+      写真を送信する
+    </button>
+
+    <button id="retakePhoto">
+      もう一度撮影
+    </button>
+
+  </div>
+
+
+  <!-- 完了画面 -->
+  <div class="card" id="completeArea">
+
+    <h1>送信完了</h1>
+
+    <p>
+      写真の送信が完了しました。
+    </p>
+
+    <p>
+      これからAI顔診断を行います。
+    </p>
+
+  </div>
 
 </div>
 
@@ -200,41 +218,48 @@ video,
 <script>
 
 const agree =
-    document.getElementById("agree");
+  document.getElementById("agree");
 
 const startButton =
-    document.getElementById("startButton");
+  document.getElementById("startButton");
 
 const startArea =
-    document.getElementById("startArea");
+  document.getElementById("startArea");
 
 const cameraArea =
-    document.getElementById("cameraArea");
+  document.getElementById("cameraArea");
 
 const resultArea =
-    document.getElementById("resultArea");
+  document.getElementById("resultArea");
+
+const completeArea =
+  document.getElementById("completeArea");
 
 const camera =
-    document.getElementById("camera");
+  document.getElementById("camera");
 
 const takePhoto =
-    document.getElementById("takePhoto");
+  document.getElementById("takePhoto");
 
 const photo =
-    document.getElementById("photo");
+  document.getElementById("photo");
+
+const sendPhoto =
+  document.getElementById("sendPhoto");
 
 const retakePhoto =
-    document.getElementById("retakePhoto");
+  document.getElementById("retakePhoto");
 
 let cameraStream = null;
+
+let photoBlob = null;
 
 
 /* 同意チェック */
 
 agree.addEventListener("change", function() {
 
-    startButton.disabled =
-        !agree.checked;
+  startButton.disabled = !agree.checked;
 
 });
 
@@ -243,123 +268,216 @@ agree.addEventListener("change", function() {
 
 startButton.addEventListener("click", async function() {
 
-    const nickname =
-        document.getElementById("nickname")
-        .value
-        .trim();
+  const nickname =
+    document.getElementById("nickname").value.trim();
 
-    if (nickname === "") {
+  if (nickname === "") {
 
-        alert("ニックネームを入力してください。");
+    alert("ニックネームを入力してください。");
 
-        return;
-    }
+    return;
 
-
-    try {
-
-        cameraStream =
-            await navigator.mediaDevices.getUserMedia({
-
-                video: {
-                    facingMode: "user"
-                },
-
-                audio: false
-
-            });
+  }
 
 
-        camera.srcObject =
-            cameraStream;
+  try {
+
+    cameraStream =
+      await navigator.mediaDevices.getUserMedia({
+
+        video: {
+          facingMode: "user"
+        },
+
+        audio: false
+
+      });
 
 
-        startArea.style.display =
-            "none";
+    camera.srcObject =
+      cameraStream;
 
-        cameraArea.style.display =
-            "block";
+    startArea.style.display =
+      "none";
 
+    cameraArea.style.display =
+      "block";
 
-    } catch (error) {
+  }
 
-        alert(
-            "カメラを使用できませんでした。カメラの使用を許可してください。"
-        );
+  catch(error) {
 
-        console.error(error);
+    alert(
+      "カメラを使用できませんでした。カメラの使用を許可してください。"
+    );
 
-    }
+    console.error(error);
+
+  }
 
 });
 
 
-/* 撮影 */
+/* 写真撮影 */
 
 takePhoto.addEventListener("click", function() {
 
-    const canvas =
-        document.createElement("canvas");
+  const canvas =
+    document.createElement("canvas");
 
-    canvas.width =
-        camera.videoWidth;
+  canvas.width =
+    camera.videoWidth;
 
-    canvas.height =
-        camera.videoHeight;
-
-
-    const context =
-        canvas.getContext("2d");
+  canvas.height =
+    camera.videoHeight;
 
 
-    /* 内カメラなので左右反転 */
+  const context =
+    canvas.getContext("2d");
 
-    context.translate(
-        canvas.width,
-        0
+
+  /* 前面カメラの左右反転 */
+
+  context.translate(
+    canvas.width,
+    0
+  );
+
+  context.scale(-1, 1);
+
+
+  context.drawImage(
+    camera,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+
+  photo.src =
+    canvas.toDataURL(
+      "image/jpeg",
+      0.9
     );
 
-    context.scale(
-        -1,
-        1
-    );
+
+  /* Blobに変換 */
+
+  canvas.toBlob(
+    function(blob) {
+
+      photoBlob = blob;
+
+    },
+    "image/jpeg",
+    0.9
+  );
 
 
-    context.drawImage(
-        camera,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
+  /* カメラ停止 */
+
+  if (cameraStream) {
+
+    cameraStream
+      .getTracks()
+      .forEach(function(track) {
+
+        track.stop();
+
+      });
+
+  }
 
 
-    /* 写真を画像として取得 */
+  cameraArea.style.display =
+    "none";
 
-    photo.src =
-        canvas.toDataURL("image/jpeg", 0.9);
+  resultArea.style.display =
+    "block";
+
+});
 
 
-    /* カメラ停止 */
+/* 写真をSupabaseへ送信 */
 
-    if (cameraStream) {
+sendPhoto.addEventListener("click", async function() {
 
-        cameraStream
-            .getTracks()
-            .forEach(function(track) {
+  if (!photoBlob) {
 
-                track.stop();
+    alert("写真がありません。");
 
-            });
+    return;
+
+  }
+
+
+  sendPhoto.disabled =
+    true;
+
+  sendPhoto.textContent =
+    "送信中...";
+
+
+  try {
+
+    const response =
+      await fetch(
+        "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/smooth-worker",
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "image/jpeg"
+
+          },
+
+          body: photoBlob
+
+        }
+      );
+
+
+    const result =
+      await response.text();
+
+
+    console.log(result);
+
+
+    if (!response.ok) {
+
+      throw new Error(result);
 
     }
 
 
-    cameraArea.style.display =
-        "none";
-
     resultArea.style.display =
-        "block";
+      "none";
+
+    completeArea.style.display =
+      "block";
+
+  }
+
+  catch(error) {
+
+    console.error(error);
+
+    alert(
+      "写真の送信に失敗しました。もう一度試してください。"
+    );
+
+    sendPhoto.disabled =
+      false;
+
+    sendPhoto.textContent =
+      "写真を送信する";
+
+  }
 
 });
 
@@ -368,43 +486,43 @@ takePhoto.addEventListener("click", function() {
 
 retakePhoto.addEventListener("click", async function() {
 
-    try {
+  try {
 
-        cameraStream =
-            await navigator.mediaDevices.getUserMedia({
+    cameraStream =
+      await navigator.mediaDevices.getUserMedia({
 
-                video: {
-                    facingMode: "user"
-                },
+        video: {
+          facingMode: "user"
+        },
 
-                audio: false
+        audio: false
 
-            });
-
-
-        camera.srcObject =
-            cameraStream;
+      });
 
 
-        resultArea.style.display =
-            "none";
-
-        cameraArea.style.display =
-            "block";
+    camera.srcObject =
+      cameraStream;
 
 
-    } catch (error) {
+    resultArea.style.display =
+      "none";
 
-        alert(
-            "カメラを使用できませんでした。"
-        );
+    cameraArea.style.display =
+      "block";
 
-    }
+  }
+
+  catch(error) {
+
+    alert(
+      "カメラを使用できませんでした。"
+    );
+
+  }
 
 });
 
 </script>
 
 </body>
-
 </html>
