@@ -1,11 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>AI顔診断</title>
 
@@ -21,7 +20,7 @@ body {
 .container {
     width: 90%;
     max-width: 420px;
-    margin: 80px auto;
+    margin: 60px auto;
 }
 
 .card {
@@ -37,6 +36,7 @@ h1 {
 
 p {
     color: #555;
+    line-height: 1.7;
 }
 
 input {
@@ -49,6 +49,26 @@ input {
     font-size: 16px;
 }
 
+.consent {
+    text-align: left;
+    background: #f7f7f7;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    font-size: 14px;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkbox input {
+    width: auto;
+    margin: 0;
+}
+
 button {
     width: 100%;
     padding: 15px;
@@ -57,10 +77,14 @@ button {
     background: #222;
     color: white;
     font-size: 16px;
+    margin-top: 10px;
+}
+
+button:disabled {
+    background: #aaa;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -76,12 +100,34 @@ button {
         </p>
 
         <input
+            id="nickname"
             type="text"
             placeholder="ニックネーム"
             maxlength="20"
         >
 
-        <button>
+        <div class="consent">
+
+            <strong>写真の利用について</strong>
+
+            <p>
+                AI顔診断を行うため、カメラで顔写真を撮影します。
+                撮影した写真はサーバーへ送信され、
+                AIが不正チェックを行います。
+            </p>
+
+            <p>
+                写真は診断・不正チェックの目的で使用します。
+            </p>
+
+            <label class="checkbox">
+                <input type="checkbox" id="agree">
+                <span>内容を確認し、写真の撮影・送信に同意します</span>
+            </label>
+
+        </div>
+
+        <button id="startButton" disabled>
             AI顔診断を開始
         </button>
 
@@ -89,6 +135,36 @@ button {
 
 </div>
 
+<script>
+
+const agree = document.getElementById("agree");
+const startButton = document.getElementById("startButton");
+
+agree.addEventListener("change", function() {
+
+    startButton.disabled = !agree.checked;
+
+});
+
+startButton.addEventListener("click", function() {
+
+    const nickname =
+        document.getElementById("nickname").value.trim();
+
+    if (nickname === "") {
+
+        alert("ニックネームを入力してください。");
+        return;
+
+    }
+
+    alert("次はカメラを起動します。");
+
+});
+
+</script>
+
 </body>
 
 </html>
+```
