@@ -220,6 +220,10 @@ video,
   text-align: left;
 }
 
+.shareButton {
+  background: linear-gradient(135deg, #4f46e5, #9333ea);
+}
+
 .disclaimer {
   font-size: 12px;
   color: #777;
@@ -459,6 +463,14 @@ RANK -
 </div>
 
 
+<button
+  id="shareButton"
+  class="shareButton"
+>
+📤 診断結果をシェア
+</button>
+
+
 <p class="disclaimer">
 ※この診断はエンターテインメント目的の参考値です。
 実際の容姿や人物の価値を客観的に評価するものではありません。
@@ -515,6 +527,9 @@ const sendButton =
 const retakeButton =
   document.getElementById("retakeButton");
 
+const shareButton =
+  document.getElementById("shareButton");
+
 const analysisProgress =
   document.getElementById("analysisProgress");
 
@@ -523,6 +538,12 @@ const analysisPercent =
 
 let cameraStream = null;
 let photoBlob = null;
+
+let finalTotal = 0;
+let finalExpression = 0;
+let finalMood = 0;
+let finalPhoto = 0;
+let finalRank = "";
 
 
 /* 同意チェック */
@@ -883,6 +904,18 @@ function createDiagnosis() {
       ) / 3
     );
 
+  finalTotal =
+    total;
+
+  finalExpression =
+    expression;
+
+  finalMood =
+    mood;
+
+  finalPhoto =
+    photoScore;
+
 
   document.getElementById(
     "resultNickname"
@@ -948,6 +981,9 @@ function createDiagnosis() {
 
   }
 
+  finalRank =
+    rank;
+
   document.getElementById(
     "rank"
   ).textContent =
@@ -1010,6 +1046,83 @@ function createDiagnosis() {
   );
 
 }
+
+
+/* シェア */
+
+shareButton.addEventListener(
+  "click",
+  async () => {
+
+    const shareText =
+      "✨ AI顔診断結果 ✨\n\n" +
+      nickname.value.trim() +
+      " さんの総合スコアは " +
+      finalTotal +
+      " / 100！\n\n" +
+      "😊 表情スコア：" +
+      finalExpression +
+      "\n" +
+      "✨ 雰囲気スコア：" +
+      finalMood +
+      "\n" +
+      "📸 写真映えスコア：" +
+      finalPhoto +
+      "\n\n" +
+      "🏆 RANK " +
+      finalRank +
+      "\n\n" +
+      "あなたもAI顔診断してみて！\n" +
+      location.href;
+
+    try {
+
+      if (
+        navigator.share
+      ) {
+
+        await navigator.share({
+
+          title:
+            "✨ AI顔診断結果",
+
+          text:
+            shareText,
+
+          url:
+            location.href
+
+        });
+
+      } else {
+
+        await navigator.clipboard.writeText(
+          shareText
+        );
+
+        alert(
+          "シェア用の文章をコピーしました！"
+        );
+
+      }
+
+    } catch (error) {
+
+      if (
+        error.name !==
+        "AbortError"
+      ) {
+
+        alert(
+          "シェアに失敗しました。"
+        );
+
+      }
+
+    }
+
+  }
+);
 
 
 /* 数字を0から増やす */
