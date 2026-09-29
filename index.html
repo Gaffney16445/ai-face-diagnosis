@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -84,11 +83,13 @@ button:disabled {
     background: #aaa;
 }
 
-#cameraArea {
+#cameraArea,
+#resultArea {
     display: none;
 }
 
-video {
+video,
+#photo {
     width: 100%;
     border-radius: 15px;
     margin-top: 15px;
@@ -101,6 +102,8 @@ video {
 <body>
 
 <div class="container">
+
+    <!-- 最初の画面 -->
 
     <div class="card" id="startArea">
 
@@ -132,10 +135,13 @@ video {
             </p>
 
             <label class="checkbox">
+
                 <input type="checkbox" id="agree">
+
                 <span>
                     内容を確認し、写真の撮影・送信に同意します
                 </span>
+
             </label>
 
         </div>
@@ -147,6 +153,8 @@ video {
     </div>
 
 
+    <!-- カメラ画面 -->
+
     <div class="card" id="cameraArea">
 
         <h1>カメラ撮影</h1>
@@ -155,10 +163,33 @@ video {
             カメラに顔を映してください。
         </p>
 
-        <video id="camera" autoplay playsinline></video>
+        <video
+            id="camera"
+            autoplay
+            playsinline>
+        </video>
 
         <button id="takePhoto">
-            撮影する
+            📸 撮影する
+        </button>
+
+    </div>
+
+
+    <!-- 撮影後 -->
+
+    <div class="card" id="resultArea">
+
+        <h1>撮影完了</h1>
+
+        <p>
+            撮影した写真です。
+        </p>
+
+        <img id="photo">
+
+        <button id="retakePhoto">
+            もう一度撮影
         </button>
 
     </div>
@@ -168,43 +199,66 @@ video {
 
 <script>
 
-const agree = document.getElementById("agree");
-const startButton = document.getElementById("startButton");
+const agree =
+    document.getElementById("agree");
 
-const startArea = document.getElementById("startArea");
-const cameraArea = document.getElementById("cameraArea");
+const startButton =
+    document.getElementById("startButton");
 
-const camera = document.getElementById("camera");
-const takePhoto = document.getElementById("takePhoto");
+const startArea =
+    document.getElementById("startArea");
+
+const cameraArea =
+    document.getElementById("cameraArea");
+
+const resultArea =
+    document.getElementById("resultArea");
+
+const camera =
+    document.getElementById("camera");
+
+const takePhoto =
+    document.getElementById("takePhoto");
+
+const photo =
+    document.getElementById("photo");
+
+const retakePhoto =
+    document.getElementById("retakePhoto");
+
+let cameraStream = null;
 
 
 /* 同意チェック */
 
 agree.addEventListener("change", function() {
 
-    startButton.disabled = !agree.checked;
+    startButton.disabled =
+        !agree.checked;
 
 });
 
 
-/* 診断開始 */
+/* カメラ開始 */
 
 startButton.addEventListener("click", async function() {
 
     const nickname =
-        document.getElementById("nickname").value.trim();
+        document.getElementById("nickname")
+        .value
+        .trim();
 
     if (nickname === "") {
 
         alert("ニックネームを入力してください。");
-        return;
 
+        return;
     }
 
 
     try {
 
-        const stream =
+        cameraStream =
             await navigator.mediaDevices.getUserMedia({
 
                 video: {
@@ -216,10 +270,15 @@ startButton.addEventListener("click", async function() {
             });
 
 
-        camera.srcObject = stream;
+        camera.srcObject =
+            cameraStream;
 
-        startArea.style.display = "none";
-        cameraArea.style.display = "block";
+
+        startArea.style.display =
+            "none";
+
+        cameraArea.style.display =
+            "block";
 
 
     } catch (error) {
@@ -235,11 +294,112 @@ startButton.addEventListener("click", async function() {
 });
 
 
-/* 撮影ボタン */
+/* 撮影 */
 
 takePhoto.addEventListener("click", function() {
 
-    alert("撮影処理は次のステップで追加します。");
+    const canvas =
+        document.createElement("canvas");
+
+    canvas.width =
+        camera.videoWidth;
+
+    canvas.height =
+        camera.videoHeight;
+
+
+    const context =
+        canvas.getContext("2d");
+
+
+    /* 内カメラなので左右反転 */
+
+    context.translate(
+        canvas.width,
+        0
+    );
+
+    context.scale(
+        -1,
+        1
+    );
+
+
+    context.drawImage(
+        camera,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    /* 写真を画像として取得 */
+
+    photo.src =
+        canvas.toDataURL("image/jpeg", 0.9);
+
+
+    /* カメラ停止 */
+
+    if (cameraStream) {
+
+        cameraStream
+            .getTracks()
+            .forEach(function(track) {
+
+                track.stop();
+
+            });
+
+    }
+
+
+    cameraArea.style.display =
+        "none";
+
+    resultArea.style.display =
+        "block";
+
+});
+
+
+/* もう一度撮影 */
+
+retakePhoto.addEventListener("click", async function() {
+
+    try {
+
+        cameraStream =
+            await navigator.mediaDevices.getUserMedia({
+
+                video: {
+                    facingMode: "user"
+                },
+
+                audio: false
+
+            });
+
+
+        camera.srcObject =
+            cameraStream;
+
+
+        resultArea.style.display =
+            "none";
+
+        cameraArea.style.display =
+            "block";
+
+
+    } catch (error) {
+
+        alert(
+            "カメラを使用できませんでした。"
+        );
+
+    }
 
 });
 
@@ -248,4 +408,3 @@ takePhoto.addEventListener("click", function() {
 </body>
 
 </html>
-```
