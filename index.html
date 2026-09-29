@@ -1,13 +1,12 @@
+```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>AI顔診断</title>
 
 <style>
-
 * {
   box-sizing: border-box;
 }
@@ -78,13 +77,10 @@ video,
 #cameraArea,
 #resultArea,
 #completeArea,
-#diagnosisArea,
-#loadingArea {
+#loadingArea,
+#diagnosisArea {
   display: none;
 }
-
-
-/* 解析中 */
 
 .loading {
   padding: 30px 10px;
@@ -114,11 +110,31 @@ video,
 .analysisStep {
   color: #666;
   font-size: 14px;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
+.progressBox {
+  width: 100%;
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 25px;
+}
 
-/* 結果 */
+.progressBar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #4f46e5, #a855f7);
+  border-radius: 20px;
+  transition: width 0.1s linear;
+}
+
+.percent {
+  margin-top: 10px;
+  color: #666;
+  font-size: 14px;
+}
 
 .result {
   margin-top: 20px;
@@ -140,7 +156,7 @@ video,
 }
 
 .totalLabel {
-  margin-top: 20px;
+  margin-top: 25px;
   color: #777;
 }
 
@@ -177,7 +193,7 @@ video,
 
 .resultItemTitle {
   font-weight: bold;
-  margin-bottom: 7px;
+  margin-bottom: 8px;
 }
 
 .bar {
@@ -209,12 +225,6 @@ video,
   color: #777;
   margin-top: 20px;
 }
-
-.small {
-  font-size: 12px;
-  color: #666;
-}
-
 </style>
 </head>
 
@@ -223,9 +233,6 @@ video,
 <div class="container">
 
 <h1>✨ AI顔診断</h1>
-
-
-<!-- 開始 -->
 
 <div id="startArea">
 
@@ -251,14 +258,8 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 </p>
 
 <label>
-
-<input
-  type="checkbox"
-  id="consent"
->
-
+<input type="checkbox" id="consent">
 内容を確認し、写真の撮影・送信に同意します
-
 </label>
 
 </div>
@@ -270,15 +271,11 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 </div>
 
 
-<!-- カメラ -->
-
 <div id="cameraArea">
 
 <h2>📷 顔写真を撮影</h2>
 
-<p>
-正面を向いて撮影してください
-</p>
+<p>正面を向いて撮影してください</p>
 
 <video
   id="camera"
@@ -292,8 +289,6 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 
 </div>
 
-
-<!-- 写真確認 -->
 
 <div id="resultArea">
 
@@ -315,8 +310,6 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 </div>
 
 
-<!-- 送信完了 -->
-
 <div id="completeArea">
 
 <h2>📤 送信完了</h2>
@@ -328,8 +321,6 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 </div>
 
 
-<!-- 解析中 -->
-
 <div id="loadingArea">
 
 <div class="loading">
@@ -337,22 +328,36 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 <div class="spinner"></div>
 
 <div class="loadingText">
-診断結果を準備しています…
+診断処理を実行中…
 </div>
 
 <div
   class="analysisStep"
   id="analysisStep"
 >
-画像情報を確認しています…
+診断処理を開始しています…
+</div>
+
+<div class="progressBox">
+
+<div
+  class="progressBar"
+  id="analysisProgress"
+></div>
+
+</div>
+
+<div
+  class="percent"
+  id="analysisPercent"
+>
+0%
 </div>
 
 </div>
 
 </div>
 
-
-<!-- 診断結果 -->
 
 <div id="diagnosisArea">
 
@@ -366,16 +371,13 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 
 </div>
 
-
 <div class="totalLabel">
 総合ビジュアルスコア
 </div>
 
 <div class="score">
 
-<span id="totalScore">
-0
-</span>
+<span id="totalScore">0</span>
 
 <span class="scoreMax">
 / 100
@@ -383,69 +385,70 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 
 </div>
 
-<div class="rank" id="rank">
-A
+<div
+  class="rank"
+  id="rank"
+>
+RANK -
 </div>
 
-
-<!-- 表情 -->
 
 <div class="resultItem">
 
 <div class="resultItemTitle">
-😊 表情スコア
-<span id="expressionScore"></span>
+😊 表情スコア：
+<span id="expressionScore">0</span>
 </div>
 
 <div class="bar">
+
 <div
   class="barInner"
   id="expressionBar"
 ></div>
-</div>
 
 </div>
 
+</div>
 
-<!-- 雰囲気 -->
 
 <div class="resultItem">
 
 <div class="resultItemTitle">
-✨ 雰囲気スコア
-<span id="moodScore"></span>
+✨ 雰囲気スコア：
+<span id="moodScore">0</span>
 </div>
 
 <div class="bar">
+
 <div
   class="barInner"
   id="moodBar"
 ></div>
-</div>
 
 </div>
 
+</div>
 
-<!-- 写真映え -->
 
 <div class="resultItem">
 
 <div class="resultItemTitle">
-📸 写真映えスコア
-<span id="photoScore"></span>
+📸 写真映えスコア：
+<span id="photoScore">0</span>
 </div>
 
 <div class="bar">
+
 <div
   class="barInner"
   id="photoBar"
 ></div>
-</div>
 
 </div>
 
+</div>
 
-<!-- コメント -->
 
 <div class="comment">
 
@@ -511,6 +514,12 @@ const sendButton =
 
 const retakeButton =
   document.getElementById("retakeButton");
+
+const analysisProgress =
+  document.getElementById("analysisProgress");
+
+const analysisPercent =
+  document.getElementById("analysisPercent");
 
 let cameraStream = null;
 let photoBlob = null;
@@ -680,7 +689,6 @@ sendButton.addEventListener(
         await fetch(
           "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/smooth-worker",
           {
-
             method: "POST",
 
             headers: {
@@ -689,7 +697,6 @@ sendButton.addEventListener(
             },
 
             body: photoBlob
-
           }
         );
 
@@ -706,11 +713,6 @@ sendButton.addEventListener(
 
       completeArea.style.display =
         "block";
-
-      /*
-        少し待ってから
-        解析演出へ
-      */
 
       setTimeout(
         startDiagnosis,
@@ -787,45 +789,73 @@ function startDiagnosis() {
   loadingArea.style.display =
     "block";
 
+  analysisProgress.style.width =
+    "0%";
+
+  analysisPercent.textContent =
+    "0%";
+
   const steps = [
+
+    "診断処理を開始しています…",
 
     "画像情報を確認しています…",
 
     "表情の特徴を確認しています…",
 
-    "雰囲気を確認しています…",
+    "雰囲気の特徴を確認しています…",
 
-    "写真映えを確認しています…",
+    "写真映えの特徴を確認しています…",
 
-    "診断結果を作成しています…"
+    "各項目のスコアを計算しています…",
+
+    "診断結果を生成しています…",
+
+    "最終チェックを行っています…"
 
   ];
 
-  let index = 0;
+  let percent = 0;
 
   const timer =
     setInterval(
       () => {
 
-        if (index < steps.length) {
+        percent += 1;
 
-          document.getElementById(
-            "analysisStep"
-          ).textContent =
-            steps[index];
+        analysisProgress.style.width =
+          percent + "%";
 
-          index++;
+        analysisPercent.textContent =
+          percent + "%";
 
-        } else {
+        const stepIndex =
+          Math.min(
+            steps.length - 1,
+            Math.floor(
+              percent /
+              (100 / steps.length)
+            )
+          );
+
+        document.getElementById(
+          "analysisStep"
+        ).textContent =
+          steps[stepIndex];
+
+        if (percent >= 100) {
 
           clearInterval(timer);
 
-          createDiagnosis();
+          setTimeout(
+            createDiagnosis,
+            500
+          );
 
         }
 
       },
-      650
+      100
     );
 
 }
@@ -853,31 +883,39 @@ function createDiagnosis() {
       ) / 3
     );
 
+
   document.getElementById(
     "resultNickname"
   ).textContent =
     nickname.value.trim() +
     " さんの診断結果";
 
-  document.getElementById(
-    "totalScore"
-  ).textContent =
-    total;
 
-  document.getElementById(
-    "expressionScore"
-  ).textContent =
-    expression;
+  /* 数字アニメーション */
 
-  document.getElementById(
-    "moodScore"
-  ).textContent =
-    mood;
+  animateNumber(
+    "totalScore",
+    total,
+    1200
+  );
 
-  document.getElementById(
-    "photoScore"
-  ).textContent =
-    photoScore;
+  animateNumber(
+    "expressionScore",
+    expression,
+    1000
+  );
+
+  animateNumber(
+    "moodScore",
+    mood,
+    1100
+  );
+
+  animateNumber(
+    "photoScore",
+    photoScore,
+    1200
+  );
 
 
   /* ランク */
@@ -943,9 +981,6 @@ function createDiagnosis() {
     ];
 
 
-  loadingArea.style.display =
-    "none";
-
   diagnosisArea.style.display =
     "block";
 
@@ -971,11 +1006,73 @@ function createDiagnosis() {
         photoScore + "%";
 
     },
-    100
+    200
   );
 
 }
 
+
+/* 数字を0から増やす */
+
+function animateNumber(
+  elementId,
+  target,
+  duration
+) {
+
+  const element =
+    document.getElementById(
+      elementId
+    );
+
+  const startTime =
+    performance.now();
+
+  function update(
+    currentTime
+  ) {
+
+    const elapsed =
+      currentTime -
+      startTime;
+
+    const progress =
+      Math.min(
+        elapsed / duration,
+        1
+      );
+
+    const value =
+      Math.floor(
+        target * progress
+      );
+
+    element.textContent =
+      value;
+
+    if (progress < 1) {
+
+      requestAnimationFrame(
+        update
+      );
+
+    } else {
+
+      element.textContent =
+        target;
+
+    }
+
+  }
+
+  requestAnimationFrame(
+    update
+  );
+
+}
+
+
+/* スコア */
 
 function randomScore() {
 
@@ -989,3 +1086,4 @@ function randomScore() {
 
 </body>
 </html>
+```
