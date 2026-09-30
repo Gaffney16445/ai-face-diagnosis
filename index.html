@@ -345,8 +345,17 @@ video {
   min="1"
   max="1000"
   placeholder="年齢"
+  
 >
+<p>
+テスト用パスワード（テスト時のみ）
+</p>
 
+<input
+  id="testPassword"
+  type="password"
+  placeholder="テスト用パスワード"
+>
 
 <div class="consent">
 
@@ -812,6 +821,15 @@ document.getElementById("consent");
 
 const rankingConsent =
 document.getElementById("rankingConsent");
+ 
+const testPassword =
+document.getElementById("testPassword");
+
+const TEST_PASSWORD =
+  "TEST2026";
+
+let testMode =
+  false;
 
 const roomReady =
 document.getElementById("roomReady");
