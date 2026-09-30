@@ -22,12 +22,7 @@ body {
   min-height: 100vh;
   font-family: sans-serif;
   text-align: center;
-  background: linear-gradient(
-    135deg,
-    #111827,
-    #312e81,
-    #581c87
-  );
+  background: linear-gradient(135deg,#111827,#312e81,#581c87);
 }
 
 .container {
@@ -36,18 +31,19 @@ body {
   padding: 25px;
   background: white;
   border-radius: 24px;
-  box-shadow:
-    0 10px 40px rgba(0,0,0,.35);
+  box-shadow: 0 10px 40px rgba(0,0,0,.35);
 }
 
 h1 {
   margin-top: 0;
+  font-size: 30px;
 }
 
 input[type="text"],
 input[type="number"] {
   width: 90%;
   padding: 14px;
+  margin-top: 5px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 12px;
@@ -64,8 +60,7 @@ input[type="number"] {
 
 .consent label {
   display: block;
-  margin-top: 12px;
-  padding: 8px 0;
+  padding: 10px 0;
 }
 
 .consent input {
@@ -73,6 +68,20 @@ input[type="number"] {
   height: 18px;
   vertical-align: middle;
   margin-right: 7px;
+}
+
+.rankingBox {
+  margin-top: 15px;
+  padding: 15px;
+  background: #fff7ed;
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+}
+
+.rankingTitle {
+  font-size: 17px;
+  font-weight: bold;
+  color: #92400e;
 }
 
 button {
@@ -116,22 +125,22 @@ video {
   display: none !important;
 }
 
-.message {
-  margin-top: 15px;
-  padding: 12px;
-  background: #fee2e2;
-  color: #991b1b;
-  border-radius: 10px;
-  text-align: left;
-  white-space: pre-wrap;
-}
-
-.faceStatus {
+.status {
   margin-top: 15px;
   padding: 12px;
   background: #f3f4f6;
   border-radius: 12px;
   font-size: 14px;
+}
+
+.error {
+  margin-top: 15px;
+  padding: 12px;
+  background: #fee2e2;
+  color: #991b1b;
+  border-radius: 10px;
+  white-space: pre-wrap;
+  text-align: left;
 }
 
 .loading {
@@ -149,11 +158,9 @@ video {
 }
 
 @keyframes spin {
-
   to {
     transform: rotate(360deg);
   }
-
 }
 
 .progressBox {
@@ -168,34 +175,19 @@ video {
 .progressBar {
   width: 0%;
   height: 100%;
-  background:
-    linear-gradient(
-      90deg,
-      #4f46e5,
-      #a855f7
-    );
+  background: linear-gradient(90deg,#4f46e5,#a855f7);
 }
 
 .resultHeader {
   margin-top: 20px;
   padding: 25px 15px;
-  background:
-    linear-gradient(
-      135deg,
-      #4f46e5,
-      #9333ea
-    );
+  background: linear-gradient(135deg,#4f46e5,#9333ea);
   color: white;
   border-radius: 20px;
 }
 
-.totalLabel {
-  margin-top: 25px;
-  color: #777;
-}
-
 .score {
-  margin: 10px;
+  margin: 15px;
   color: #4f46e5;
   font-size: 70px;
   font-weight: bold;
@@ -237,12 +229,7 @@ video {
 .barInner {
   width: 0%;
   height: 100%;
-  background:
-    linear-gradient(
-      90deg,
-      #6366f1,
-      #a855f7
-    );
+  background: linear-gradient(90deg,#6366f1,#a855f7);
   transition: width 1s ease;
 }
 
@@ -255,12 +242,7 @@ video {
 }
 
 .shareButton {
-  background:
-    linear-gradient(
-      135deg,
-      #4f46e5,
-      #9333ea
-    );
+  background: linear-gradient(135deg,#4f46e5,#9333ea);
 }
 
 .restartButton {
@@ -290,15 +272,16 @@ video {
 <div id="startArea">
 
 <p>
-あなたの名前を入力してください
+あなたの名前orニックネームを入力してください
 </p>
 
 <input
   id="nickname"
   type="text"
   maxlength="30"
-  placeholder="名前"
+  placeholder="名前orニックネーム"
 >
+
 
 <p>
 年齢を入力してください
@@ -307,8 +290,8 @@ video {
 <input
   id="age"
   type="number"
-  min="0"
-  max="1000"
+  min="1"
+  max="120"
   placeholder="年齢"
 >
 
@@ -319,11 +302,11 @@ video {
 
 <p>
 カメラで顔写真を撮影します。
-撮影した写真は診断・AIによる不正チェックが行われます。
+撮影した写真は診断・不正チェックの目的で使用されます。
 </p>
 
 <p>
-写真は診断処理後、自動削除されます。
+診断終了後、写真は自動削除される想定です。
 </p>
 
 <label>
@@ -335,21 +318,34 @@ video {
 </label>
 
 
-<!-- roomがある場合だけ表示 -->
+<!-- =========================
+ランキング
+roomがある場合のみ表示
+========================= -->
 
 <div
-  id="rankingConsentArea"
-  class="hidden"
+  id="rankingArea"
+  class="rankingBox hidden"
 >
 
-<hr>
-
-<strong>🏆 ランキングについて</strong>
+<div class="rankingTitle">
+🏆 ランキング掲載について
+</div>
 
 <p>
-診断結果をランキングに掲載できます。
-掲載すると、スコアがランキング順位に反映されます。
-診断後スコアとランキングの結果が表示されます。
+この診断リンクから診断した結果を
+ランキングに掲載できます。
+</p>
+
+<p>
+掲載される情報は、
+<strong>名前・年齢・写真・スコア</strong>
+です。
+</p>
+
+<p>
+ランキング掲載を希望する場合は
+チェックしてください。
 </p>
 
 <label>
@@ -357,7 +353,7 @@ video {
   id="rankingConsent"
   type="checkbox"
 >
-本サイトのルールに同意します
+ランキングへの掲載に同意します
 </label>
 
 </div>
@@ -372,9 +368,10 @@ video {
 診断を開始
 </button>
 
+
 <div
-  id="startMessage"
-  class="message hidden"
+  id="startError"
+  class="error hidden"
 ></div>
 
 </div>
@@ -392,7 +389,7 @@ video {
 <h2>📷 顔写真を撮影</h2>
 
 <p>
-正面を向いて、顔が画面中央に入るようにしてください。
+正面を向いて、顔を画面中央にしてください。
 </p>
 
 <video
@@ -401,12 +398,22 @@ video {
   playsinline
 ></video>
 
+
+<div
+  id="modelStatus"
+  class="status"
+>
+AI顔検出モデルを準備しています…
+</div>
+
+
 <div
   id="faceStatus"
-  class="faceStatus"
+  class="status"
 >
-顔を確認しています…
+カメラを準備しています…
 </div>
+
 
 <button
   id="captureButton"
@@ -436,12 +443,14 @@ video {
   alt="撮影した写真"
 >
 
+
 <div
   id="photoCheck"
-  class="faceStatus"
+  class="status"
 >
 撮影した写真を確認しています…
 </div>
+
 
 <button
   id="sendButton"
@@ -451,6 +460,7 @@ video {
 📤 写真を送信する
 </button>
 
+
 <button
   id="retakeButton"
   type="button"
@@ -458,9 +468,10 @@ video {
 もう一度撮影
 </button>
 
+
 <div
   id="sendError"
-  class="message hidden"
+  class="error hidden"
 ></div>
 
 </div>
@@ -543,9 +554,10 @@ AI診断処理を実行中…
 </div>
 
 
-<div class="totalLabel">
+<p>
 総合ビジュアルスコア
-</div>
+</p>
+
 
 <div class="score">
 
@@ -572,18 +584,15 @@ RANK -
 
 <strong>
 😊 表情スコア：
-<span id="expressionScore">
-0
-</span>
+<span id="expressionScore">0</span>
+/ 100
 </strong>
 
 <div class="bar">
-
 <div
   id="expressionBar"
   class="barInner"
 ></div>
-
 </div>
 
 </div>
@@ -593,18 +602,15 @@ RANK -
 
 <strong>
 ✨ 雰囲気スコア：
-<span id="moodScore">
-0
-</span>
+<span id="moodScore">0</span>
+/ 100
 </strong>
 
 <div class="bar">
-
 <div
   id="moodBar"
   class="barInner"
 ></div>
-
 </div>
 
 </div>
@@ -614,18 +620,15 @@ RANK -
 
 <strong>
 📸 写真映えスコア：
-<span id="photoScore">
-0
-</span>
+<span id="photoScore">0</span>
+/ 100
 </strong>
 
 <div class="bar">
-
 <div
   id="photoBar"
   class="barInner"
 ></div>
-
 </div>
 
 </div>
@@ -673,7 +676,7 @@ RANK -
 <script>
 
 /* =========================
-送信先
+URL
 ========================= */
 
 const PHOTO_RECEIVER_URL =
@@ -683,14 +686,11 @@ const SMOOTH_WORKER_URL =
 "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/smooth-worker";
 
 
-/* =========================
-URL
-========================= */
-
 const params =
 new URLSearchParams(
   window.location.search
 );
+
 
 const room =
 params.get("room") || "";
@@ -727,27 +727,26 @@ document.getElementById("age");
 const consent =
 document.getElementById("consent");
 
-const rankingConsentArea =
-document.getElementById(
-  "rankingConsentArea"
-);
+const rankingArea =
+document.getElementById("rankingArea");
 
 const rankingConsent =
-document.getElementById(
-  "rankingConsent"
-);
+document.getElementById("rankingConsent");
 
 const startButton =
 document.getElementById("startButton");
 
-const startMessage =
-document.getElementById("startMessage");
+const startError =
+document.getElementById("startError");
 
 const camera =
 document.getElementById("camera");
 
 const captureButton =
 document.getElementById("captureButton");
+
+const modelStatus =
+document.getElementById("modelStatus");
 
 const faceStatus =
 document.getElementById("faceStatus");
@@ -767,27 +766,6 @@ document.getElementById("retakeButton");
 const sendError =
 document.getElementById("sendError");
 
-const shareButton =
-document.getElementById("shareButton");
-
-const restartButton =
-document.getElementById("restartButton");
-
-const analysisProgress =
-document.getElementById(
-  "analysisProgress"
-);
-
-const analysisPercent =
-document.getElementById(
-  "analysisPercent"
-);
-
-const analysisStep =
-document.getElementById(
-  "analysisStep"
-);
-
 
 /* =========================
 状態
@@ -799,31 +777,22 @@ let photoBlob = null;
 
 let faceModel = null;
 
-let faceReady = false;
+let modelReady = false;
 
-let capturedFaceValid = false;
+let liveCheckTimer = null;
 
-let liveFaceTimer = null;
-
-let finalTotal = 0;
-
-let finalExpression = 0;
-
-let finalMood = 0;
-
-let finalPhoto = 0;
-
-let finalRank = "";
+let faceIsValid = false;
 
 
 /* =========================
-ランキング同意
-roomがあるときだけ表示
+ランキング欄
+roomがあるURLなら
+必ず表示
 ========================= */
 
 if (room) {
 
-  rankingConsentArea.classList.remove(
+  rankingArea.classList.remove(
     "hidden"
   );
 
@@ -831,39 +800,57 @@ if (room) {
 
 
 /* =========================
-顔モデル読み込み
+顔検出モデル
 ========================= */
 
-async function loadFaceModel() {
+async function prepareFaceModel() {
+
+  modelStatus.textContent =
+    "AI顔検出モデルを読み込んでいます…";
 
   try {
 
-    faceStatus.textContent =
-      "AI顔検出モデルを読み込んでいます…";
+    await tf.ready();
 
     faceModel =
       await blazeface.load();
 
-    faceReady = true;
+    modelReady =
+      true;
 
-    faceStatus.textContent =
-      "顔検出準備完了。カメラを確認します。";
+    modelStatus.textContent =
+      "✅ AI顔検出モデルの準備完了";
+
+    modelStatus.style.background =
+      "#dcfce7";
+
+    modelStatus.style.color =
+      "#166534";
 
   } catch (error) {
 
     console.error(
-      "顔モデル読み込みエラー:",
+      "BlazeFace error:",
       error
     );
 
-    faceStatus.textContent =
-      "顔検出モデルを読み込めませんでした。";
+    modelReady =
+      false;
+
+    modelStatus.textContent =
+      "❌ 顔検出モデルの読み込みに失敗しました。ページを再読み込みしてください。";
+
+    modelStatus.style.background =
+      "#fee2e2";
+
+    modelStatus.style.color =
+      "#991b1b";
 
   }
 
 }
 
-loadFaceModel();
+prepareFaceModel();
 
 
 /* =========================
@@ -874,15 +861,18 @@ startButton.addEventListener(
   "click",
   async function() {
 
-    startMessage.classList.add(
+    startError.classList.add(
       "hidden"
     );
+
 
     const name =
       nickname.value.trim();
 
+
     const ageValue =
       Number(age.value);
+
 
     if (!name) {
 
@@ -914,6 +904,17 @@ startButton.addEventListener(
 
       showStartError(
         "写真の撮影・送信に同意してください。"
+      );
+
+      return;
+
+    }
+
+
+    if (!modelReady) {
+
+      showStartError(
+        "顔検出モデルの準備がまだ完了していません。少し待ってからもう一度押してください。"
       );
 
       return;
@@ -955,16 +956,24 @@ startButton.addEventListener(
       );
 
 
+      faceIsValid =
+        false;
+
       captureButton.disabled =
         true;
 
 
-      startLiveFaceCheck();
+      faceStatus.textContent =
+        "顔を探しています…";
+
+
+      startLiveCheck();
 
 
     } catch (error) {
 
       console.error(error);
+
 
       startButton.disabled =
         false;
@@ -988,12 +997,14 @@ startButton.addEventListener(
 開始エラー
 ========================= */
 
-function showStartError(message) {
+function showStartError(
+  message
+) {
 
-  startMessage.textContent =
+  startError.textContent =
     message;
 
-  startMessage.classList.remove(
+  startError.classList.remove(
     "hidden"
   );
 
@@ -1001,20 +1012,28 @@ function showStartError(message) {
 
 
 /* =========================
-ライブ顔チェック
+ライブ顔検出
 ========================= */
 
-function startLiveFaceCheck() {
+function startLiveCheck() {
 
-  stopLiveFaceCheck();
+  stopLiveCheck();
 
 
-  liveFaceTimer =
+  liveCheckTimer =
     setInterval(
       async function() {
 
         if (
-          !faceReady ||
+          !modelReady
+        ) {
+
+          return;
+
+        }
+
+
+        if (
           camera.readyState < 2
         ) {
 
@@ -1026,36 +1045,53 @@ function startLiveFaceCheck() {
         try {
 
           const result =
-            await checkFaceFromVideo(
+            await detectFace(
               camera
             );
 
 
-          if (result.valid) {
+          if (
+            result.valid
+          ) {
+
+            faceIsValid =
+              true;
+
 
             faceStatus.textContent =
-              "✅ 顔を確認しました。撮影できます。";
+              "✅ 顔を検出しました。撮影できます。";
+
 
             faceStatus.style.background =
               "#dcfce7";
 
+
             faceStatus.style.color =
               "#166534";
+
 
             captureButton.disabled =
               false;
 
+
           } else {
+
+            faceIsValid =
+              false;
+
 
             faceStatus.textContent =
               "⚠️ " +
               result.reason;
 
+
             faceStatus.style.background =
               "#f3f4f6";
 
+
             faceStatus.style.color =
               "#333";
+
 
             captureButton.disabled =
               true;
@@ -1065,32 +1101,34 @@ function startLiveFaceCheck() {
         } catch (error) {
 
           console.error(
-            "顔チェック:",
+            "face detection:",
             error
           );
 
         }
 
       },
-      1500
+      1000
     );
 
 }
 
 
 /* =========================
-ライブチェック停止
+ライブ検出停止
 ========================= */
 
-function stopLiveFaceCheck() {
+function stopLiveCheck() {
 
-  if (liveFaceTimer) {
+  if (
+    liveCheckTimer
+  ) {
 
     clearInterval(
-      liveFaceTimer
+      liveCheckTimer
     );
 
-    liveFaceTimer =
+    liveCheckTimer =
       null;
 
   }
@@ -1099,16 +1137,29 @@ function stopLiveFaceCheck() {
 
 
 /* =========================
-動画の顔チェック
+顔検出本体
 ========================= */
 
-async function checkFaceFromVideo(
-  videoElement
+async function detectFace(
+  source
 ) {
+
+  if (
+    !faceModel
+  ) {
+
+    return {
+      valid: false,
+      reason:
+        "顔検出モデルが準備できていません。"
+    };
+
+  }
+
 
   const predictions =
     await faceModel.estimateFaces(
-      videoElement,
+      source,
       false
     );
 
@@ -1121,7 +1172,7 @@ async function checkFaceFromVideo(
     return {
       valid: false,
       reason:
-        "顔が見つかりません。"
+        "顔が検出されていません。顔をカメラに向けてください。"
     };
 
   }
@@ -1134,7 +1185,7 @@ async function checkFaceFromVideo(
     return {
       valid: false,
       reason:
-        "複数の顔が写っています。1人で撮影してください。"
+        "複数の顔が検出されました。1人で撮影してください。"
     };
 
   }
@@ -1148,101 +1199,122 @@ async function checkFaceFromVideo(
     face.boundingBox;
 
 
-  const topLeft =
-    box.topLeft;
-
-  const bottomRight =
-    box.bottomRight;
-
-
   const x1 =
-    Number(topLeft[0]);
+    Number(box.topLeft[0]);
 
   const y1 =
-    Number(topLeft[1]);
+    Number(box.topLeft[1]);
 
   const x2 =
-    Number(bottomRight[0]);
+    Number(box.bottomRight[0]);
 
   const y2 =
-    Number(bottomRight[1]);
+    Number(box.bottomRight[1]);
 
 
-  const faceWidth =
-    Math.abs(x2 - x1);
-
-  const faceHeight =
-    Math.abs(y2 - y1);
-
-
-  const videoWidth =
-    videoElement.videoWidth;
-
-  const videoHeight =
-    videoElement.videoHeight;
-
-
-  const faceRatio =
-    (
-      faceWidth *
-      faceHeight
-    ) /
-    (
-      videoWidth *
-      videoHeight
+  const width =
+    Math.abs(
+      x2 - x1
     );
 
 
+  const height =
+    Math.abs(
+      y2 - y1
+    );
+
+
+  const sourceWidth =
+    source.videoWidth ||
+    source.naturalWidth;
+
+
+  const sourceHeight =
+    source.videoHeight ||
+    source.naturalHeight;
+
+
   if (
-    faceRatio < 0.08
+    !sourceWidth ||
+    !sourceHeight
   ) {
 
     return {
       valid: false,
       reason:
-        "顔が小さすぎます。もう少し近づいてください。"
+        "カメラ映像のサイズを取得できません。"
+    };
+
+  }
+
+
+  const faceArea =
+    width *
+    height;
+
+
+  const sourceArea =
+    sourceWidth *
+    sourceHeight;
+
+
+  const ratio =
+    faceArea /
+    sourceArea;
+
+
+  if (
+    ratio < 0.05
+  ) {
+
+    return {
+      valid: false,
+      reason:
+        "顔が小さすぎます。カメラにもう少し近づいてください。"
     };
 
   }
 
 
   const centerX =
-    (x1 + x2) / 2;
+    (
+      x1 +
+      x2
+    ) / 2;
+
 
   const centerY =
-    (y1 + y2) / 2;
+    (
+      y1 +
+      y2
+    ) / 2;
 
 
-  const targetX =
-    videoWidth / 2;
-
-  const targetY =
-    videoHeight / 2;
-
-
-  const distanceX =
+  const dx =
     Math.abs(
-      centerX - targetX
+      centerX -
+      sourceWidth / 2
     ) /
-    videoWidth;
+    sourceWidth;
 
 
-  const distanceY =
+  const dy =
     Math.abs(
-      centerY - targetY
+      centerY -
+      sourceHeight / 2
     ) /
-    videoHeight;
+    sourceHeight;
 
 
   if (
-    distanceX > 0.30 ||
-    distanceY > 0.30
+    dx > 0.35 ||
+    dy > 0.35
   ) {
 
     return {
       valid: false,
       reason:
-        "顔を画面中央に合わせてください。"
+        "顔を画面の中央付近にしてください。"
     };
 
   }
@@ -1265,12 +1337,11 @@ captureButton.addEventListener(
   async function() {
 
     if (
-      !camera.videoWidth ||
-      !camera.videoHeight
+      !faceIsValid
     ) {
 
       alert(
-        "カメラ映像がまだ準備できていません。"
+        "まず顔が検出される状態にしてください。"
       );
 
       return;
@@ -1278,7 +1349,21 @@ captureButton.addEventListener(
     }
 
 
-    stopLiveFaceCheck();
+    if (
+      !camera.videoWidth ||
+      !camera.videoHeight
+    ) {
+
+      alert(
+        "カメラ映像が準備できていません。"
+      );
+
+      return;
+
+    }
+
+
+    stopLiveCheck();
 
 
     captureButton.disabled =
@@ -1294,6 +1379,7 @@ captureButton.addEventListener(
     canvas.width =
       camera.videoWidth;
 
+
     canvas.height =
       camera.videoHeight;
 
@@ -1306,6 +1392,7 @@ captureButton.addEventListener(
       canvas.width,
       0
     );
+
 
     ctx.scale(
       -1,
@@ -1342,6 +1429,7 @@ captureButton.addEventListener(
       "hidden"
     );
 
+
     resultArea.classList.remove(
       "hidden"
     );
@@ -1352,13 +1440,22 @@ captureButton.addEventListener(
 
 
     photoCheck.textContent =
-      "撮影した写真をAIが確認しています…";
+      "撮影した写真をもう一度確認しています…";
 
 
     try {
 
+      /*
+      撮影した画像を再チェック
+      */
+
+      await waitForImage(
+        photo
+      );
+
+
       const result =
-        await checkFaceFromImage(
+        await detectFace(
           photo
         );
 
@@ -1367,51 +1464,60 @@ captureButton.addEventListener(
         result.valid
       ) {
 
-        capturedFaceValid =
-          true;
-
         photoCheck.textContent =
-          "✅ 写真の顔を確認しました。送信できます。";
+          "✅ 顔を確認しました。送信できます。";
+
 
         photoCheck.style.background =
           "#dcfce7";
 
+
         photoCheck.style.color =
           "#166534";
+
+
+        faceIsValid =
+          true;
+
 
         sendButton.disabled =
           false;
 
+
       } else {
 
-        capturedFaceValid =
+        faceIsValid =
           false;
+
 
         photoCheck.textContent =
           "⚠️ " +
           result.reason +
           "\nもう一度撮影してください。";
 
+
         photoCheck.style.background =
           "#fee2e2";
 
+
         photoCheck.style.color =
           "#991b1b";
+
 
         sendButton.disabled =
           true;
 
       }
 
+
     } catch (error) {
 
       console.error(error);
 
-      photoCheck.textContent =
-        "⚠️ 顔の確認に失敗しました。もう一度撮影してください。";
 
-      capturedFaceValid =
-        false;
+      photoCheck.textContent =
+        "⚠️ 撮影した写真の顔確認に失敗しました。もう一度撮影してください。";
+
 
       sendButton.disabled =
         true;
@@ -1423,7 +1529,55 @@ captureButton.addEventListener(
 
 
 /* =========================
-Canvas → Blob
+画像読み込み待ち
+========================= */
+
+function waitForImage(
+  image
+) {
+
+  return new Promise(
+    function(resolve,reject) {
+
+      if (
+        image.complete &&
+        image.naturalWidth > 0
+      ) {
+
+        resolve();
+
+        return;
+
+      }
+
+
+      image.onload =
+        function() {
+
+          resolve();
+
+        };
+
+
+      image.onerror =
+        function() {
+
+          reject(
+            new Error(
+              "画像読み込み失敗"
+            )
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+/* =========================
+Canvas Blob
 ========================= */
 
 function canvasToBlob(
@@ -1450,165 +1604,17 @@ function canvasToBlob(
 
 
 /* =========================
-画像の顔チェック
-========================= */
-
-async function checkFaceFromImage(
-  imageElement
-) {
-
-  const predictions =
-    await faceModel.estimateFaces(
-      imageElement,
-      false
-    );
-
-
-  if (
-    !predictions ||
-    predictions.length === 0
-  ) {
-
-    return {
-      valid: false,
-      reason:
-        "顔が見つかりません。"
-    };
-
-  }
-
-
-  if (
-    predictions.length > 1
-  ) {
-
-    return {
-      valid: false,
-      reason:
-        "複数の顔が写っています。1人で撮影してください。"
-    };
-
-  }
-
-
-  const face =
-    predictions[0];
-
-
-  const box =
-    face.boundingBox;
-
-
-  const x1 =
-    Number(box.topLeft[0]);
-
-  const y1 =
-    Number(box.topLeft[1]);
-
-  const x2 =
-    Number(box.bottomRight[0]);
-
-  const y2 =
-    Number(box.bottomRight[1]);
-
-
-  const width =
-    Math.abs(
-      x2 - x1
-    );
-
-  const height =
-    Math.abs(
-      y2 - y1
-    );
-
-
-  const imageWidth =
-    imageElement.naturalWidth;
-
-  const imageHeight =
-    imageElement.naturalHeight;
-
-
-  const ratio =
-    (
-      width *
-      height
-    ) /
-    (
-      imageWidth *
-      imageHeight
-    );
-
-
-  if (
-    ratio < 0.08
-  ) {
-
-    return {
-      valid: false,
-      reason:
-        "顔が小さすぎます。もう少し近づいてください。"
-    };
-
-  }
-
-
-  const centerX =
-    (x1 + x2) / 2;
-
-  const centerY =
-    (y1 + y2) / 2;
-
-
-  const dx =
-    Math.abs(
-      centerX -
-      imageWidth / 2
-    ) /
-    imageWidth;
-
-
-  const dy =
-    Math.abs(
-      centerY -
-      imageHeight / 2
-    ) /
-    imageHeight;
-
-
-  if (
-    dx > 0.30 ||
-    dy > 0.30
-  ) {
-
-    return {
-      valid: false,
-      reason:
-        "顔を写真の中央付近にしてください。"
-    };
-
-  }
-
-
-  return {
-    valid: true,
-    reason: "OK"
-  };
-
-}
-
-
-/* =========================
 カメラ停止
 ========================= */
 
 function stopCamera() {
 
-  stopLiveFaceCheck();
+  stopLiveCheck();
 
 
-  if (stream) {
+  if (
+    stream
+  ) {
 
     stream
       .getTracks()
@@ -1644,12 +1650,14 @@ retakeButton.addEventListener(
     photoBlob =
       null;
 
-    capturedFaceValid =
+
+    faceIsValid =
       false;
 
 
     sendButton.disabled =
       true;
+
 
     sendError.classList.add(
       "hidden"
@@ -1667,11 +1675,12 @@ retakeButton.addEventListener(
 
 
     faceStatus.textContent =
-      "顔を確認しています…";
+      "顔を探しています…";
 
 
     faceStatus.style.background =
       "#f3f4f6";
+
 
     faceStatus.style.color =
       "#333";
@@ -1695,7 +1704,7 @@ retakeButton.addEventListener(
         stream;
 
 
-      startLiveFaceCheck();
+      startLiveCheck();
 
 
     } catch (error) {
@@ -1704,13 +1713,16 @@ retakeButton.addEventListener(
         "hidden"
       );
 
+
       resultArea.classList.remove(
         "hidden"
       );
 
 
       sendError.textContent =
-        "カメラを起動できませんでした。";
+        "カメラを起動できませんでした。\n" +
+        error.message;
+
 
       sendError.classList.remove(
         "hidden"
@@ -1723,7 +1735,7 @@ retakeButton.addEventListener(
 
 
 /* =========================
-写真送信
+送信
 ========================= */
 
 sendButton.addEventListener(
@@ -1735,7 +1747,9 @@ sendButton.addEventListener(
     );
 
 
-    if (!photoBlob) {
+    if (
+      !photoBlob
+    ) {
 
       showSendError(
         "写真がありません。"
@@ -1746,7 +1760,9 @@ sendButton.addEventListener(
     }
 
 
-    if (!capturedFaceValid) {
+    if (
+      !faceIsValid
+    ) {
 
       showSendError(
         "顔が確認できないため送信できません。"
@@ -1760,11 +1776,14 @@ sendButton.addEventListener(
     const name =
       nickname.value.trim();
 
+
     const ageValue =
       Number(age.value);
 
 
-    if (!name) {
+    if (
+      !name
+    ) {
 
       showSendError(
         "名前またはニックネームを入力してください。"
@@ -1793,6 +1812,7 @@ sendButton.addEventListener(
     sendButton.disabled =
       true;
 
+
     sendButton.textContent =
       "送信中…";
 
@@ -1800,15 +1820,17 @@ sendButton.addEventListener(
     try {
 
       /*
-      エンタメ用スコアを先に決定
-      0〜100固定
+      エンタメスコア
+      0〜100
       */
 
       const expression =
         randomScore();
 
+
       const mood =
         randomScore();
+
 
       const photoScore =
         randomScore();
@@ -1829,11 +1851,11 @@ sendButton.addEventListener(
 
       /*
       roomあり
-      ↓
-      photo-receiverだけ
       */
 
-      if (room) {
+      if (
+        room
+      ) {
 
         targetUrl =
           PHOTO_RECEIVER_URL +
@@ -1862,8 +1884,6 @@ sendButton.addEventListener(
 
       /*
       roomなし
-      ↓
-      smooth-worker
       */
 
       else {
@@ -1895,7 +1915,9 @@ sendButton.addEventListener(
         await response.text();
 
 
-      if (!response.ok) {
+      if (
+        !response.ok
+      ) {
 
         throw new Error(
           "HTTP " +
@@ -1908,25 +1930,26 @@ sendButton.addEventListener(
 
 
       /*
-      送信成功
+      結果用に保存
       */
 
-      finalTotal =
-        total;
-
-      finalExpression =
+      window.finalExpression =
         expression;
 
-      finalMood =
+      window.finalMood =
         mood;
 
-      finalPhoto =
+      window.finalPhoto =
         photoScore;
+
+      window.finalTotal =
+        total;
 
 
       resultArea.classList.add(
         "hidden"
       );
+
 
       completeArea.classList.remove(
         "hidden"
@@ -1965,6 +1988,7 @@ sendButton.addEventListener(
       sendButton.disabled =
         false;
 
+
       sendButton.textContent =
         "📤 写真を送信する";
 
@@ -1985,6 +2009,7 @@ function showSendError(
   sendError.textContent =
     message;
 
+
   sendError.classList.remove(
     "hidden"
   );
@@ -1994,6 +2019,7 @@ function showSendError(
 
 /* =========================
 解析演出
+約10秒
 ========================= */
 
 function startDiagnosis(
@@ -2007,6 +2033,7 @@ function startDiagnosis(
     "hidden"
   );
 
+
   loadingArea.classList.remove(
     "hidden"
   );
@@ -2018,6 +2045,7 @@ function startDiagnosis(
 
   analysisProgress.style.width =
     "0%";
+
 
   analysisPercent.textContent =
     "0%";
@@ -2109,7 +2137,7 @@ function startDiagnosis(
 
 
 /* =========================
-診断結果
+結果
 ========================= */
 
 function createDiagnosis(
@@ -2119,42 +2147,28 @@ function createDiagnosis(
   total
 ) {
 
-  /*
-  すべて0〜100
-  */
-
   expression =
     clampScore(
       expression
     );
+
 
   mood =
     clampScore(
       mood
     );
 
+
   photoScore =
     clampScore(
       photoScore
     );
 
+
   total =
     clampScore(
       total
     );
-
-
-  finalTotal =
-    total;
-
-  finalExpression =
-    expression;
-
-  finalMood =
-    mood;
-
-  finalPhoto =
-    photoScore;
 
 
   document.getElementById(
@@ -2164,15 +2178,12 @@ function createDiagnosis(
     " さんの診断結果";
 
 
-  /*
-  数字を0から上昇
-  */
-
   animateNumber(
     "totalScore",
     total,
     1200
   );
+
 
   animateNumber(
     "expressionScore",
@@ -2180,11 +2191,13 @@ function createDiagnosis(
     1000
   );
 
+
   animateNumber(
     "moodScore",
     mood,
     1100
   );
+
 
   animateNumber(
     "photoScore",
@@ -2193,46 +2206,57 @@ function createDiagnosis(
   );
 
 
-  /*
-  ランク
-  */
-
   let rank;
 
 
-  if (total >= 95) {
+  if (
+    total >= 95
+  ) {
 
-    rank = "SS";
+    rank =
+      "SS";
 
-  } else if (total >= 90) {
+  } else if (
+    total >= 90
+  ) {
 
-    rank = "S";
+    rank =
+      "S";
 
-  } else if (total >= 85) {
+  } else if (
+    total >= 85
+  ) {
 
-    rank = "A+";
+    rank =
+      "A+";
 
-  } else if (total >= 80) {
+  } else if (
+    total >= 80
+  ) {
 
-    rank = "A";
+    rank =
+      "A";
 
-  } else if (total >= 70) {
+  } else if (
+    total >= 70
+  ) {
 
-    rank = "B";
+    rank =
+      "B";
 
-  } else if (total >= 50) {
+  } else if (
+    total >= 50
+  ) {
 
-    rank = "C";
+    rank =
+      "C";
 
   } else {
 
-    rank = "D";
+    rank =
+      "D";
 
   }
-
-
-  finalRank =
-    rank;
 
 
   document.getElementById(
@@ -2241,10 +2265,6 @@ function createDiagnosis(
     "RANK " +
     rank;
 
-
-  /*
-  エンタメコメント
-  */
 
   const comments = [
 
@@ -2276,22 +2296,15 @@ function createDiagnosis(
     ];
 
 
-  /*
-  表示
-  */
-
   loadingArea.classList.add(
     "hidden"
   );
+
 
   diagnosisArea.classList.remove(
     "hidden"
   );
 
-
-  /*
-  ゲージ
-  */
 
   setTimeout(
     function() {
@@ -2321,19 +2334,19 @@ function createDiagnosis(
 
 
 /* =========================
-0〜100に固定
+0〜100
 ========================= */
 
 function clampScore(
   value
 ) {
 
-  value =
+  const number =
     Number(value);
 
 
   if (
-    !Number.isFinite(value)
+    !Number.isFinite(number)
   ) {
 
     return 0;
@@ -2345,7 +2358,7 @@ function clampScore(
     0,
     Math.min(
       100,
-      Math.round(value)
+      Math.round(number)
     )
   );
 
@@ -2353,7 +2366,7 @@ function clampScore(
 
 
 /* =========================
-エンタメスコア
+ランダムエンタメスコア
 0〜100
 ========================= */
 
@@ -2437,34 +2450,102 @@ function animateNumber(
 シェア
 ========================= */
 
-shareButton.addEventListener(
+document.getElementById(
+  "shareButton"
+).addEventListener(
   "click",
   async function() {
+
+    const total =
+      window.finalTotal || 0;
+
+    const expression =
+      window.finalExpression || 0;
+
+    const mood =
+      window.finalMood || 0;
+
+    const photoScore =
+      window.finalPhoto || 0;
+
+
+    let rank;
+
+
+    if (
+      total >= 95
+    ) {
+
+      rank =
+        "SS";
+
+    } else if (
+      total >= 90
+    ) {
+
+      rank =
+        "S";
+
+    } else if (
+      total >= 85
+    ) {
+
+      rank =
+        "A+";
+
+    } else if (
+      total >= 80
+    ) {
+
+      rank =
+        "A";
+
+    } else if (
+      total >= 70
+    ) {
+
+      rank =
+        "B";
+
+    } else if (
+      total >= 50
+    ) {
+
+      rank =
+        "C";
+
+    } else {
+
+      rank =
+        "D";
+
+    }
+
 
     const text =
       "✨ AI顔診断結果 ✨\n\n" +
 
       nickname.value.trim() +
-      " さんの診断結果！\n\n" +
+      " さんの結果！\n\n" +
 
       "⭐ 総合スコア：" +
-      finalTotal +
+      total +
       " / 100\n" +
 
       "😊 表情：" +
-      finalExpression +
+      expression +
       " / 100\n" +
 
       "✨ 雰囲気：" +
-      finalMood +
+      mood +
       " / 100\n" +
 
       "📸 写真映え：" +
-      finalPhoto +
+      photoScore +
       " / 100\n\n" +
 
       "🏆 RANK " +
-      finalRank +
+      rank +
       "\n\n" +
 
       "あなたもAI顔診断してみて！\n" +
@@ -2527,36 +2608,67 @@ shareButton.addEventListener(
 もう一度診断
 ========================= */
 
-restartButton.addEventListener(
+document.getElementById(
+  "restartButton"
+).addEventListener(
   "click",
   function() {
 
     stopCamera();
 
-    stopLiveFaceCheck();
-
 
     photoBlob =
       null;
 
-    capturedFaceValid =
+
+    faceIsValid =
       false;
 
 
-    finalTotal =
-      0;
+    diagnosisArea.classList.add(
+      "hidden"
+    );
 
-    finalExpression =
-      0;
 
-    finalMood =
-      0;
+    loadingArea.classList.add(
+      "hidden"
+    );
 
-    finalPhoto =
-      0;
 
-    finalRank =
-      "";
+    completeArea.classList.add(
+      "hidden"
+    );
+
+
+    resultArea.classList.add(
+      "hidden"
+    );
+
+
+    cameraArea.classList.add(
+      "hidden"
+    );
+
+
+    startArea.classList.remove(
+      "hidden"
+    );
+
+
+    startButton.disabled =
+      false;
+
+
+    startButton.textContent =
+      "診断を開始";
+
+
+    sendButton.disabled =
+      true;
+
+
+    sendButton.textContent =
+      "📤 写真を送信する";
 
 
     document.getElementById(
@@ -2601,58 +2713,14 @@ restartButton.addEventListener(
       "0%";
 
 
-    camera.srcObject =
-      null;
-
-
-    diagnosisArea.classList.add(
-      "hidden"
-    );
-
-    loadingArea.classList.add(
-      "hidden"
-    );
-
-    completeArea.classList.add(
-      "hidden"
-    );
-
-    resultArea.classList.add(
-      "hidden"
-    );
-
-    cameraArea.classList.add(
-      "hidden"
-    );
-
-    startArea.classList.remove(
+    startError.classList.add(
       "hidden"
     );
 
 
-    startButton.disabled =
-      false;
-
-    startButton.textContent =
-      "診断を開始";
-
-
-    sendButton.disabled =
-      true;
-
-    sendButton.textContent =
-      "📤 写真を送信する";
-
-
-    faceStatus.textContent =
-      "顔を確認しています…";
-
-
-    faceStatus.style.background =
-      "#f3f4f6";
-
-    faceStatus.style.color =
-      "#333";
+    sendError.classList.add(
+      "hidden"
+    );
 
   }
 );
