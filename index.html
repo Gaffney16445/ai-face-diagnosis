@@ -1849,10 +1849,12 @@ sendButton.addEventListener(
           encodeURIComponent(
             total
           ) +
-          "&rankingConsent=" +
-          encodeURIComponent(
-            rankingConsent.checked
-          );
+        "&rankingConsent=" +
+encodeURIComponent(
+  testMode
+    ? false
+    : rankingConsent.checked
+)
 
       }
 
