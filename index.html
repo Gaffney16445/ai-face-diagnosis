@@ -550,79 +550,50 @@ let finalRank = "";
 
 /* 同意チェック */
 
-consent.addEventListener("change", function () {
-  alert("同意チェックが反応しました");
-
-  if (consent.checked) {
-    startButton.disabled = false;
-  } else {
-    startButton.disabled = true;
-  }
+consent.addEventListener("change", () => {
+  startButton.disabled = !consent.checked;
 });
-
 
 
 
 /* カメラ開始 */
 
-startButton.addEventListener(
-  "click",
-  async () => {
-    
-alert("クリックされました");
-    
-    if (!consent.checked) {
+startButton.addEventListener("click", async () => {
 
-  alert(
-    "写真の撮影・送信に同意してください"
-  );
+  if (!consent.checked) {
+    alert("写真の撮影・送信に同意してください");
+    return;
+  }
 
-  return;
-    }
-    
-    if (!nickname.value.trim()) {
+  if (!nickname.value.trim()) {
+    alert("ニックネームを入力してください");
+    return;
+  }
 
-      alert(
-        "ニックネームを入力してください"
-      );
+  try {
 
-      return;
-    }
+    cameraStream =
+      await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: "user"
+        },
+        audio: false
+      });
 
-    try {
+    camera.srcObject = cameraStream;
 
-      cameraStream =
-        await navigator.mediaDevices.getUserMedia({
+    startArea.style.display = "none";
+    cameraArea.style.display = "block";
 
-          video: {
-            facingMode: "user"
-          },
+  } catch (error) {
 
-          audio: false
+    console.error(error);
 
-        });
-
-      camera.srcObject =
-        cameraStream;
-
-      startArea.style.display =
-        "none";
-
-      cameraArea.style.display =
-        "block";
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert(
-        "カメラを起動できませんでした。"
-      );
-
-    }
+    alert("カメラを起動できませんでした。");
 
   }
-);
+
+});
 
 
 /* 撮影 */
