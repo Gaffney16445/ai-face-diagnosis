@@ -548,15 +548,25 @@ let finalRank = "";
 
 /* 同意チェック */
 
+```javascript
 consent.addEventListener(
   "change",
-  () => {
+  function () {
 
-    startButton.disabled =
-      !consent.checked;
+    if (consent.checked) {
+
+      startButton.disabled = false;
+
+    } else {
+
+      startButton.disabled = true;
+
+    }
 
   }
 );
+```
+
 
 
 /* カメラ開始 */
