@@ -548,24 +548,16 @@ let finalRank = "";
 
 /* 同意チェック */
 
-```javascript
-consent.addEventListener(
-  "change",
-  function () {
+consent.addEventListener("change", function () {
+  alert("同意チェックが反応しました");
 
-    if (consent.checked) {
-
-      startButton.disabled = false;
-
-    } else {
-
-      startButton.disabled = true;
-
-    }
-
+  if (consent.checked) {
+    startButton.disabled = false;
+  } else {
+    startButton.disabled = true;
   }
-);
-```
+});
+
 
 
 
