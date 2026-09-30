@@ -262,7 +262,11 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 </p>
 
 <label>
-<input type="checkbox" id="consent">
+<input
+  type="checkbox"
+  id="consent"
+  onchange="document.getElementById('startButton').disabled = !this.checked;"
+>
 内容を確認し、写真の撮影・送信に同意します
 </label>
 
