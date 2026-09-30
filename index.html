@@ -272,7 +272,38 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 
 </div>
 
-<button id="startButton" disabled>
+<button
+  id="startButton"
+  disabled
+  onclick="
+    if (!document.getElementById('consent').checked) {
+      alert('写真の撮影・送信に同意してください');
+      return;
+    }
+
+    if (!document.getElementById('nickname').value.trim()) {
+      alert('ニックネームを入力してください');
+      return;
+    }
+
+    navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'user' },
+      audio: false
+    }).then(function(stream) {
+
+      document.getElementById('camera').srcObject = stream;
+
+      document.getElementById('startArea').style.display = 'none';
+      document.getElementById('cameraArea').style.display = 'block';
+
+    }).catch(function(error) {
+
+      console.error(error);
+      alert('カメラを起動できませんでした。');
+
+    });
+  "
+>
   診断を開始
 </button>
 
