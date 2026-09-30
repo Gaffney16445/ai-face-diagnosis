@@ -268,7 +268,7 @@ AI顔診断を行うため、カメラで顔写真を撮影します。
 
 </div>
 
-<button id="startButton" disabled>
+<button id="startButton">
 診断を開始
 </button>
 
@@ -575,6 +575,15 @@ startButton.addEventListener(
   "click",
   async () => {
 
+    if (!consent.checked) {
+
+  alert(
+    "写真の撮影・送信に同意してください"
+  );
+
+  return;
+    }
+    
     if (!nickname.value.trim()) {
 
       alert(
