@@ -7,6 +7,7 @@
 
 <title>AI顔診断</title>
 
+<!-- 顔検出用 -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7/dist/blazeface.min.js"></script>
 
@@ -22,7 +23,12 @@ body {
   min-height: 100vh;
   font-family: sans-serif;
   text-align: center;
-  background: linear-gradient(135deg,#111827,#312e81,#581c87);
+  background: linear-gradient(
+    135deg,
+    #111827,
+    #312e81,
+    #581c87
+  );
 }
 
 .container {
@@ -122,6 +128,7 @@ button {
 
 button:disabled {
   background: #999;
+  cursor: not-allowed;
 }
 
 .cameraButton {
@@ -165,6 +172,11 @@ video {
   text-align: left;
 }
 
+.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
 .loading {
   padding: 30px 10px;
 }
@@ -180,9 +192,11 @@ video {
 }
 
 @keyframes spin {
+
   to {
     transform: rotate(360deg);
   }
+
 }
 
 .progressBox {
@@ -197,13 +211,21 @@ video {
 .progressBar {
   width: 0%;
   height: 100%;
-  background: linear-gradient(90deg,#4f46e5,#a855f7);
+  background: linear-gradient(
+    90deg,
+    #4f46e5,
+    #a855f7
+  );
 }
 
 .resultHeader {
   margin-top: 20px;
   padding: 25px 15px;
-  background: linear-gradient(135deg,#4f46e5,#9333ea);
+  background: linear-gradient(
+    135deg,
+    #4f46e5,
+    #9333ea
+  );
   color: white;
   border-radius: 20px;
 }
@@ -251,7 +273,11 @@ video {
 .barInner {
   width: 0%;
   height: 100%;
-  background: linear-gradient(90deg,#6366f1,#a855f7);
+  background: linear-gradient(
+    90deg,
+    #6366f1,
+    #a855f7
+  );
   transition: width 1s ease;
 }
 
@@ -264,7 +290,11 @@ video {
 }
 
 .shareButton {
-  background: linear-gradient(135deg,#4f46e5,#9333ea);
+  background: linear-gradient(
+    135deg,
+    #4f46e5,
+    #9333ea
+  );
 }
 
 .restartButton {
@@ -288,20 +318,20 @@ video {
 
 
 <!-- =========================
-開始
+開始画面
 ========================= -->
 
 <div id="startArea">
 
 <p>
-あなたの名前orニックネームを入力してください
+あなたの名前を入力してください
 </p>
 
 <input
   id="nickname"
   type="text"
   maxlength="30"
-  placeholder="名前orニックネーム"
+  placeholder="名前"
 >
 
 
@@ -324,26 +354,24 @@ video {
 
 <p>
 カメラで顔写真を撮影します。
-撮影した写真は診断・不正チェックの目的で使用されます。
+撮影した写真は診断・AIによる不正チェックの目的で使用されます。
 </p>
 
 <p>
-診断終了後、写真は自動削除される想定です。
+診断終了後、写真は自動削除されます。
 </p>
 
 <label>
+
 <input
   id="consent"
   type="checkbox"
 >
+
 写真の撮影・送信に同意します
+
 </label>
 
-
-<!-- =========================
-ランキング同意
-常に表示
-========================= -->
 
 <div class="rankingBox">
 
@@ -357,20 +385,21 @@ video {
 
 <p>
 ランキングに掲載される情報は、
-<strong>名前・年齢・写真・スコア</strong>
-です。
+<strong>スコアのみです。</strong>
+診断後にランキング順位が決定します。
 </p>
 
 <label>
+
 <input
   id="rankingConsent"
   type="checkbox"
 >
-ランキングへの掲載に同意します
+
+ランキングへ同意します
+
 </label>
 
-
-<!-- room状態 -->
 
 <div
   id="roomReady"
@@ -436,7 +465,7 @@ video {
   id="modelStatus"
   class="status"
 >
-顔検出モデルを準備しています…
+顔検出AIを準備しています…
 </div>
 
 
@@ -452,13 +481,15 @@ video {
   id="captureButton"
   class="cameraButton"
   type="button"
+  disabled
 >
-📸 撮影する
+📸 顔を確認中…
 </button>
 
+
 <p style="font-size:12px;color:#777;">
-※顔検出は撮影補助用です。
-検出できない場合でも撮影できます。
+※顔が写っていることを確認してから撮影できます。
+顔が小さい・少し傾いている場合などは、できるだけ許容します。
 </p>
 
 </div>
@@ -485,13 +516,14 @@ video {
   id="photoCheck"
   class="status"
 >
-写真を確認しています…
+撮影した写真を確認しています…
 </div>
 
 
 <button
   id="sendButton"
   type="button"
+  disabled
 >
 📤 写真を送信する
 </button>
@@ -724,7 +756,7 @@ RANK -
 <script>
 
 /* =========================
-URL
+送信先
 ========================= */
 
 const PHOTO_RECEIVER_URL =
@@ -733,6 +765,10 @@ const PHOTO_RECEIVER_URL =
 const SMOOTH_WORKER_URL =
 "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/smooth-worker";
 
+
+/* =========================
+URL
+========================= */
 
 const params =
 new URLSearchParams(
@@ -816,9 +852,35 @@ document.getElementById("retakeButton");
 const sendError =
 document.getElementById("sendError");
 
+const analysisProgress =
+document.getElementById("analysisProgress");
+
+const analysisPercent =
+document.getElementById("analysisPercent");
+
+const analysisStep =
+document.getElementById("analysisStep");
+
 
 /* =========================
-room表示
+状態
+========================= */
+
+let faceModel = null;
+
+let modelReady = false;
+
+let stream = null;
+
+let faceTimer = null;
+
+let faceDetected = false;
+
+let photoBlob = null;
+
+
+/* =========================
+ランキング表示
 ========================= */
 
 if (room) {
@@ -837,34 +899,13 @@ if (room) {
 
 
 /* =========================
-顔モデル
-========================= */
-
-let faceModel =
-null;
-
-let modelReady =
-false;
-
-let stream =
-null;
-
-let liveTimer =
-null;
-
-let photoBlob =
-null;
-
-
-/* =========================
-モデル読み込み
+顔検出AI読み込み
 ========================= */
 
 async function loadFaceModel() {
 
   modelStatus.textContent =
-    "AI顔検出モデルを読み込んでいます…";
-
+    "顔検出AIを読み込んでいます…";
 
   try {
 
@@ -873,42 +914,32 @@ async function loadFaceModel() {
     faceModel =
       await blazeface.load();
 
-
     modelReady =
       true;
 
-
     modelStatus.textContent =
-      "✅ AI顔検出モデル準備完了";
+      "✅ 顔検出AIの準備が完了しました";
 
-
-    modelStatus.style.background =
-      "#dcfce7";
-
-
-    modelStatus.style.color =
-      "#166534";
-
+    modelStatus.classList.add(
+      "success"
+    );
 
   } catch (error) {
 
     console.error(
-      "顔検出モデル:",
+      "顔検出AI読み込みエラー:",
       error
     );
-
-
-    /*
-    モデルが失敗しても
-    カメラ撮影は止めない
-    */
 
     modelReady =
       false;
 
-
     modelStatus.textContent =
-      "ℹ️ 顔検出モデルを使用できません。撮影はそのまま利用できます。";
+      "❌ 顔検出AIを読み込めませんでした。ページを再読み込みしてください。";
+
+    modelStatus.classList.add(
+      "error"
+    );
 
   }
 
@@ -930,10 +961,8 @@ startButton.addEventListener(
       "hidden"
     );
 
-
     const name =
       nickname.value.trim();
-
 
     const ageValue =
       Number(age.value);
@@ -965,9 +994,7 @@ startButton.addEventListener(
     }
 
 
-    if (
-      !consent.checked
-    ) {
+    if (!consent.checked) {
 
       showStartError(
         "写真の撮影・送信に同意してください。"
@@ -978,9 +1005,19 @@ startButton.addEventListener(
     }
 
 
+    if (!modelReady) {
+
+      showStartError(
+        "顔検出AIの準備が完了していません。\nページを少し待ってから、もう一度試してください。"
+      );
+
+      return;
+
+    }
+
+
     startButton.disabled =
       true;
-
 
     startButton.textContent =
       "カメラを起動中…";
@@ -1008,7 +1045,6 @@ startButton.addEventListener(
         "hidden"
       );
 
-
       cameraArea.classList.remove(
         "hidden"
       );
@@ -1017,18 +1053,20 @@ startButton.addEventListener(
       faceStatus.textContent =
         "カメラ起動完了。顔を確認しています…";
 
+      faceStatus.classList.remove(
+        "success"
+      );
 
-      startFaceCheck();
+
+      startFaceDetection();
 
 
     } catch (error) {
 
       console.error(error);
 
-
       startButton.disabled =
         false;
-
 
       startButton.textContent =
         "診断を開始";
@@ -1046,7 +1084,7 @@ startButton.addEventListener(
 
 
 /* =========================
-エラー
+開始エラー
 ========================= */
 
 function showStartError(
@@ -1064,33 +1102,34 @@ function showStartError(
 
 
 /* =========================
-顔チェック
+顔検出
 かなり緩め
 ========================= */
 
-function startFaceCheck() {
+function startFaceDetection() {
 
-  stopFaceCheck();
+  stopFaceDetection();
 
 
-  liveTimer =
+  faceDetected =
+    false;
+
+
+  captureButton.disabled =
+    true;
+
+  captureButton.textContent =
+    "📸 顔を確認中…";
+
+
+  faceTimer =
     setInterval(
       async function() {
 
-        /*
-        モデルがない場合でも
-        撮影可能
-        */
-
         if (
-          !modelReady
+          !modelReady ||
+          !faceModel
         ) {
-
-          faceStatus.textContent =
-            "📷 顔検出なしでも撮影できます。";
-
-          captureButton.disabled =
-            false;
 
           return;
 
@@ -1098,11 +1137,9 @@ function startFaceCheck() {
 
 
         if (
-          camera.readyState < 2
+          camera.readyState < 2 ||
+          !camera.videoWidth
         ) {
-
-          captureButton.disabled =
-            false;
 
           return;
 
@@ -1110,6 +1147,20 @@ function startFaceCheck() {
 
 
         try {
+
+          /*
+          BlazeFaceの標準検出。
+
+          ここでは
+          ・顔の大きさ
+          ・顔の位置
+          ・顔の角度
+
+          を厳しく判定しない。
+
+          「1つでも顔として検出された」
+          ことだけを見る。
+          */
 
           const predictions =
             await faceModel.estimateFaces(
@@ -1123,78 +1174,93 @@ function startFaceCheck() {
             predictions.length > 0
           ) {
 
+            faceDetected =
+              true;
+
+
             faceStatus.textContent =
-              "✅ 顔を検出しました。撮影できます。";
+              "✅ 顔を検出しました！撮影できます。";
+
+            faceStatus.classList.add(
+              "success"
+            );
 
 
-            faceStatus.style.background =
-              "#dcfce7";
+            captureButton.disabled =
+              false;
 
+            captureButton.textContent =
+              "📸 撮影する";
 
-            faceStatus.style.color =
-              "#166534";
 
           } else {
 
+            faceDetected =
+              false;
+
+
             faceStatus.textContent =
-              "📷 顔を検出できませんでしたが、撮影できます。";
+              "👤 顔が検出されていません。カメラに顔を入れてください。";
+
+            faceStatus.classList.remove(
+              "success"
+            );
 
 
-            faceStatus.style.background =
-              "#f3f4f6";
+            captureButton.disabled =
+              true;
 
-
-            faceStatus.style.color =
-              "#333";
+            captureButton.textContent =
+              "📸 顔を確認中…";
 
           }
-
 
         } catch (error) {
 
           console.error(
-            "顔検出:",
+            "顔検出エラー:",
             error
           );
 
 
+          faceDetected =
+            false;
+
+
           faceStatus.textContent =
-            "📷 顔検出を使用できませんが、撮影できます。";
+            "👤 顔を確認できません。カメラに顔を入れてください。";
+
+
+          captureButton.disabled =
+            true;
+
+          captureButton.textContent =
+            "📸 顔を確認中…";
 
         }
 
-
-        /*
-        顔検出結果に関係なく
-        撮影可能
-        */
-
-        captureButton.disabled =
-          false;
-
-
       },
-      1000
+      500
     );
 
 }
 
 
 /* =========================
-停止
+顔検出停止
 ========================= */
 
-function stopFaceCheck() {
+function stopFaceDetection() {
 
   if (
-    liveTimer
+    faceTimer
   ) {
 
     clearInterval(
-      liveTimer
+      faceTimer
     );
 
-    liveTimer =
+    faceTimer =
       null;
 
   }
@@ -1210,6 +1276,23 @@ captureButton.addEventListener(
   "click",
   async function() {
 
+    /*
+    顔検出必須
+    */
+
+    if (
+      !faceDetected
+    ) {
+
+      alert(
+        "顔が検出されていません。\nカメラに顔を入れてから撮影してください。"
+      );
+
+      return;
+
+    }
+
+
     if (
       !camera.videoWidth ||
       !camera.videoHeight
@@ -1224,7 +1307,15 @@ captureButton.addEventListener(
     }
 
 
-    stopFaceCheck();
+    captureButton.disabled =
+      true;
+
+
+    captureButton.textContent =
+      "📸 撮影しています…";
+
+
+    stopFaceDetection();
 
 
     const canvas =
@@ -1244,6 +1335,10 @@ captureButton.addEventListener(
     const ctx =
       canvas.getContext("2d");
 
+
+    /*
+    鏡像で保存
+    */
 
     ctx.translate(
       canvas.width,
@@ -1286,37 +1381,140 @@ captureButton.addEventListener(
       "hidden"
     );
 
-
     resultArea.classList.remove(
       "hidden"
     );
 
 
     /*
-    撮影後チェックも緩くする
+    撮影後にも顔を確認する
     */
 
     photoCheck.textContent =
-      "✅ 写真を確認しました。送信できます。";
+      "📷 撮影した写真の顔を確認しています…";
 
 
-    photoCheck.style.background =
-      "#dcfce7";
-
-
-    photoCheck.style.color =
-      "#166534";
+    photoCheck.classList.remove(
+      "success"
+    );
 
 
     sendButton.disabled =
-      false;
+      true;
+
+
+    const photoHasFace =
+      await detectFaceInPhoto(
+        photo
+      );
+
+
+    if (
+      photoHasFace
+    ) {
+
+      photoCheck.textContent =
+        "✅ 顔を確認しました。写真を送信できます。";
+
+      photoCheck.classList.add(
+        "success"
+      );
+
+      sendButton.disabled =
+        false;
+
+
+    } else {
+
+      photoCheck.textContent =
+        "❌ 写真に顔が確認できませんでした。もう一度撮影してください。";
+
+
+      sendButton.disabled =
+        true;
+
+    }
 
   }
 );
 
 
 /* =========================
-Blob
+写真から顔検出
+========================= */
+
+async function detectFaceInPhoto(
+  imageElement
+) {
+
+  if (
+    !modelReady ||
+    !faceModel
+  ) {
+
+    return false;
+
+  }
+
+
+  try {
+
+    /*
+    画像読み込み完了を待つ
+    */
+
+    if (
+      !imageElement.complete
+    ) {
+
+      await new Promise(
+        function(resolve) {
+
+          imageElement.onload =
+            resolve;
+
+        }
+      );
+
+    }
+
+
+    const predictions =
+      await faceModel.estimateFaces(
+        imageElement,
+        false
+      );
+
+
+    /*
+    1個でも顔があればOK
+
+    顔の大きさや位置については
+    厳しい条件を設定しない。
+    */
+
+    return Boolean(
+      predictions &&
+      predictions.length > 0
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "撮影後の顔検出エラー:",
+      error
+    );
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================
+Canvas → Blob
 ========================= */
 
 function canvasToBlob(
@@ -1348,7 +1546,7 @@ function canvasToBlob(
 
 function stopCamera() {
 
-  stopFaceCheck();
+  stopFaceDetection();
 
 
   if (
@@ -1409,6 +1607,17 @@ retakeButton.addEventListener(
     );
 
 
+    faceDetected =
+      false;
+
+
+    captureButton.disabled =
+      true;
+
+    captureButton.textContent =
+      "📸 顔を確認中…";
+
+
     try {
 
       stream =
@@ -1427,20 +1636,14 @@ retakeButton.addEventListener(
         stream;
 
 
-      startFaceCheck();
+      faceStatus.textContent =
+        "カメラ起動完了。顔を確認しています…";
+
+
+      startFaceDetection();
 
 
     } catch (error) {
-
-      sendError.textContent =
-        "カメラを起動できませんでした。\n" +
-        error.message;
-
-
-      sendError.classList.remove(
-        "hidden"
-      );
-
 
       cameraArea.classList.add(
         "hidden"
@@ -1448,6 +1651,16 @@ retakeButton.addEventListener(
 
 
       resultArea.classList.remove(
+        "hidden"
+      );
+
+
+      sendError.textContent =
+        "カメラを起動できませんでした。\n" +
+        error.message;
+
+
+      sendError.classList.remove(
         "hidden"
       );
 
@@ -1519,9 +1732,26 @@ sendButton.addEventListener(
     }
 
 
+    /*
+    念のため送信直前にも
+    顔検出済みか確認
+    */
+
+    if (
+      sendButton.disabled
+    ) {
+
+      showSendError(
+        "顔が確認できていません。もう一度撮影してください。"
+      );
+
+      return;
+
+    }
+
+
     sendButton.disabled =
       true;
-
 
     sendButton.textContent =
       "送信中…";
@@ -1560,6 +1790,8 @@ sendButton.addEventListener(
 
       /*
       roomあり
+      ↓
+      photo-receiverのみ
       */
 
       if (
@@ -1591,8 +1823,11 @@ sendButton.addEventListener(
 
       }
 
+
       /*
       roomなし
+      ↓
+      smooth-workerのみ
       */
 
       else {
@@ -1638,17 +1873,18 @@ sendButton.addEventListener(
       }
 
 
+      /*
+      シェア用に保存
+      */
+
       window.finalTotal =
         total;
-
 
       window.finalExpression =
         expression;
 
-
       window.finalMood =
         mood;
-
 
       window.finalPhoto =
         photoScore;
@@ -2300,6 +2536,10 @@ document.getElementById(
       null;
 
 
+    faceDetected =
+      false;
+
+
     diagnosisArea.classList.add(
       "hidden"
     );
@@ -2339,11 +2579,19 @@ document.getElementById(
 
 
     sendButton.disabled =
-      false;
+      true;
 
 
     sendButton.textContent =
       "📤 写真を送信する";
+
+
+    captureButton.disabled =
+      true;
+
+
+    captureButton.textContent =
+      "📸 顔を確認中…";
 
 
     document.getElementById(
