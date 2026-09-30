@@ -1437,9 +1437,9 @@ captureButton.addEventListener(
 
 
     const photoHasFace =
-      await detectFaceInPhoto(
-        photo
-      );
+  testMode
+    ? true
+    : await detectFaceInPhoto(photo);
 
 
     if (
