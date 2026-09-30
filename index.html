@@ -1133,7 +1133,20 @@ function startFaceDetection() {
 
   faceDetected =
     false;
+  
+if (testMode) {
+  faceDetected = true;
 
+  faceStatus.textContent =
+    "🧪 テストモード：顔検出をスキップしています。";
+
+  faceStatus.classList.add("success");
+
+  captureButton.disabled = false;
+  captureButton.textContent = "📸 撮影する";
+
+  return;
+  }
 
   captureButton.disabled =
     true;
