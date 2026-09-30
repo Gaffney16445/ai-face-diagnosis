@@ -1,10 +1,9 @@
-```html
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>AI顔診断</title>
 
 <style>
@@ -13,11 +12,7 @@
 }
 
 body {
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background:
     radial-gradient(circle at top, #4338ca, transparent 40%),
     linear-gradient(135deg, #0f172a, #312e81, #581c87);
@@ -48,17 +43,26 @@ h1 {
   margin-top: 6px;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="number"] {
   width: 90%;
   padding: 14px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 12px;
   outline: none;
+  margin-top: 8px;
 }
 
-input[type="text"]:focus {
+input:focus {
   border-color: #6366f1;
+}
+
+.inputLabel {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 .consent {
@@ -68,6 +72,29 @@ input[type="text"]:focus {
   border-radius: 14px;
   margin-top: 20px;
   font-size: 14px;
+}
+
+.consent label {
+  display: block;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.consent input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.rankingConsent {
+  margin-top: 15px;
+  background: #fff7ed;
+  border: 2px solid #fed7aa;
+}
+
+.rankingConsent strong {
+  color: #c2410c;
 }
 
 button {
@@ -109,8 +136,7 @@ video,
   border: 3px solid rgba(255,255,255,0.8);
   border-radius: 50%;
   pointer-events: none;
-  box-shadow:
-    0 0 0 999px rgba(0,0,0,0.15);
+  box-shadow: 0 0 0 999px rgba(0,0,0,0.15);
 }
 
 .cameraHint {
@@ -125,6 +151,17 @@ video,
   background: #f3f4f6;
   border-radius: 12px;
   font-size: 14px;
+}
+
+.message {
+  display: none;
+  margin-top: 15px;
+  padding: 12px;
+  background: #fee2e2;
+  color: #991b1b;
+  border-radius: 10px;
+  text-align: left;
+  white-space: pre-line;
 }
 
 #cameraArea,
@@ -179,10 +216,8 @@ video,
 .progressBar {
   width: 0%;
   height: 100%;
-  background:
-    linear-gradient(90deg, #4f46e5, #a855f7);
+  background: linear-gradient(90deg, #4f46e5, #a855f7);
   border-radius: 20px;
-  transition: width 0.1s linear;
 }
 
 .percent {
@@ -196,20 +231,10 @@ video,
 }
 
 .resultHeader {
-  background:
-    linear-gradient(135deg, #4f46e5, #9333ea);
+  background: linear-gradient(135deg, #4f46e5, #9333ea);
   color: white;
   padding: 27px 15px;
   border-radius: 22px;
-  box-shadow: 0 10px 25px rgba(79,70,229,0.25);
-}
-
-.resultHeader h2 {
-  margin: 0 0 8px;
-}
-
-.resultHeader p {
-  margin: 5px;
 }
 
 .totalLabel {
@@ -244,8 +269,7 @@ video,
 .typeCard {
   margin-top: 18px;
   padding: 20px;
-  background:
-    linear-gradient(135deg, #eef2ff, #faf5ff);
+  background: linear-gradient(135deg, #eef2ff, #faf5ff);
   border-radius: 18px;
 }
 
@@ -306,9 +330,7 @@ video,
 
 .barInner {
   height: 100%;
-  background:
-    linear-gradient(90deg, #6366f1, #a855f7);
-  border-radius: 10px;
+  background: linear-gradient(90deg, #6366f1, #a855f7);
   width: 0%;
   transition: width 1.5s ease;
 }
@@ -321,24 +343,12 @@ video,
   text-align: left;
 }
 
-.comment strong {
-  font-size: 16px;
-}
-
 .shareButton {
-  background:
-    linear-gradient(135deg, #4f46e5, #9333ea);
+  background: linear-gradient(135deg, #4f46e5, #9333ea);
 }
 
 .retryButton {
   background: #374151;
-}
-
-.disclaimer {
-  font-size: 12px;
-  color: #777;
-  margin-top: 20px;
-  line-height: 1.6;
 }
 
 .analysisBadge {
@@ -350,7 +360,15 @@ video,
   color: #4f46e5;
   font-size: 12px;
 }
+
+.disclaimer {
+  font-size: 12px;
+  color: #777;
+  margin-top: 20px;
+  line-height: 1.6;
+}
 </style>
+
 </head>
 
 <body>
@@ -363,7 +381,6 @@ video,
 写真から6項目を分析するエンタメ診断
 </div>
 
-
 <!-- START -->
 
 <div id="startArea">
@@ -371,9 +388,25 @@ video,
 <p>あなたの名前を入力してください</p>
 
 <input
-  type="text"
-  id="nickname"
-  placeholder="名前"
+type="text"
+id="nickname"
+maxlength="30"
+placeholder="名前"
+
+>
+
+<label class="inputLabel">
+🎂 年齢
+</label>
+
+<input
+type="number"
+id="age"
+min="1"
+max="120"
+inputmode="numeric"
+placeholder="年齢"
+
 >
 
 <div class="consent">
@@ -382,11 +415,11 @@ video,
 
 <p>
 診断にはカメラで撮影した写真を使用します。
-撮影した写真はAIが自動で不正チェックを行います。
+撮影した写真は顔検出・診断処理・不正防止処理に使用されます。
 </p>
 
 <p>
-写真は診断後自動削除されます。
+写真を送信するためには、内容を確認して同意する必要があります。
 </p>
 
 <label>
@@ -394,20 +427,56 @@ video,
   type="checkbox"
   id="consent"
 >
-内容を確認し、写真の撮影・送信に同意します
+写真の撮影・送信に同意します
+</label>
+
+</div>
+
+<!-- ROOMがある場合だけ表示 -->
+
+<div
+  id="rankingConsentBox"
+  class="consent rankingConsent"
+>
+
+<strong>🏆 このサイトについて</strong>
+
+<p>
+診断前に1つ皆様にお願いがあります。このサイトをご利用するうえで
+<strong>AIが顔写真を分析して判断しますので点数が低かったとしても</strong>
+気にせずエンターテイメントとして楽しんでください。
+</p>
+
+<p>
+この本サイトでは皆様が楽しめる物を提供しています。
+ここのチェックボックスにもチェックをいれて是非AI顔診断をしてください。
+</p>
+
+<label>
+<input
+  type="checkbox"
+  id="rankingConsent"
+>
+チェックボックスに同意します
 </label>
 
 </div>
 
 <button
-  id="startButton"
-  disabled
+id="startButton"
+type="button"
+disabled
+
 >
-診断を開始
-</button>
+
+診断を開始 </button>
+
+<div
+  id="startMessage"
+  class="message"
+></div>
 
 </div>
-
 
 <!-- CAMERA -->
 
@@ -422,10 +491,11 @@ video,
 <div class="cameraFrame">
 
 <video
-  id="camera"
-  autoplay
-  playsinline
-></video>
+id="camera"
+autoplay
+playsinline
+
+> </video>
 
 <div class="cameraGuide"></div>
 
@@ -435,12 +505,15 @@ video,
 顔をガイド内に入れてください
 </div>
 
-<button id="captureButton">
-📸 撮影する
-</button>
+<button
+id="captureButton"
+type="button"
+
+>
+
+📸 撮影する </button>
 
 </div>
-
 
 <!-- PHOTO -->
 
@@ -449,8 +522,9 @@ video,
 <h2>撮影した写真</h2>
 
 <img
-  id="photo"
-  alt="撮影した写真"
+id="photo"
+alt="撮影した写真"
+
 >
 
 <div
@@ -461,21 +535,29 @@ video,
 </div>
 
 <button
-  id="sendButton"
-  disabled
+id="sendButton"
+type="button"
+disabled
+
 >
-写真を送信する
-</button>
+
+写真を送信する </button>
 
 <button
-  id="retakeButton"
-  class="retryButton"
+id="retakeButton"
+class="retryButton"
+type="button"
+
 >
-もう一度撮影
-</button>
+
+もう一度撮影 </button>
+
+<div
+  id="sendMessage"
+  class="message"
+></div>
 
 </div>
-
 
 <!-- COMPLETE -->
 
@@ -492,7 +574,6 @@ AI分析を開始します
 </div>
 
 </div>
-
 
 <!-- LOADING -->
 
@@ -533,7 +614,6 @@ AI分析を開始します
 
 </div>
 
-
 <!-- RESULT -->
 
 <div id="diagnosisArea">
@@ -546,8 +626,9 @@ AI分析を開始します
 
 <p id="resultNickname"></p>
 
-</div>
+<p id="resultAge"></p>
 
+</div>
 
 <div class="totalLabel">
 総合ビジュアルスコア
@@ -565,14 +646,12 @@ AI分析を開始します
 
 </div>
 
-
 <div
   class="rank"
   id="rank"
 >
 RANK -
 </div>
-
 
 <!-- TYPE -->
 
@@ -601,7 +680,6 @@ RANK -
 
 </div>
 
-
 <!-- RADAR -->
 
 <div class="radarCard">
@@ -611,15 +689,15 @@ RANK -
 </div>
 
 <canvas
-  id="radarCanvas"
-  width="360"
-  height="360"
-></canvas>
+id="radarCanvas"
+width="360"
+height="360"
+
+> </canvas>
 
 </div>
 
-
-<!-- SCORE ITEMS -->
+<!-- SCORES -->
 
 <div class="resultItem">
 
@@ -637,7 +715,6 @@ RANK -
 
 </div>
 
-
 <div class="resultItem">
 
 <div class="resultItemTitle">
@@ -653,7 +730,6 @@ RANK -
 </div>
 
 </div>
-
 
 <div class="resultItem">
 
@@ -671,7 +747,6 @@ RANK -
 
 </div>
 
-
 <div class="resultItem">
 
 <div class="resultItemTitle">
@@ -687,7 +762,6 @@ RANK -
 </div>
 
 </div>
-
 
 <div class="resultItem">
 
@@ -705,7 +779,6 @@ RANK -
 
 </div>
 
-
 <div class="resultItem">
 
 <div class="resultItemTitle">
@@ -722,9 +795,6 @@ RANK -
 
 </div>
 
-
-<!-- COMMENT -->
-
 <div class="comment">
 
 <strong>
@@ -735,27 +805,28 @@ RANK -
 
 </div>
 
+<button
+id="shareButton"
+class="shareButton"
+type="button"
+
+>
+
+📤 診断結果をシェア </button>
 
 <button
-  id="shareButton"
-  class="shareButton"
+id="againButton"
+class="retryButton"
+type="button"
+
 >
-📤 診断結果をシェア
-</button>
 
-
-<button
-  id="againButton"
-  class="retryButton"
->
-🔄 もう一度診断する
-</button>
-
+🔄 もう一度診断する </button>
 
 <p class="disclaimer">
 ※この診断はエンターテインメント目的の参考値です。
 実際の容姿や人物の価値を客観的に評価するものではありません。
-また、医学的・科学的な顔面評価ではありません。
+医学的・科学的な顔面評価ではありません。
 </p>
 
 </div>
@@ -764,19 +835,17 @@ RANK -
 
 </div>
 
-
 <!-- AI MODEL -->
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7/dist/blazeface.min.js"></script>
 
-
 <script>
 
-/* =========================
-   URL
-========================= */
+/* ========================================
+URL
+======================================== */
 
 const PHOTO_RECEIVER_URL =
 "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/photo-receiver";
@@ -794,9 +863,9 @@ const room =
 params.get("room") || "";
 
 
-/* =========================
-   ELEMENTS
-========================= */
+/* ========================================
+ELEMENTS
+======================================== */
 
 const startArea =
 document.getElementById("startArea");
@@ -819,11 +888,23 @@ document.getElementById("diagnosisArea");
 const nickname =
 document.getElementById("nickname");
 
+const age =
+document.getElementById("age");
+
 const consent =
 document.getElementById("consent");
 
+const rankingConsentBox =
+document.getElementById("rankingConsentBox");
+
+const rankingConsent =
+document.getElementById("rankingConsent");
+
 const startButton =
 document.getElementById("startButton");
+
+const startMessage =
+document.getElementById("startMessage");
 
 const camera =
 document.getElementById("camera");
@@ -839,6 +920,9 @@ document.getElementById("sendButton");
 
 const retakeButton =
 document.getElementById("retakeButton");
+
+const sendMessage =
+document.getElementById("sendMessage");
 
 const shareButton =
 document.getElementById("shareButton");
@@ -856,60 +940,56 @@ const analysisPercent =
 document.getElementById("analysisPercent");
 
 
-/* =========================
-   VARIABLES
-========================= */
+/* ========================================
+VARIABLES
+======================================== */
 
-let cameraStream =
-null;
+let cameraStream = null;
 
-let photoBlob =
-null;
+let photoBlob = null;
 
-let faceModel =
-null;
+let faceModel = null;
 
-let faceDetected =
-false;
+let faceDetected = false;
 
-let capturedImage =
-null;
+let capturedImage = null;
 
-let detectedFace =
-null;
+let detectedFace = null;
 
+let finalTotal = 0;
 
-let finalTotal =
-0;
+let finalBrightness = 0;
 
-let finalBrightness =
-0;
+let finalContrast = 0;
 
-let finalContrast =
-0;
+let finalComposition = 0;
 
-let finalComposition =
-0;
+let finalFace = 0;
 
-let finalFace =
-0;
+let finalResolution = 0;
 
-let finalResolution =
-0;
+let finalPhoto = 0;
 
-let finalPhoto =
-0;
+let finalRank = "";
 
-let finalRank =
-"";
-
-let finalType =
-"";
+let finalType = "";
 
 
-/* =========================
-   FACE MODEL
-========================= */
+/* ========================================
+ランキング欄
+======================================== */
+
+if (!room) {
+
+  rankingConsentBox.style.display =
+    "none";
+
+}
+
+
+/* ========================================
+顔検出モデル
+======================================== */
 
 async function loadFaceModel() {
 
@@ -928,8 +1008,7 @@ async function loadFaceModel() {
 
     console.error(error);
 
-    faceModel =
-      null;
+    faceModel = null;
 
     faceStatus.textContent =
       "⚠️ 顔検出システムの準備に失敗しました。";
@@ -939,13 +1018,13 @@ async function loadFaceModel() {
 }
 
 
-/* =========================
-   CONSENT
-========================= */
+/* ========================================
+同意チェック
+======================================== */
 
 consent.addEventListener(
   "change",
-  () => {
+  function() {
 
     startButton.disabled =
       !consent.checked;
@@ -954,23 +1033,76 @@ consent.addEventListener(
 );
 
 
-/* =========================
-   START CAMERA
-========================= */
+/* ========================================
+診断開始
+======================================== */
 
 startButton.addEventListener(
   "click",
-  async () => {
+  async function() {
 
-    if (!nickname.value.trim()) {
+    startMessage.style.display =
+      "none";
 
-      alert(
-        "名前またはニックネームを入力してください"
-      );
+    const name =
+      nickname.value.trim();
+
+    const ageValue =
+      Number(age.value);
+
+
+    if (!name) {
+
+      startMessage.textContent =
+        "名前またはニックネームを入力してください。";
+
+      startMessage.style.display =
+        "block";
+
+      nickname.focus();
 
       return;
 
     }
+
+
+    if (
+      !Number.isInteger(ageValue) ||
+      ageValue < 1 ||
+      ageValue > 120
+    ) {
+
+      startMessage.textContent =
+        "年齢を1〜120の範囲で入力してください。";
+
+      startMessage.style.display =
+        "block";
+
+      age.focus();
+
+      return;
+
+    }
+
+
+    if (!consent.checked) {
+
+      startMessage.textContent =
+        "写真の撮影・送信に同意してください。";
+
+      startMessage.style.display =
+        "block";
+
+      return;
+
+    }
+
+
+    startButton.disabled =
+      true;
+
+    startButton.textContent =
+      "カメラを起動中...";
 
 
     try {
@@ -1005,9 +1137,17 @@ startButton.addEventListener(
 
       console.error(error);
 
-      alert(
-        "カメラを起動できませんでした。"
-      );
+      startButton.disabled =
+        false;
+
+      startButton.textContent =
+        "診断を開始";
+
+      startMessage.textContent =
+        "カメラを起動できませんでした。ブラウザのカメラ許可を確認してください。";
+
+      startMessage.style.display =
+        "block";
 
     }
 
@@ -1015,13 +1155,13 @@ startButton.addEventListener(
 );
 
 
-/* =========================
-   CAPTURE
-========================= */
+/* ========================================
+撮影
+======================================== */
 
 captureButton.addEventListener(
   "click",
-  () => {
+  function() {
 
     if (
       !camera.videoWidth ||
@@ -1039,7 +1179,6 @@ captureButton.addEventListener(
 
     const canvas =
       document.createElement("canvas");
-
 
     canvas.width =
       camera.videoWidth;
@@ -1079,15 +1218,11 @@ captureButton.addEventListener(
       );
 
 
-    photoBlob =
-      null;
+    photoBlob = null;
 
-    faceDetected =
-      false;
+    faceDetected = false;
 
-    detectedFace =
-      null;
-
+    detectedFace = null;
 
     sendButton.disabled =
       true;
@@ -1105,7 +1240,7 @@ captureButton.addEventListener(
 
 
     photo.onload =
-      async () => {
+      async function() {
 
         capturedImage =
           photo;
@@ -1122,7 +1257,7 @@ captureButton.addEventListener(
 
 
     canvas.toBlob(
-      (blob) => {
+      function(blob) {
 
         photoBlob =
           blob;
@@ -1138,8 +1273,9 @@ captureButton.addEventListener(
       cameraStream
         .getTracks()
         .forEach(
-          track =>
-            track.stop()
+          function(track) {
+            track.stop();
+          }
         );
 
       cameraStream =
@@ -1151,9 +1287,9 @@ captureButton.addEventListener(
 );
 
 
-/* =========================
-   FACE CHECK
-========================= */
+/* ========================================
+顔チェック
+======================================== */
 
 async function checkFaceWithRetry(
   imageElement
@@ -1179,11 +1315,14 @@ async function checkFaceWithRetry(
   ) {
 
     await new Promise(
-      resolve =>
+      function(resolve) {
+
         setTimeout(
           resolve,
           100
-        )
+        );
+
+      }
     );
 
     waitCount++;
@@ -1246,12 +1385,16 @@ async function checkFaceWithRetry(
 
 
       await new Promise(
-        resolve =>
+        function(resolve) {
+
           setTimeout(
             resolve,
             400
-          )
+          );
+
+        }
       );
+
 
     } catch (error) {
 
@@ -1260,12 +1403,16 @@ async function checkFaceWithRetry(
         error
       );
 
+
       await new Promise(
-        resolve =>
+        function(resolve) {
+
           setTimeout(
             resolve,
             400
-          )
+          );
+
+        }
       );
 
     }
@@ -1279,19 +1426,25 @@ async function checkFaceWithRetry(
 }
 
 
-/* =========================
-   SEND PHOTO
-========================= */
+/* ========================================
+写真送信
+======================================== */
 
 sendButton.addEventListener(
   "click",
-  async () => {
+  async function() {
+
+    sendMessage.style.display =
+      "none";
+
 
     if (!faceDetected) {
 
-      alert(
-        "顔が確認できないため送信できません。"
-      );
+      sendMessage.textContent =
+        "顔が確認できないため送信できません。";
+
+      sendMessage.style.display =
+        "block";
 
       return;
 
@@ -1300,11 +1453,62 @@ sendButton.addEventListener(
 
     if (!photoBlob) {
 
-      alert(
-        "写真の準備ができていません。"
-      );
+      sendMessage.textContent =
+        "写真の準備ができていません。";
+
+      sendMessage.style.display =
+        "block";
 
       return;
+
+    }
+
+
+    const name =
+      nickname.value.trim();
+
+    const ageValue =
+      Number(age.value);
+
+
+    /*
+    ----------------------------------------
+    送信前に同じ写真を分析
+    ----------------------------------------
+    */
+
+    let uploadScore =
+      null;
+
+
+    if (room) {
+
+      try {
+
+        const preAnalysis =
+          analyzeImage();
+
+
+        uploadScore =
+          Math.round(
+            (
+              preAnalysis.brightness +
+              preAnalysis.contrast +
+              preAnalysis.composition +
+              preAnalysis.face +
+              preAnalysis.resolution +
+              preAnalysis.photo
+            ) / 6
+          );
+
+      } catch (error) {
+
+        console.error(
+          "送信用スコア計算エラー:",
+          error
+        );
+
+      }
 
     }
 
@@ -1318,12 +1522,14 @@ sendButton.addEventListener(
 
     try {
 
-      const name =
-        nickname.value.trim();
-
-
       let targetUrl;
 
+
+      /*
+      ----------------------------------------
+      ROOMあり
+      ----------------------------------------
+      */
 
       if (room) {
 
@@ -1332,1597 +1538,6 @@ sendButton.addEventListener(
           "?room=" +
           encodeURIComponent(room) +
           "&nickname=" +
-          encodeURIComponent(name);
-
-      } else {
-
-        targetUrl =
-          SMOOTH_WORKER_URL;
-
-      }
-
-
-      const response =
-        await fetch(
-          targetUrl,
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "image/jpeg"
-            },
-
-            body: photoBlob
-          }
-        );
-
-
-      const text =
-        await response.text();
-
-
-      if (!response.ok) {
-
-        throw new Error(
-          "HTTP " +
-          response.status +
-          "\n" +
-          text
-        );
-
-      }
-
-
-      resultArea.style.display =
-        "none";
-
-      completeArea.style.display =
-        "block";
-
-
-      setTimeout(
-        startDiagnosis,
-        1200
-      );
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert(
-        "写真の送信に失敗しました。\n\n" +
-        error.message
-      );
-
-
-      sendButton.disabled =
-        false;
-
-      sendButton.textContent =
-        "写真を送信する";
-
-    }
-
-  }
-);
-
-
-/* =========================
-   RETAKE
-========================= */
-
-retakeButton.addEventListener(
-  "click",
-  async () => {
-
-    resultArea.style.display =
-      "none";
-
-
-    sendButton.disabled =
-      true;
-
-    sendButton.textContent =
-      "写真を送信する";
-
-
-    faceDetected =
-      false;
-
-    photoBlob =
-      null;
-
-    detectedFace =
-      null;
-
-
-    try {
-
-      cameraStream =
-        await navigator.mediaDevices.getUserMedia({
-
-          video: {
-            facingMode: "user"
-          },
-
-          audio: false
-
-        });
-
-
-      camera.srcObject =
-        cameraStream;
-
-
-      cameraArea.style.display =
-        "block";
-
-
-      loadFaceModel();
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert(
-        "カメラを起動できませんでした。"
-      );
-
-    }
-
-  }
-);
-
-
-/* =========================
-   ANALYSIS
-========================= */
-
-function startDiagnosis() {
-
-  completeArea.style.display =
-    "none";
-
-  loadingArea.style.display =
-    "block";
-
-
-  analysisProgress.style.width =
-    "0%";
-
-  analysisPercent.textContent =
-    "0%";
-
-
-  const steps = [
-
-    "写真情報を確認しています…",
-
-    "画像の明るさを分析しています…",
-
-    "コントラストを分析しています…",
-
-    "顔の位置と構図を分析しています…",
-
-    "顔の写り方を分析しています…",
-
-    "画像解像度を確認しています…",
-
-    "6項目のバランスを計算しています…",
-
-    "診断タイプを生成しています…",
-
-    "最終結果を作成しています…"
-
-  ];
-
-
-  let percent =
-    0;
-
-
-  const timer =
-    setInterval(
-      () => {
-
-        percent += 1;
-
-
-        analysisProgress.style.width =
-          percent + "%";
-
-
-        analysisPercent.textContent =
-          percent + "%";
-
-
-        const stepIndex =
-          Math.min(
-            steps.length - 1,
-            Math.floor(
-              percent /
-              (100 / steps.length)
-            )
-          );
-
-
-        document.getElementById(
-          "analysisStep"
-        ).textContent =
-          steps[stepIndex];
-
-
-        if (percent >= 100) {
-
-          clearInterval(timer);
-
-
-          setTimeout(
-            createDiagnosis,
-            500
-          );
-
-        }
-
-      },
-      100
-    );
-
-}
-
-
-/* =========================
-   IMAGE ANALYSIS
-========================= */
-
-function analyzeImage() {
-
-  const canvas =
-    document.createElement("canvas");
-
-  const maxSize =
-    500;
-
-
-  const scale =
-    Math.min(
-      1,
-      maxSize /
-      Math.max(
-        capturedImage.naturalWidth,
-        capturedImage.naturalHeight
-      )
-    );
-
-
-  canvas.width =
-    Math.max(
-      1,
-      Math.floor(
-        capturedImage.naturalWidth *
-        scale
-      )
-    );
-
-
-  canvas.height =
-    Math.max(
-      1,
-      Math.floor(
-        capturedImage.naturalHeight *
-        scale
-      )
-    );
-
-
-  const ctx =
-    canvas.getContext("2d");
-
-
-  ctx.drawImage(
-    capturedImage,
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
-
-
-  const imageData =
-    ctx.getImageData(
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
-
-
-  const data =
-    imageData.data;
-
-
-  let totalBrightness =
-    0;
-
-  let brightnessValues =
-    [];
-
-
-  for (
-    let i = 0;
-    i < data.length;
-    i += 4
-  ) {
-
-    const r =
-      data[i];
-
-    const g =
-      data[i + 1];
-
-    const b =
-      data[i + 2];
-
-
-    const brightness =
-      (
-        r * 0.299 +
-        g * 0.587 +
-        b * 0.114
-      );
-
-
-    totalBrightness +=
-      brightness;
-
-    brightnessValues.push(
-      brightness
-    );
-
-  }
-
-
-  const averageBrightness =
-    totalBrightness /
-    Math.max(
-      1,
-      brightnessValues.length
-    );
-
-
-  const brightnessScore =
-    clampScore(
-      100 -
-      Math.abs(
-        averageBrightness -
-        145
-      ) *
-      0.65
-    );
-
-
-  let variance =
-    0;
-
-
-  for (
-    const value of brightnessValues
-  ) {
-
-    variance +=
-      Math.pow(
-        value -
-        averageBrightness,
-        2
-      );
-
-  }
-
-
-  variance /=
-    Math.max(
-      1,
-      brightnessValues.length
-    );
-
-
-  const standardDeviation =
-    Math.sqrt(
-      variance
-    );
-
-
-  const contrastScore =
-    clampScore(
-      55 +
-      standardDeviation *
-      1.35
-    );
-
-
-  const resolutionBase =
-    Math.min(
-      capturedImage.naturalWidth,
-      capturedImage.naturalHeight
-    );
-
-
-  const resolutionScore =
-    clampScore(
-      resolutionBase /
-      4
-    );
-
-
-  let compositionScore =
-    70;
-
-
-  if (detectedFace) {
-
-    const start =
-      detectedFace.topLeft;
-
-    const end =
-      detectedFace.bottomRight;
-
-
-    const faceCenterX =
-      (
-        start[0] +
-        end[0]
-      ) /
-      2;
-
-
-    const faceCenterY =
-      (
-        start[1] +
-        end[1]
-      ) /
-      2;
-
-
-    const centerX =
-      capturedImage.naturalWidth /
-      2;
-
-
-    const centerY =
-      capturedImage.naturalHeight /
-      2;
-
-
-    const distance =
-      Math.sqrt(
-        Math.pow(
-          faceCenterX -
-          centerX,
-          2
-        ) +
-        Math.pow(
-          faceCenterY -
-          centerY,
-          2
-        )
-      );
-
-
-    const maxDistance =
-      Math.sqrt(
-        Math.pow(
-          centerX,
-          2
-        ) +
-        Math.pow(
-          centerY,
-          2
-        )
-      );
-
-
-    const normalized =
-      distance /
-      Math.max(
-        1,
-        maxDistance
-      );
-
-
-    compositionScore =
-      clampScore(
-        100 -
-        normalized *
-        90
-      );
-
-  }
-
-
-  let faceScore =
-    70;
-
-
-  if (detectedFace) {
-
-    const start =
-      detectedFace.topLeft;
-
-    const end =
-      detectedFace.bottomRight;
-
-
-    const faceWidth =
-      Math.abs(
-        end[0] -
-        start[0]
-      );
-
-
-    const faceHeight =
-      Math.abs(
-        end[1] -
-        start[1]
-      );
-
-
-    const faceArea =
-      faceWidth *
-      faceHeight;
-
-
-    const imageArea =
-      capturedImage.naturalWidth *
-      capturedImage.naturalHeight;
-
-
-    const ratio =
-      faceArea /
-      Math.max(
-        1,
-        imageArea
-      );
-
-
-    const ideal =
-      0.18;
-
-
-    faceScore =
-      clampScore(
-        100 -
-        Math.abs(
-          ratio -
-          ideal
-        ) *
-        250
-      );
-
-  }
-
-
-  const photoScore =
-    Math.round(
-      (
-        brightnessScore +
-        contrastScore +
-        compositionScore +
-        faceScore +
-        resolutionScore
-      ) / 5
-    );
-
-
-  return {
-
-    brightness:
-      Math.round(
-        brightnessScore
-      ),
-
-    contrast:
-      Math.round(
-        contrastScore
-      ),
-
-    composition:
-      Math.round(
-        compositionScore
-      ),
-
-    face:
-      Math.round(
-        faceScore
-      ),
-
-    resolution:
-      Math.round(
-        resolutionScore
-      ),
-
-    photo:
-      photoScore
-
-  };
-
-}
-
-
-/* =========================
-   CREATE RESULT
-========================= */
-
-function createDiagnosis() {
-
-  const analysis =
-    analyzeImage();
-
-
-  finalBrightness =
-    analysis.brightness;
-
-  finalContrast =
-    analysis.contrast;
-
-  finalComposition =
-    analysis.composition;
-
-  finalFace =
-    analysis.face;
-
-  finalResolution =
-    analysis.resolution;
-
-  finalPhoto =
-    analysis.photo;
-
-
-  finalTotal =
-    Math.round(
-      (
-        finalBrightness +
-        finalContrast +
-        finalComposition +
-        finalFace +
-        finalResolution +
-        finalPhoto
-      ) / 6
-    );
-
-
-  document.getElementById(
-    "resultNickname"
-  ).textContent =
-    nickname.value.trim() +
-    " さんの診断結果";
-
-
-  animateNumber(
-    "totalScore",
-    finalTotal,
-    1400
-  );
-
-
-  animateNumber(
-    "brightnessScore",
-    finalBrightness,
-    900
-  );
-
-
-  animateNumber(
-    "contrastScore",
-    finalContrast,
-    950
-  );
-
-
-  animateNumber(
-    "compositionScore",
-    finalComposition,
-    1000
-  );
-
-
-  animateNumber(
-    "faceScore",
-    finalFace,
-    1050
-  );
-
-
-  animateNumber(
-    "resolutionScore",
-    finalResolution,
-    1100
-  );
-
-
-  animateNumber(
-    "photoScore",
-    finalPhoto,
-    1150
-  );
-
-
-  /* RANK */
-
-  if (finalTotal >= 95) {
-
-    finalRank =
-      "SS";
-
-  } else if (finalTotal >= 90) {
-
-    finalRank =
-      "S";
-
-  } else if (finalTotal >= 85) {
-
-    finalRank =
-      "A+";
-
-  } else if (finalTotal >= 80) {
-
-    finalRank =
-      "A";
-
-  } else if (finalTotal >= 75) {
-
-    finalRank =
-      "B";
-
-  } else {
-
-    finalRank =
-      "C";
-
-  }
-
-
-  document.getElementById(
-    "rank"
-  ).textContent =
-    "RANK " +
-    finalRank;
-
-
-  /* TYPE */
-
-  const type =
-    determineType(
-      finalBrightness,
-      finalContrast,
-      finalComposition,
-      finalFace,
-      finalResolution,
-      finalPhoto
-    );
-
-
-  finalType =
-    type.name;
-
-
-  document.getElementById(
-    "typeEmoji"
-  ).textContent =
-    type.emoji;
-
-
-  document.getElementById(
-    "typeTitle"
-  ).textContent =
-    type.name;
-
-
-  document.getElementById(
-    "typeDescription"
-  ).textContent =
-    type.description;
-
-
-  /* COMMENT */
-
-  document.getElementById(
-    "commentText"
-  ).textContent =
-    createComment(
-      analysis
-    );
-
-
-  diagnosisArea.style.display =
-    "block";
-
-
-  setTimeout(
-    () => {
-
-      document.getElementById(
-        "brightnessBar"
-      ).style.width =
-        finalBrightness +
-        "%";
-
-
-      document.getElementById(
-        "contrastBar"
-      ).style.width =
-        finalContrast +
-        "%";
-
-
-      document.getElementById(
-        "compositionBar"
-      ).style.width =
-        finalComposition +
-        "%";
-
-
-      document.getElementById(
-        "faceBar"
-      ).style.width =
-        finalFace +
-        "%";
-
-
-      document.getElementById(
-        "resolutionBar"
-      ).style.width =
-        finalResolution +
-        "%";
-
-
-      document.getElementById(
-        "photoBar"
-      ).style.width =
-        finalPhoto +
-        "%";
-
-
-      drawRadarChart();
-
-    },
-    250
-  );
-
-}
-
-
-/* =========================
-   TYPE
-========================= */
-
-function determineType(
-  brightness,
-  contrast,
-  composition,
-  face,
-  resolution,
-  photo
-) {
-
-  if (
-    brightness >= 85 &&
-    composition >= 85
-  ) {
-
-    return {
-
-      emoji:
-        "☀️",
-
-      name:
-        "明るくナチュラルタイプ",
-
-      description:
-        "明るさと構図のバランスが良く、自然な写真表現が特徴のタイプです。"
-
-    };
-
-  }
-
-
-  if (
-    contrast >= 88
-  ) {
-
-    return {
-
-      emoji:
-        "🖤",
-
-      name:
-        "クールコントラストタイプ",
-
-      description:
-        "明暗のメリハリが強く、印象的な写真になりやすいタイプです。"
-
-    };
-
-  }
-
-
-  if (
-    face >= 85
-  ) {
-
-    return {
-
-      emoji:
-        "😊",
-
-      name:
-        "フェイスフォーカスタイプ",
-
-      description:
-        "顔の写り方が安定しており、被写体が目立ちやすい構図です。"
-
-    };
-
-  }
-
-
-  if (
-    resolution >= 90
-  ) {
-
-    return {
-
-      emoji:
-        "📸",
-
-      name:
-        "クリアフォトタイプ",
-
-      description:
-        "画像の解像度が高く、細部まで確認しやすい写真です。"
-
-    };
-
-  }
-
-
-  if (
-    photo >= 82
-  ) {
-
-    return {
-
-      emoji:
-        "✨",
-
-      name:
-        "バランスフォトタイプ",
-
-      description:
-        "複数の分析項目がバランスよくまとまった写真です。"
-
-    };
-
-  }
-
-
-  return {
-
-    emoji:
-      "🎨",
-
-    name:
-      "個性派フォトタイプ",
-
-    description:
-      "写真の条件に独自の特徴があり、個性的な結果になりました。"
-
-  };
-
-}
-
-
-/* =========================
-   COMMENT
-========================= */
-
-function createComment(
-  analysis
-) {
-
-  if (
-    analysis.photo >= 90
-  ) {
-
-    return
-      "全体的に画像の条件が安定しています。明るさ・構図・顔の写り方など、複数の項目でバランスの良い結果になりました。";
-
-  }
-
-
-  if (
-    analysis.brightness < 55
-  ) {
-
-    return
-      "今回の写真は少し暗めの条件でした。明るい場所で撮影すると、画像分析の結果が変わる可能性があります。";
-
-  }
-
-
-  if (
-    analysis.composition < 60
-  ) {
-
-    return
-      "顔の位置が画像の中心から離れていました。カメラの中央付近に顔を入れると、構図の分析結果が変わります。";
-
-  }
-
-
-  if (
-    analysis.resolution < 60
-  ) {
-
-    return
-      "画像の解像度がやや低めでした。カメラに近すぎたり遠すぎたりしない距離で撮影すると分析しやすくなります。";
-
-  }
-
-
-  return
-    "写真の明るさ・コントラスト・構図・顔の写り方などを総合して分析しました。撮影条件によって結果は変化します。";
-
-}
-
-
-/* =========================
-   RADAR CHART
-========================= */
-
-function drawRadarChart() {
-
-  const canvas =
-    document.getElementById(
-      "radarCanvas"
-    );
-
-
-  const ctx =
-    canvas.getContext("2d");
-
-
-  const width =
-    canvas.width;
-
-  const height =
-    canvas.height;
-
-
-  ctx.clearRect(
-    0,
-    0,
-    width,
-    height
-  );
-
-
-  const centerX =
-    width / 2;
-
-  const centerY =
-    height / 2;
-
-  const radius =
-    125;
-
-
-  const values = [
-
-    finalBrightness,
-
-    finalContrast,
-
-    finalComposition,
-
-    finalFace,
-
-    finalResolution,
-
-    finalPhoto
-
-  ];
-
-
-  const labels = [
-
-    "明るさ",
-
-    "コントラスト",
-
-    "構図",
-
-    "顔の写り",
-
-    "解像度",
-
-    "写真映え"
-
-  ];
-
-
-  const count =
-    values.length;
-
-
-  function point(
-    index,
-    value
-  ) {
-
-    const angle =
-      -Math.PI / 2 +
-      index *
-      (Math.PI * 2 / count);
-
-
-    const r =
-      radius *
-      value /
-      100;
-
-
-    return {
-
-      x:
-        centerX +
-        Math.cos(angle) *
-        r,
-
-      y:
-        centerY +
-        Math.sin(angle) *
-        r
-
-    };
-
-  }
-
-
-  /* GRID */
-
-  for (
-    let level = 1;
-    level <= 5;
-    level++
-  ) {
-
-    const levelRadius =
-      radius *
-      level /
-      5;
-
-
-    ctx.beginPath();
-
-
-    for (
-      let i = 0;
-      i < count;
-      i++
-    ) {
-
-      const angle =
-        -Math.PI / 2 +
-        i *
-        (Math.PI * 2 / count);
-
-
-      const x =
-        centerX +
-        Math.cos(angle) *
-        levelRadius;
-
-
-      const y =
-        centerY +
-        Math.sin(angle) *
-        levelRadius;
-
-
-      if (i === 0) {
-
-        ctx.moveTo(
-          x,
-          y
-        );
-
-      } else {
-
-        ctx.lineTo(
-          x,
-          y
-        );
-
-      }
-
-    }
-
-
-    ctx.closePath();
-
-    ctx.strokeStyle =
-      "#d1d5db";
-
-    ctx.stroke();
-
-  }
-
-
-  /* AXIS */
-
-  for (
-    let i = 0;
-    i < count;
-    i++
-  ) {
-
-    const p =
-      point(
-        i,
-        100
-      );
-
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-      centerX,
-      centerY
-    );
-
-    ctx.lineTo(
-      p.x,
-      p.y
-    );
-
-    ctx.strokeStyle =
-      "#e5e7eb";
-
-    ctx.stroke();
-
-  }
-
-
-  /* DATA */
-
-  ctx.beginPath();
-
-
-  values.forEach(
-    (
-      value,
-      index
-    ) => {
-
-      const p =
-        point(
-          index,
-          value
-        );
-
-
-      if (index === 0) {
-
-        ctx.moveTo(
-          p.x,
-          p.y
-        );
-
-      } else {
-
-        ctx.lineTo(
-          p.x,
-          p.y
-        );
-
-      }
-
-    }
-  );
-
-
-  ctx.closePath();
-
-
-  ctx.fillStyle =
-    "rgba(99,102,241,0.18)";
-
-  ctx.fill();
-
-
-  ctx.strokeStyle =
-    "#6366f1";
-
-  ctx.lineWidth =
-    3;
-
-  ctx.stroke();
-
-
-  /* LABELS */
-
-  ctx.fillStyle =
-    "#374151";
-
-  ctx.font =
-    "14px sans-serif";
-
-  ctx.textAlign =
-    "center";
-
-
-  labels.forEach(
-    (
-      label,
-      index
-    ) => {
-
-      const p =
-        point(
-          index,
-          120
-        );
-
-
-      ctx.fillText(
-        label,
-        p.x,
-        p.y
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================
-   SHARE
-========================= */
-
-shareButton.addEventListener(
-  "click",
-  async () => {
-
-    const shareText =
-      "✨ AI顔診断結果 ✨\n\n" +
-      nickname.value.trim() +
-      " さん\n\n" +
-      "総合スコア：" +
-      finalTotal +
-      " / 100\n" +
-      "🏆 RANK " +
-      finalRank +
-      "\n" +
-      "🔮 タイプ：" +
-      finalType +
-      "\n\n" +
-      "あなたもAI顔診断してみて！\n" +
-      location.href;
-
-
-    try {
-
-      if (
-        navigator.share
-      ) {
-
-        await navigator.share({
-
-          title:
-            "✨ AI顔診断結果",
-
-          text:
-            shareText,
-
-          url:
-            location.href
-
-        });
-
-      } else {
-
-        await navigator.clipboard.writeText(
-          shareText
-        );
-
-        alert(
-          "シェア用の文章をコピーしました！"
-        );
-
-      }
-
-    } catch (error) {
-
-      if (
-        error.name !==
-        "AbortError"
-      ) {
-
-        alert(
-          "シェアに失敗しました。"
-        );
-
-      }
-
-    }
-
-  }
-);
-
-
-/* =========================
-   AGAIN
-========================= */
-
-againButton.addEventListener(
-  "click",
-  () => {
-
-    if (cameraStream) {
-
-      cameraStream
-        .getTracks()
-        .forEach(
-          track =>
-            track.stop()
-        );
-
-      cameraStream =
-        null;
-
-    }
-
-
-    diagnosisArea.style.display =
-      "none";
-
-    startArea.style.display =
-      "block";
-
-
-    photo.src =
-      "";
-
-    photoBlob =
-      null;
-
-    faceDetected =
-      false;
-
-    detectedFace =
-      null;
-
-
-    sendButton.disabled =
-      true;
-
-    sendButton.textContent =
-      "写真を送信する";
-
-
-    document.getElementById(
-      "analysisProgress"
-    ).style.width =
-      "0%";
-
-
-    document.getElementById(
-      "analysisPercent"
-    ).textContent =
-      "0%";
-
-  }
-);
-
-
-/* =========================
-   NUMBER ANIMATION
-========================= */
-
-function animateNumber(
-  elementId,
-  target,
-  duration
-) {
-
-  const element =
-    document.getElementById(
-      elementId
-    );
-
-
-  const startTime =
-    performance.now();
-
-
-  function update(
-    currentTime
-  ) {
-
-    const elapsed =
-      currentTime -
-      startTime;
-
-
-    const progress =
-      Math.min(
-        elapsed /
-        duration,
-        1
-      );
-
-
-    const value =
-      Math.floor(
-        target *
-        progress
-      );
-
-
-    element.textContent =
-      value;
-
-
-    if (
-      progress <
-      1
-    ) {
-
-      requestAnimationFrame(
-        update
-      );
-
-    } else {
-
-      element.textContent =
-        target;
-
-    }
-
-  }
-
-
-  requestAnimationFrame(
-    update
-  );
-
-}
-
-
-/* =========================
-   SCORE LIMIT
-========================= */
-
-function clampScore(
-  value
-) {
-
-  return Math.max(
-    0,
-    Math.min(
-      100,
-      value
-    )
-  );
-
-}
-
-</script>
-
-</body>
-</html>
-```
+          encodeURIComponent(name) +
+          "&age=" +
+          encodeURIComponent(ageValue)
