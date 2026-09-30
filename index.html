@@ -751,8 +751,7 @@ sendButton.addEventListener(
 
         const receiverResponse =
           await fetch(
-            "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/photo-receiver?room=" +
-            encodeURIComponent(room),
+            "https://" + "crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/photo-receiver?room=" + encodeURIComponent(room),
             {
               method: "POST",
 
