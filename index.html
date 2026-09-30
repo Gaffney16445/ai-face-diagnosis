@@ -549,9 +549,15 @@ let finalRank = "";
 
 /* 同意チェック */
 
-consent.addEventListener("change", () => {
-  startButton.disabled = !consent.checked;
-});
+consent.onchange = function () {
+
+  if (this.checked) {
+    startButton.disabled = false;
+  } else {
+    startButton.disabled = true;
+  }
+
+};
 
 
 
