@@ -261,26 +261,6 @@ video,
   transition: width 1s;
 }
 
-.ratingStars {
-  display: flex;
-  justify-content: center;
-  gap: 7px;
-  margin: 15px 0;
-}
-
-.star {
-  width: auto;
-  font-size: 38px;
-  background: transparent;
-  padding: 0;
-  margin: 0;
-  color: #ccc;
-}
-
-.star.selected {
-  color: #ffb400;
-}
-
 .small {
   font-size: 12px;
   color: #777;
@@ -492,17 +472,16 @@ AI診断結果を作成しています...
 
 </div>
 
-<!-- ================= EMAIL VERIFICATION ================= -->
+<!-- ================= DATA SAVE ================= -->
 
 <hr>
 
-<div id="emailVerificationArea">
+<div id="dataSaveArea">
 
-<h2>📧 メール認証</h2>
+<h2>💾 データ保存登録</h2>
 
 <div class="info">
-診断後の評価を行うにはメール認証が必要です。<br>
-不正な重複評価を防ぐため、認証済みメールアドレスを使用します。
+メールアドレスと電話番号を登録すると、診断結果などのデータを保存できるようになります。
 </div>
 
 <div class="section">
@@ -517,97 +496,44 @@ AI診断結果を作成しています...
   placeholder="example@example.com">
 </div>
 
-<button id="sendOtpButton" class="primary">
-📩 認証メールを送信
-</button>
-
-<div id="emailMessage" class="hidden"></div>
-
-<div id="otpArea" class="hidden">
-
 <div class="section">
-<label for="otpCode">
-6桁の認証コード
+<label for="phoneNumber">
+電話番号
 </label>
 
 <input
-  id="otpCode"
-  type="text"
-  inputmode="numeric"
-  autocomplete="one-time-code"
-  maxlength="6"
-  placeholder="123456">
-</div>
-
-<button id="verifyOtpButton" class="primary">
-✅ メールアドレスを認証する
-</button>
-
-</div>
-
-<div id="verifiedArea" class="success hidden">
-✅ メールアドレスの認証が完了しました！
-</div>
-
-</div>
-
-<!-- ================= REVIEW ================= -->
-
-<div id="reviewArea" class="hidden">
-
-<hr>
-
-<h2>⭐ 診断を評価する</h2>
-
-<div class="info">
-診断結果はいかがでしたか？<br>
-よければ評価をお願いします。
-</div>
-
-<div class="center">
-<div id="ratingText">
-評価を選択してください
-</div>
-</div>
-
-<div id="starArea" class="ratingStars">
-
-<button class="star" data-rating="1">★</button>
-<button class="star" data-rating="2">★</button>
-<button class="star" data-rating="3">★</button>
-<button class="star" data-rating="4">★</button>
-<button class="star" data-rating="5">★</button>
-
+  id="phoneNumber"
+  type="tel"
+  autocomplete="tel"
+  inputmode="tel"
+  placeholder="09012345678">
 </div>
 
 <div class="section">
-
-<label for="reviewText">
-感想（任意）
+<label>
+<input
+  id="dataSaveConsent"
+  type="checkbox"
+  style="width:auto;">
+ メールアドレス・電話番号を保存することに同意します
 </label>
-
-<textarea
-  id="reviewText"
-  maxlength="1000"
-  placeholder="診断についての感想を入力してください"></textarea>
-
 </div>
 
-<div id="reviewError" class="error hidden"></div>
+<div id="dataSaveMessage" class="hidden"></div>
 
-<button id="submitReviewButton" class="primary">
-⭐ 評価を送信する
+<button id="saveDataButton" class="primary">
+💾 データを保存する
 </button>
 
 </div>
 
-<div id="reviewComplete" class="success hidden center">
-🎉 評価ありがとうございました！
+<div id="dataSavedArea" class="success hidden center">
+✅ データの保存登録が完了しました！
 </div>
 
 <!-- ================= SHARE ================= -->
 
-<div id="shareArea" class="hidden">
+<div id="shareArea">
 
 <hr>
 
@@ -636,9 +562,6 @@ AI診断結果を作成しています...
 const SUPABASE_URL =
 "https://crdvhjtoxqeuttrnhfhj.supabase.co";
 
-/*
-  ↓↓↓ ここにSupabaseのPublishable key / anon keyを入れる ↓↓↓
-*/
 const SUPABASE_ANON_KEY =
 "sb_publishable_zWBDBCZK01vYgTdABzbk5A_ing2eXRM";
 
@@ -661,9 +584,6 @@ const PHOTO_RECEIVER_URL =
 
 const SMOOTH_WORKER_URL =
 "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/smooth-worker";
-
-const REVIEW_VERIFICATION_URL =
-"https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/review-verification";
 
 /* =========================================================
    URL
@@ -706,8 +626,6 @@ let livenessActionSuccess = false;
 let livenessBaseline = null;
 let livenessFrameCount = 0;
 
-let selectedRating = 0;
-
 let currentName = "";
 let currentAge = 0;
 
@@ -715,8 +633,6 @@ let currentTotal = 0;
 let currentScore1 = 0;
 let currentScore2 = 0;
 let currentScore3 = 0;
-
-let emailVerified = false;
 
 /* =========================================================
    DOM
@@ -736,12 +652,6 @@ document.getElementById("completeArea");
 
 const resultArea =
 document.getElementById("resultArea");
-
-const reviewArea =
-document.getElementById("reviewArea");
-
-const shareArea =
-document.getElementById("shareArea");
 
 const camera =
 document.getElementById("camera");
@@ -775,15 +685,6 @@ document.getElementById("retakeButton");
 
 const startButton =
 document.getElementById("startButton");
-
-const sendOtpButton =
-document.getElementById("sendOtpButton");
-
-const verifyOtpButton =
-document.getElementById("verifyOtpButton");
-
-const submitReviewButton =
-document.getElementById("submitReviewButton");
 
 /* =========================================================
    Themes
@@ -1590,7 +1491,9 @@ async () => {
         "hidden"
       );
 
-      photoStatus.textContent =
+      document.getElementById(
+        "photoStatus"
+      ).textContent =
         "写真を確認しています...";
 
       try {
@@ -1621,7 +1524,9 @@ async () => {
             result.length === 0
           ) {
 
-            photoStatus.textContent =
+            document.getElementById(
+              "photoStatus"
+            ).textContent =
               "⚠️ 顔が確認できません。撮り直してください。";
 
             sendButton.disabled =
@@ -1633,7 +1538,9 @@ async () => {
 
         }
 
-        photoStatus.textContent =
+        document.getElementById(
+          "photoStatus"
+        ).textContent =
           "✅ 写真を使用できます。";
 
         sendButton.disabled =
@@ -1643,7 +1550,9 @@ async () => {
 
         console.error(error);
 
-        photoStatus.textContent =
+        document.getElementById(
+          "photoStatus"
+        ).textContent =
           "⚠️ 写真確認中にエラーが発生しました。";
 
         sendButton.disabled =
@@ -2268,17 +2177,17 @@ function animateScore(
 }
 
 /* =========================================================
-   Email message
+   Data Save Message
 ========================================================= */
 
-function showEmailMessage(
+function showDataSaveMessage(
   message,
   type = "info"
 ) {
 
   const box =
     document.getElementById(
-      "emailMessage"
+      "dataSaveMessage"
     );
 
   box.className =
@@ -2298,449 +2207,127 @@ function showEmailMessage(
 }
 
 /* =========================================================
-   Send OTP
-========================================================= */
-
-sendOtpButton.addEventListener(
-"click",
-async () => {
-
-  const email =
-    document.getElementById(
-      "emailAddress"
-    ).value
-      .trim()
-      .toLowerCase();
-
-  if (!email) {
-
-    showEmailMessage(
-      "メールアドレスを入力してください。",
-      "error"
-    );
-
-    return;
-
-  }
-
-  if (
-    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      .test(email)
-  ) {
-
-    showEmailMessage(
-      "メールアドレスの形式を確認してください。",
-      "error"
-    );
-
-    return;
-
-  }
-
-  sendOtpButton.disabled = true;
-
-  try {
-
-    const {
-      error
-    } =
-      await supabaseClient.auth.signInWithOtp(
-        {
-          email: email,
-
-          options: {
-            shouldCreateUser: true
-          }
-        }
-      );
-
-    if (error) {
-
-      throw error;
-
-    }
-
-    await sendVerificationLog(
-      "OTP_SENT",
-      email
-    );
-
-    document
-      .getElementById(
-        "otpArea"
-      )
-      .classList.remove(
-        "hidden"
-      );
-
-    showEmailMessage(
-      "認証コードをメールに送信しました。メールに届いた6桁のコードを入力してください。",
-      "success"
-    );
-
-  } catch (error) {
-
-    console.error(error);
-
-    showEmailMessage(
-      "認証メールの送信に失敗しました。メールアドレスを確認してください。",
-      "error"
-    );
-
-  } finally {
-
-    sendOtpButton.disabled =
-      false;
-
-  }
-
-});
-
-/* =========================================================
-   Verify OTP
-========================================================= */
-
-verifyOtpButton.addEventListener(
-"click",
-async () => {
-
-  const email =
-    document.getElementById(
-      "emailAddress"
-    ).value
-      .trim()
-      .toLowerCase();
-
-  const token =
-    document.getElementById(
-      "otpCode"
-    ).value
-      .trim();
-
-  if (!email) {
-
-    showEmailMessage(
-      "メールアドレスを入力してください。",
-      "error"
-    );
-
-    return;
-
-  }
-
-  if (!/^\d{6}$/.test(token)) {
-
-    showEmailMessage(
-      "6桁の認証コードを入力してください。",
-      "error"
-    );
-
-    return;
-
-  }
-
-  verifyOtpButton.disabled =
-    true;
-
-  try {
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.auth.verifyOtp(
-        {
-          email: email,
-          token: token,
-          type: "email"
-        }
-      );
-
-    if (error) {
-
-      throw error;
-
-    }
-
-    emailVerified = true;
-
-    await sendVerificationLog(
-      "EMAIL_VERIFIED",
-      email
-    );
-
-    document
-      .getElementById(
-        "emailVerificationArea"
-      )
-      .classList.add(
-        "hidden"
-      );
-
-    document
-      .getElementById(
-        "verifiedArea"
-      )
-      .classList.remove(
-        "hidden"
-      );
-
-    reviewArea.classList.remove(
-      "hidden"
-    );
-
-    showEmailMessage(
-      "メールアドレスの認証が完了しました。",
-      "success"
-    );
-
-  } catch (error) {
-
-    console.error(error);
-
-    showEmailMessage(
-      "認証コードが正しくないか、有効期限が切れています。",
-      "error"
-    );
-
-  } finally {
-
-    verifyOtpButton.disabled =
-      false;
-
-  }
-
-});
-
-/* =========================================================
-   Send verification log
-========================================================= */
-
-async function sendVerificationLog(
-  eventType,
-  email
-) {
-
-  try {
-
-    const {
-      data
-    } =
-      await supabaseClient.auth.getSession();
-
-    const accessToken =
-      data?.session?.access_token || "";
-
-    await fetch(
-      REVIEW_VERIFICATION_URL,
-      {
-        method: "POST",
-
-        headers: {
-
-          "Content-Type":
-            "application/json",
-
-          "Authorization":
-            accessToken
-              ? "Bearer " +
-                accessToken
-              : ""
-
-        },
-
-        body:
-          JSON.stringify({
-
-            event:
-              eventType,
-
-            email:
-              email,
-
-            nickname:
-              currentName,
-
-            age:
-              currentAge,
-
-            score:
-              currentTotal,
-
-            room:
-              room || "normal"
-
-          })
-
-      }
-    );
-
-  } catch (error) {
-
-    console.error(
-      "verification log error:",
-      error
-    );
-
-  }
-
-}
-
-/* =========================================================
-   Rating
+   Save Diagnosis Data
 ========================================================= */
 
 document
-  .querySelectorAll(".star")
-  .forEach(
-    star => {
+  .getElementById(
+    "saveDataButton"
+  )
+  .addEventListener(
+    "click",
+    async () => {
 
-      star.addEventListener(
-        "click",
-        () => {
+      const email =
+        document
+          .getElementById(
+            "emailAddress"
+          )
+          .value
+          .trim()
+          .toLowerCase();
 
-          selectedRating =
-            Number(
-              star.dataset.rating
-            );
+      const phone =
+        document
+          .getElementById(
+            "phoneNumber"
+          )
+          .value
+          .replace(
+            /[\s\-]/g,
+            ""
+          );
 
-          document
-            .querySelectorAll(
-              ".star"
+      const consent =
+        document
+          .getElementById(
+            "dataSaveConsent"
+          )
+          .checked;
+
+      if (!email) {
+
+        showDataSaveMessage(
+          "メールアドレスを入力してください。",
+          "error"
+        );
+
+        return;
+
+      }
+
+      if (
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+          .test(email)
+      ) {
+
+        showDataSaveMessage(
+          "メールアドレスの形式を確認してください。",
+          "error"
+        );
+
+        return;
+
+      }
+
+      if (!phone) {
+
+        showDataSaveMessage(
+          "電話番号を入力してください。",
+          "error"
+        );
+
+        return;
+
+      }
+
+      if (
+        !/^[0-9]{10,11}$/.test(phone)
+      ) {
+
+        showDataSaveMessage(
+          "電話番号を正しく入力してください。",
+          "error"
+        );
+
+        return;
+
+      }
+
+      if (!consent) {
+
+        showDataSaveMessage(
+          "データ保存への同意が必要です。",
+          "error"
+        );
+
+        return;
+
+      }
+
+      const button =
+        document.getElementById(
+          "saveDataButton"
+        );
+
+      button.disabled = true;
+
+      try {
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from(
+              "diagnosis_profiles"
             )
-            .forEach(
-              item => {
-
-                const rating =
-                  Number(
-                    item.dataset.rating
-                  );
-
-                item.classList.toggle(
-                  "selected",
-                  rating <=
-                    selectedRating
-                );
-
-              }
-            );
-
-          document.getElementById(
-            "ratingText"
-          ).textContent =
-            selectedRating +
-            " / 5";
-
-        }
-      );
-
-    }
-  );
-
-/* =========================================================
-   Submit review
-========================================================= */
-
-submitReviewButton.addEventListener(
-"click",
-async () => {
-
-  const errorBox =
-    document.getElementById(
-      "reviewError"
-    );
-
-  errorBox.classList.add(
-    "hidden"
-  );
-
-  if (!emailVerified) {
-
-    errorBox.textContent =
-      "先にメールアドレスを認証してください。";
-
-    errorBox.classList.remove(
-      "hidden"
-    );
-
-    return;
-
-  }
-
-  if (
-    selectedRating < 1 ||
-    selectedRating > 5
-  ) {
-
-    errorBox.textContent =
-      "星の評価を選択してください。";
-
-    errorBox.classList.remove(
-      "hidden"
-    );
-
-    return;
-
-  }
-
-  const review =
-    document.getElementById(
-      "reviewText"
-    ).value.trim();
-
-  submitReviewButton.disabled =
-    true;
-
-  try {
-
-    const {
-      data
-    } =
-      await supabaseClient.auth.getSession();
-
-    const accessToken =
-      data?.session?.access_token;
-
-    if (!accessToken) {
-
-      throw new Error(
-        "認証セッションがありません"
-      );
-
-    }
-
-    const response =
-      await fetch(
-        REVIEW_VERIFICATION_URL,
-        {
-
-          method: "POST",
-
-          headers: {
-
-            "Content-Type":
-              "application/json",
-
-            "Authorization":
-              "Bearer " +
-              accessToken
-
-          },
-
-          body:
-            JSON.stringify({
-
-              event:
-                "REVIEW_SUBMITTED",
+            .insert({
 
               email:
-                document
-                  .getElementById(
-                    "emailAddress"
-                  )
-                  .value
-                  .trim()
-                  .toLowerCase(),
+                email,
+
+              phone:
+                phone,
 
               nickname:
                 currentName,
@@ -2752,65 +2339,49 @@ async () => {
                 currentTotal,
 
               room:
-                room || "normal",
+                room || "normal"
 
-              rating:
-                selectedRating,
+            });
 
-              review:
-                review
+        if (error) {
 
-            })
+          throw error;
 
         }
-      );
 
-    if (!response.ok) {
+        document
+          .getElementById(
+            "dataSaveArea"
+          )
+          .classList.add(
+            "hidden"
+          );
 
-      const text =
-        await response.text();
+        document
+          .getElementById(
+            "dataSavedArea"
+          )
+          .classList.remove(
+            "hidden"
+          );
 
-      throw new Error(
-        text
-      );
+      } catch (error) {
+
+        console.error(error);
+
+        showDataSaveMessage(
+          "データの保存に失敗しました。もう一度お試しください。",
+          "error"
+        );
+
+      } finally {
+
+        button.disabled = false;
+
+      }
 
     }
-
-    reviewArea.classList.add(
-      "hidden"
-    );
-
-    document
-      .getElementById(
-        "reviewComplete"
-      )
-      .classList.remove(
-        "hidden"
-      );
-
-    shareArea.classList.remove(
-      "hidden"
-    );
-
-  } catch (error) {
-
-    console.error(error);
-
-    errorBox.textContent =
-      "評価の送信に失敗しました。もう一度お試しください。";
-
-    errorBox.classList.remove(
-      "hidden"
-    );
-
-  } finally {
-
-    submitReviewButton.disabled =
-      false;
-
-  }
-
-});
+  );
 
 /* =========================================================
    Share
