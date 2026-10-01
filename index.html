@@ -1885,8 +1885,7 @@ sendButton.addEventListener(
               "Content-Type":
                 "image/jpeg",
 
-              "x-name":
-                name,
+              "x-name": encodeURIComponent(name),
 
               "x-age":
                 String(ageValue),
