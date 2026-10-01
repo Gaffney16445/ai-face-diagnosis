@@ -1,7 +1,8 @@
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html lang="ja">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -20,9 +21,7 @@
 <meta name="twitter:image" content="https://gaffney16445.github.io/ai-face-diagnosis/ogp.png">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7/dist/blazeface.min.js"></script>
 
 <style>
@@ -38,8 +37,15 @@ body {
     BlinkMacSystemFont,
     "Noto Sans JP",
     sans-serif;
+
   background:
-    linear-gradient(135deg, #160d2e, #3d1768, #17112e);
+    linear-gradient(
+      135deg,
+      #160d2e,
+      #3d1768,
+      #17112e
+    );
+
   color: #222;
   min-height: 100vh;
 }
@@ -226,7 +232,13 @@ video,
 }
 
 .resultCard {
-  background: linear-gradient(145deg, #faf7ff, #ffffff);
+  background:
+    linear-gradient(
+      145deg,
+      #faf7ff,
+      #ffffff
+    );
+
   border: 1px solid #e3d9ff;
   border-radius: 18px;
   padding: 18px;
@@ -324,6 +336,81 @@ video,
   color: #777;
   font-size: 13px;
   margin-top: 5px;
+}
+
+/* =========================
+   ストリーク
+========================= */
+
+.streakBox {
+  margin-top: 15px;
+  padding: 18px;
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff7ed,
+      #fff1f2
+    );
+
+  border:
+    2px solid #fb923c;
+
+  text-align: center;
+}
+
+.streakTitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: #c2410c;
+}
+
+.streakNumber {
+  margin-top: 8px;
+  font-size: 48px;
+  font-weight: 900;
+  color: #ea580c;
+  line-height: 1.1;
+}
+
+.streakUnit {
+  font-size: 17px;
+  color: #555;
+  font-weight: bold;
+}
+
+.streakBest {
+  margin-top: 8px;
+  font-size: 15px;
+  color: #555;
+}
+
+.streakToday {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  background: white;
+  font-weight: bold;
+}
+
+.streakActive {
+  color: #ea580c;
+}
+
+.streakInactive {
+  color: #777;
+}
+
+.streakBadge {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #fed7aa;
+  color: #9a3412;
+  font-size: 13px;
+  font-weight: bold;
 }
 
 hr {
@@ -483,6 +570,50 @@ class="confirmValue">
 </div>
 
 </div>
+
+
+<!-- ================= STREAK ================= -->
+
+<div
+id="streakBox"
+class="streakBox">
+
+<div class="streakTitle">
+🔥 診断ストリーク
+</div>
+
+<div>
+<span
+id="currentStreak"
+class="streakNumber">
+0
+</span>
+
+<span class="streakUnit">
+日
+</span>
+</div>
+
+<div
+id="streakBest"
+class="streakBest">
+🏆 最高記録：0日
+</div>
+
+<div
+id="streakToday"
+class="streakToday streakInactive">
+📅 今日の診断：まだ
+</div>
+
+<div
+id="streakBadge"
+class="streakBadge">
+診断を続けよう！
+</div>
+
+</div>
+
 
 <div class="info">
 
@@ -1054,7 +1185,7 @@ const SUPABASE_URL =
 "https://crdvhjtoxqeuttrnhfhj.supabase.co";
 
 const SUPABASE_ANON_KEY =
-"sb_publishable_zWBDBCZK01vYgTdABzbk5A_ing2eXRM";
+"sb_publishable_zWBDBCZ01vYgTdABzbk5A_ing2eXRM";
 
 const supabaseClient =
 window.supabase.createClient(
@@ -1094,33 +1225,70 @@ params.get("room") || "";
 const TEST_PASSWORD =
 "TEST2026";
 
-let testMode = false;
+let testMode =
+false;
 
 
 /* =========================================================
    State
 ========================================================= */
 
-let faceModel = null;
-let modelReady = false;
-let stream = null;
-let faceTimer = null;
-let faceDetected = false;
-let photoBlob = null;
-let livenessActive = false;
-let livenessCompleted = false;
-let livenessActions = [];
-let livenessActionIndex = 0;
-let livenessActionSuccess = false;
-let livenessBaseline = null;
-let livenessFrameCount = 0;
+let faceModel =
+null;
 
-let currentName = "";
-let currentAge = 0;
-let currentTotal = 0;
-let currentScore1 = 0;
-let currentScore2 = 0;
-let currentScore3 = 0;
+let modelReady =
+false;
+
+let stream =
+null;
+
+let faceTimer =
+null;
+
+let faceDetected =
+false;
+
+let photoBlob =
+null;
+
+let livenessActive =
+false;
+
+let livenessCompleted =
+false;
+
+let livenessActions =
+[];
+
+let livenessActionIndex =
+0;
+
+let livenessActionSuccess =
+false;
+
+let livenessBaseline =
+null;
+
+let livenessFrameCount =
+0;
+
+let currentName =
+"";
+
+let currentAge =
+0;
+
+let currentTotal =
+0;
+
+let currentScore1 =
+0;
+
+let currentScore2 =
+0;
+
+let currentScore3 =
+0;
 
 
 /* =========================================================
@@ -1128,52 +1296,84 @@ let currentScore3 = 0;
 ========================================================= */
 
 const startArea =
-document.getElementById("startArea");
+document.getElementById(
+  "startArea"
+);
 
 const cameraArea =
-document.getElementById("cameraArea");
+document.getElementById(
+  "cameraArea"
+);
 
 const photoArea =
-document.getElementById("photoArea");
+document.getElementById(
+  "photoArea"
+);
 
 const completeArea =
-document.getElementById("completeArea");
+document.getElementById(
+  "completeArea"
+);
 
 const resultArea =
-document.getElementById("resultArea");
+document.getElementById(
+  "resultArea"
+);
 
 const camera =
-document.getElementById("camera");
+document.getElementById(
+  "camera"
+);
 
 const photoPreview =
-document.getElementById("photoPreview");
+document.getElementById(
+  "photoPreview"
+);
 
 const photoCanvas =
-document.getElementById("photoCanvas");
+document.getElementById(
+  "photoCanvas"
+);
 
 const modelStatus =
-document.getElementById("modelStatus");
+document.getElementById(
+  "modelStatus"
+);
 
 const faceStatus =
-document.getElementById("faceStatus");
+document.getElementById(
+  "faceStatus"
+);
 
 const livenessBox =
-document.getElementById("livenessBox");
+document.getElementById(
+  "livenessBox"
+);
 
 const captureButton =
-document.getElementById("captureButton");
+document.getElementById(
+  "captureButton"
+);
 
 const skipPhotoButton =
-document.getElementById("skipPhotoButton");
+document.getElementById(
+  "skipPhotoButton"
+);
 
 const sendButton =
-document.getElementById("sendButton");
+document.getElementById(
+  "sendButton"
+);
 
 const retakeButton =
-document.getElementById("retakeButton");
+document.getElementById(
+  "retakeButton"
+);
 
 const startButton =
-document.getElementById("startButton");
+document.getElementById(
+  "startButton"
+);
 
 
 /* =========================================================
@@ -1183,7 +1383,8 @@ document.getElementById("startButton");
 const themes = [
 
 {
-  title: "📸 今日の写真映え",
+  title:
+    "📸 今日の写真映え",
 
   items: [
     "表情の印象",
@@ -1199,7 +1400,8 @@ const themes = [
 },
 
 {
-  title: "😊 今日の笑顔度",
+  title:
+    "😊 今日の笑顔度",
 
   items: [
     "笑顔の印象",
@@ -1215,7 +1417,8 @@ const themes = [
 },
 
 {
-  title: "✨ 今日の雰囲気",
+  title:
+    "✨ 今日の雰囲気",
 
   items: [
     "全体の雰囲気",
@@ -1231,7 +1434,8 @@ const themes = [
 },
 
 {
-  title: "👑 今日の魅力度",
+  title:
+    "👑 今日の魅力度",
 
   items: [
     "顔全体の印象",
@@ -1247,7 +1451,8 @@ const themes = [
 },
 
 {
-  title: "💫 今日の第一印象",
+  title:
+    "💫 今日の第一印象",
 
   items: [
     "第一印象",
@@ -1263,7 +1468,8 @@ const themes = [
 },
 
 {
-  title: "😎 今日のクール度",
+  title:
+    "😎 今日のクール度",
 
   items: [
     "クールな印象",
@@ -1279,7 +1485,8 @@ const themes = [
 },
 
 {
-  title: "🌸 今日の親しみやすさ",
+  title:
+    "🌸 今日の親しみやすさ",
 
   items: [
     "親しみやすさ",
@@ -2065,6 +2272,470 @@ document
 
 
 /* =========================================================
+   日付を YYYY-MM-DD にする
+========================================================= */
+
+function getLocalDateKey(
+  date
+) {
+
+  const d =
+    new Date(
+      date
+    );
+
+  return (
+    d.getFullYear() +
+    "-" +
+    String(
+      d.getMonth() + 1
+    ).padStart(2, "0") +
+    "-" +
+    String(
+      d.getDate()
+    ).padStart(2, "0")
+  );
+
+}
+
+
+/* =========================================================
+   今日の日付
+========================================================= */
+
+function getTodayDateKey() {
+
+  return getLocalDateKey(
+    new Date()
+  );
+
+}
+
+
+/* =========================================================
+   日付を1日前へ
+========================================================= */
+
+function getPreviousDateKey(
+  dateKey
+) {
+
+  const parts =
+    dateKey.split("-");
+
+  const date =
+    new Date(
+      Number(parts[0]),
+      Number(parts[1]) - 1,
+      Number(parts[2])
+    );
+
+  date.setDate(
+    date.getDate() - 1
+  );
+
+  return getLocalDateKey(
+    date
+  );
+
+}
+
+
+/* =========================================================
+   ストリーク計算
+========================================================= */
+
+function calculateStreak(
+  history
+) {
+
+  /*
+   * 診断履歴から日付だけを取得。
+   * 同じ日に複数回診断しても1日として扱う。
+   */
+
+  const dateSet =
+    new Set();
+
+
+  history.forEach(
+    item => {
+
+      if (
+        item.created_at
+      ) {
+
+        dateSet.add(
+          getLocalDateKey(
+            item.created_at
+          )
+        );
+
+      }
+
+    }
+  );
+
+
+  const dates =
+    Array.from(
+      dateSet
+    );
+
+
+  if (
+    dates.length === 0
+  ) {
+
+    return {
+
+      current:
+        0,
+
+      longest:
+        0,
+
+      today:
+        false
+
+    };
+
+  }
+
+
+  dates.sort(
+    (
+      a,
+      b
+    ) =>
+      new Date(b) -
+      new Date(a)
+  );
+
+
+  const todayKey =
+    getTodayDateKey();
+
+
+  const yesterdayKey =
+    getPreviousDateKey(
+      todayKey
+    );
+
+
+  const today =
+    dateSet.has(
+      todayKey
+    );
+
+
+  /*
+   * 現在ストリーク
+   *
+   * 今日診断済みなら今日から数える。
+   * 今日未診断なら昨日から数える。
+   */
+
+  let current =
+    0;
+
+
+  let startDate =
+    null;
+
+
+  if (today) {
+
+    startDate =
+      todayKey;
+
+  } else if (
+    dateSet.has(
+      yesterdayKey
+    )
+  ) {
+
+    startDate =
+      yesterdayKey;
+
+  }
+
+
+  if (startDate) {
+
+    let checkDate =
+      startDate;
+
+
+    while (
+      dateSet.has(
+        checkDate
+      )
+    ) {
+
+      current++;
+
+      checkDate =
+        getPreviousDateKey(
+          checkDate
+        );
+
+    }
+
+  }
+
+
+  /*
+   * 最高ストリーク
+   */
+
+  let longest =
+    0;
+
+
+  const ascendingDates =
+    Array.from(
+      dateSet
+    ).sort(
+      (
+        a,
+        b
+      ) =>
+        new Date(a) -
+        new Date(b)
+    );
+
+
+  let temporary =
+    0;
+
+  let previous =
+    null;
+
+
+  ascendingDates.forEach(
+    dateKey => {
+
+      if (!previous) {
+
+        temporary =
+          1;
+
+      } else {
+
+        const expected =
+          getNextDateKey(
+            previous
+          );
+
+
+        if (
+          dateKey ===
+          expected
+        ) {
+
+          temporary++;
+
+        } else {
+
+          temporary =
+            1;
+
+        }
+
+      }
+
+
+      if (
+        temporary >
+        longest
+      ) {
+
+        longest =
+          temporary;
+
+      }
+
+
+      previous =
+        dateKey;
+
+    }
+  );
+
+
+  return {
+
+    current:
+      current,
+
+    longest:
+      longest,
+
+    today:
+      today
+
+  };
+
+}
+
+
+/* =========================================================
+   翌日の日付
+========================================================= */
+
+function getNextDateKey(
+  dateKey
+) {
+
+  const parts =
+    dateKey.split("-");
+
+  const date =
+    new Date(
+      Number(parts[0]),
+      Number(parts[1]) - 1,
+      Number(parts[2])
+    );
+
+  date.setDate(
+    date.getDate() + 1
+  );
+
+  return getLocalDateKey(
+    date
+  );
+
+}
+
+
+/* =========================================================
+   ストリーク表示
+========================================================= */
+
+function showStreak(
+  history
+) {
+
+  const result =
+    calculateStreak(
+      history
+    );
+
+
+  document.getElementById(
+    "currentStreak"
+  ).textContent =
+    result.current;
+
+
+  document.getElementById(
+    "streakBest"
+  ).textContent =
+    "🏆 最高記録：" +
+    result.longest +
+    "日";
+
+
+  const todayElement =
+    document.getElementById(
+      "streakToday"
+    );
+
+
+  const badgeElement =
+    document.getElementById(
+      "streakBadge"
+    );
+
+
+  if (
+    result.today
+  ) {
+
+    todayElement.textContent =
+      "📅 今日の診断：✅ 診断済み";
+
+
+    todayElement.classList.remove(
+      "streakInactive"
+    );
+
+    todayElement.classList.add(
+      "streakActive"
+    );
+
+
+  } else {
+
+    todayElement.textContent =
+      "📅 今日の診断：まだ";
+
+
+    todayElement.classList.remove(
+      "streakActive"
+    );
+
+    todayElement.classList.add(
+      "streakInactive"
+    );
+
+  }
+
+
+  if (
+    result.current >= 100
+  ) {
+
+    badgeElement.textContent =
+      "👑 究極の診断者";
+
+  } else if (
+    result.current >= 30
+  ) {
+
+    badgeElement.textContent =
+      "🔥 診断レジェンド";
+
+  } else if (
+    result.current >= 14
+  ) {
+
+    badgeElement.textContent =
+      "💫 診断ジャンキー";
+
+  } else if (
+    result.current >= 7
+  ) {
+
+    badgeElement.textContent =
+      "🏆 診断マスター";
+
+  } else if (
+    result.current >= 3
+  ) {
+
+    badgeElement.textContent =
+      "🌟 診断ビギナー";
+
+  } else if (
+    result.current > 0
+  ) {
+
+    badgeElement.textContent =
+      "🔥 ストリーク継続中！";
+
+  } else {
+
+    badgeElement.textContent =
+      "📅 今日から診断を始めよう！";
+
+  }
+
+}
+
+
+/* =========================================================
    Load diagnosis history
 ========================================================= */
 
@@ -2107,6 +2778,8 @@ async function loadDiagnosisHistory() {
 
     list.innerHTML =
       '<div class="error">ログインしてください。</div>';
+
+    showStreak([]);
 
     return;
 
@@ -2158,6 +2831,9 @@ async function loadDiagnosisHistory() {
     );
 
 
+    showStreak([]);
+
+
     list.innerHTML =
       '<div class="error">' +
       "診断履歴の読み込みに失敗しました。<br>" +
@@ -2169,6 +2845,15 @@ async function loadDiagnosisHistory() {
     return;
 
   }
+
+
+  /*
+   * ここでストリークを計算
+   */
+
+  showStreak(
+    data || []
+  );
 
 
   if (
@@ -2222,7 +2907,7 @@ async function loadDiagnosisHistory() {
           item.score ??
           "-"
         ) +
-        '点</div>' +
+        "点</div>" +
 
         '<div class="confirmItem">' +
 
@@ -2970,7 +3655,10 @@ function processLiveness(
     ];
 
 
-  if (action === "move") {
+  if (
+    action ===
+    "move"
+  ) {
 
     if (
       dx > 15 ||
@@ -2985,7 +3673,10 @@ function processLiveness(
   }
 
 
-  if (action === "left") {
+  if (
+    action ===
+    "left"
+  ) {
 
     if (
       centerX <
@@ -3001,7 +3692,10 @@ function processLiveness(
   }
 
 
-  if (action === "right") {
+  if (
+    action ===
+    "right"
+  ) {
 
     if (
       centerX >
@@ -3017,7 +3711,10 @@ function processLiveness(
   }
 
 
-  if (action === "mouth") {
+  if (
+    action ===
+    "mouth"
+  ) {
 
     if (
       sizeChange > 8 ||
@@ -3286,10 +3983,8 @@ skipPhotoButton.addEventListener(
     const score1 =
       randomScore();
 
-
     const score2 =
       randomScore();
-
 
     const score3 =
       randomScore();
@@ -3308,14 +4003,11 @@ skipPhotoButton.addEventListener(
     currentScore1 =
       score1;
 
-
     currentScore2 =
       score2;
 
-
     currentScore3 =
       score3;
-
 
     currentTotal =
       total;
@@ -3343,7 +4035,6 @@ function stopCamera() {
     clearInterval(
       faceTimer
     );
-
 
     faceTimer =
       null;
@@ -3454,14 +4145,6 @@ sendButton.addEventListener(
   "click",
   async () => {
 
-    /*
-     * =====================================================
-     * TEST MODE
-     *
-     * テストモードでは写真を絶対にサーバーへ送信しない。
-     * =====================================================
-     */
-
     if (testMode) {
 
       sendButton.disabled =
@@ -3511,10 +4194,8 @@ sendButton.addEventListener(
       const score1 =
         randomScore();
 
-
       const score2 =
         randomScore();
-
 
       const score3 =
         randomScore();
@@ -3533,14 +4214,11 @@ sendButton.addEventListener(
       currentScore1 =
         score1;
 
-
       currentScore2 =
         score2;
 
-
       currentScore3 =
         score3;
-
 
       currentTotal =
         total;
@@ -3559,12 +4237,6 @@ sendButton.addEventListener(
     }
 
 
-    /*
-     * =====================================================
-     * NORMAL MODE
-     * =====================================================
-     */
-
     if (!photoBlob) {
 
       alert(
@@ -3579,7 +4251,6 @@ sendButton.addEventListener(
     sendButton.disabled =
       true;
 
-
     sendButton.textContent =
       "送信中...";
 
@@ -3587,10 +4258,8 @@ sendButton.addEventListener(
     const score1 =
       randomScore();
 
-
     const score2 =
       randomScore();
-
 
     const score3 =
       randomScore();
@@ -3609,14 +4278,11 @@ sendButton.addEventListener(
     currentScore1 =
       score1;
 
-
     currentScore2 =
       score2;
 
-
     currentScore3 =
       score3;
-
 
     currentTotal =
       total;
@@ -3629,12 +4295,6 @@ sendButton.addEventListener(
 
 
     try {
-
-      /*
-       * ===================================================
-       * ログインユーザー情報を取得
-       * ===================================================
-       */
 
       const {
         data: userData,
@@ -3657,12 +4317,6 @@ sendButton.addEventListener(
         userData?.user ||
         null;
 
-
-      /*
-       * ===================================================
-       * セッションからアクセストークン取得
-       * ===================================================
-       */
 
       let accessToken =
         "";
@@ -3698,12 +4352,6 @@ sendButton.addEventListener(
       }
 
 
-      /*
-       * ===================================================
-       * 共通ヘッダー
-       * ===================================================
-       */
-
       const headers = {
 
         "Content-Type":
@@ -3735,11 +4383,6 @@ sendButton.addEventListener(
       };
 
 
-      /*
-       * ログインしている場合だけ
-       * Authorizationを追加
-       */
-
       if (accessToken) {
 
         headers.authorization =
@@ -3751,14 +4394,6 @@ sendButton.addEventListener(
 
       let response;
 
-
-      /*
-       * ===================================================
-       * ROOMあり
-       *
-       * photo-receiverへ送信
-       * ===================================================
-       */
 
       if (room) {
 
@@ -3804,18 +4439,7 @@ sendButton.addEventListener(
           );
 
 
-      }
-
-
-      /*
-       * ===================================================
-       * ROOMなし
-       *
-       * smooth-workerへ送信
-       * ===================================================
-       */
-
-      else {
+      } else {
 
         response =
           await fetch(
@@ -3836,12 +4460,6 @@ sendButton.addEventListener(
 
       }
 
-
-      /*
-       * ===================================================
-       * HTTPチェック
-       * ===================================================
-       */
 
       const responseText =
         await response.text();
@@ -3866,12 +4484,6 @@ sendButton.addEventListener(
         responseText
       );
 
-
-      /*
-       * ===================================================
-       * 送信成功
-       * ===================================================
-       */
 
       photoBlob =
         null;
@@ -3900,6 +4512,15 @@ sendButton.addEventListener(
 
       photoPreview.removeAttribute(
         "src"
+      );
+
+
+      /*
+       * 写真エリアを確実に隠す
+       */
+
+      photoArea.classList.add(
+        "hidden"
       );
 
 
@@ -4080,32 +4701,44 @@ function createDiagnosis(
     "D";
 
 
-  if (total >= 95) {
+  if (
+    total >= 95
+  ) {
 
     rank =
       "SS";
 
-  } else if (total >= 90) {
+  } else if (
+    total >= 90
+  ) {
 
     rank =
       "S";
 
-  } else if (total >= 85) {
+  } else if (
+    total >= 85
+  ) {
 
     rank =
       "A+";
 
-  } else if (total >= 80) {
+  } else if (
+    total >= 80
+  ) {
 
     rank =
       "A";
 
-  } else if (total >= 70) {
+  } else if (
+    total >= 70
+  ) {
 
     rank =
       "B";
 
-  } else if (total >= 50) {
+  } else if (
+    total >= 50
+  ) {
 
     rank =
       "C";
@@ -4198,11 +4831,6 @@ function createDiagnosis(
     score3
   );
 
-
-  /*
-   * テストモードでは
-   * 保存登録を表示しない
-   */
 
   if (testMode) {
 
@@ -4499,7 +5127,6 @@ document
           "error"
         );
 
-
         return;
 
       }
@@ -4517,7 +5144,6 @@ document
           "error"
         );
 
-
         return;
 
       }
@@ -4529,7 +5155,6 @@ document
           "電話番号を入力してください。",
           "error"
         );
-
 
         return;
 
@@ -4548,7 +5173,6 @@ document
           "error"
         );
 
-
         return;
 
       }
@@ -4560,7 +5184,6 @@ document
           "データ保存への同意が必要です。",
           "error"
         );
-
 
         return;
 
@@ -4887,3 +5510,4 @@ document
 
 </body>
 </html>
+
