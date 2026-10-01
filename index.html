@@ -372,6 +372,10 @@ AIモデルを読み込んでいます...
 📸 写真を撮影する
 </button>
 
+<button id="skipPhotoButton" class="secondary hidden">
+🧪 テストモード：写真をスキップ
+</button>
+
 </div>
 
 <!-- ================= PHOTO ================= -->
@@ -745,6 +749,9 @@ document.getElementById("livenessBox");
 
 const captureButton =
 document.getElementById("captureButton");
+
+const skipPhotoButton =
+document.getElementById("skipPhotoButton");
 
 const sendButton =
 document.getElementById("sendButton");
@@ -1130,9 +1137,13 @@ async () => {
 
     captureButton.disabled = false;
 
+    skipPhotoButton.classList.remove("hidden");
+
     return;
 
   }
+
+  skipPhotoButton.classList.add("hidden");
 
   await startCamera();
 
@@ -1634,6 +1645,62 @@ async () => {
 });
 
 /* =========================================================
+   Test mode: Skip photo
+========================================================= */
+
+skipPhotoButton.addEventListener(
+"click",
+async () => {
+
+  if (!testMode) {
+    return;
+  }
+
+  stopCamera();
+
+  photoBlob = null;
+
+  cameraArea.classList.add(
+    "hidden"
+  );
+
+  completeArea.classList.remove(
+    "hidden"
+  );
+
+  const score1 =
+    randomScore();
+
+  const score2 =
+    randomScore();
+
+  const score3 =
+    randomScore();
+
+  const total =
+    Math.round(
+      (
+        score1 +
+        score2 +
+        score3
+      ) / 3
+    );
+
+  currentScore1 = score1;
+  currentScore2 = score2;
+  currentScore3 = score3;
+  currentTotal = total;
+
+  await startDiagnosis(
+    currentScore1,
+    currentScore2,
+    currentScore3,
+    currentTotal
+  );
+
+});
+
+/* =========================================================
    Stop camera
 ========================================================= */
 
@@ -1689,7 +1756,15 @@ async () => {
     livenessBox.textContent =
       "🧪 テストモード";
 
+    skipPhotoButton.classList.remove(
+      "hidden"
+    );
+
   } else {
+
+    skipPhotoButton.classList.add(
+      "hidden"
+    );
 
     startLiveness();
 
@@ -2095,11 +2170,6 @@ function createDiagnosis(
     score3
   );
 
-  /*
-    テストモードでもメール認証画面は表示。
-    実際の評価を試す場合に使える。
-  */
-
 }
 
 /* =========================================================
@@ -2275,11 +2345,6 @@ async () => {
       throw error;
 
     }
-
-    /*
-      認証コード送信時点で
-      管理ログにも記録する
-    */
 
     await sendVerificationLog(
       "OTP_SENT",
@@ -2497,10 +2562,6 @@ async function sendVerificationLog(
     );
 
   } catch (error) {
-
-    /*
-      ログ失敗で診断自体を止めない
-    */
 
     console.error(
       "verification log error:",
