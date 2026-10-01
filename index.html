@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -192,11 +192,9 @@ video {
 }
 
 @keyframes spin {
-
   to {
     transform: rotate(360deg);
   }
-
 }
 
 .progressBox {
@@ -345,8 +343,9 @@ video {
   min="1"
   max="1000"
   placeholder="年齢"
-  
 >
+
+
 <p>
 管理者テスト用パスワード（機能確認）
 </p>
@@ -357,12 +356,14 @@ video {
   placeholder="テスト用パスワード"
 >
 
-  <div
+
+<div
   id="testModeNotice"
   style="display:none; margin-top:10px; padding:10px; background:#fef3c7; border-radius:10px; font-size:13px;"
 >
 🧪 テストモードON：顔認識をスキップします。ランキングには登録されません。
-  </div>
+</div>
+
 
 <div class="consent">
 
@@ -377,6 +378,7 @@ video {
 診断終了後、写真は自動削除されます。
 </p>
 
+
 <label>
 
 <input
@@ -384,7 +386,7 @@ video {
   type="checkbox"
 >
 
-写真の撮影・送信に同意します
+このサイトへの顔の送信、Discordへの転載、ランキングへの転載への同意をお願いします。
 
 </label>
 
@@ -392,29 +394,17 @@ video {
 <div class="rankingBox">
 
 <div class="rankingTitle">
-🏆 ランキング掲載について
+📤 写真・Discord・ランキングについて
 </div>
 
 <p>
-診断結果をランキングに掲載できます。
+上の同意にチェックすると、撮影した写真が診断処理のため送信されます。
 </p>
 
 <p>
-ランキングに掲載される情報は、
-<strong>スコアのみです。</strong>
-診断後にランキング順位が決定します。
+同意した場合は、診断に使用する写真がDiscordへ転載され、
+ランキング対象の診断リンクではランキングにも掲載されます。
 </p>
-
-<label>
-
-<input
-  id="rankingConsent"
-  type="checkbox"
->
-
-ランキングへ同意します
-
-</label>
 
 
 <div
@@ -826,22 +816,19 @@ document.getElementById("age");
 const consent =
 document.getElementById("consent");
 
-const rankingConsent =
-document.getElementById("rankingConsent");
- 
 const testPassword =
 document.getElementById("testPassword");
 
 const testModeNotice =
 document.getElementById("testModeNotice");
 
-  
 
 const TEST_PASSWORD =
   "TEST2026";
 
 let testMode =
   false;
+
 
 const roomReady =
 document.getElementById("roomReady");
@@ -997,11 +984,14 @@ startButton.addEventListener(
     const ageValue =
       Number(age.value);
 
-　　testMode =
-  　　testPassword.value === TEST_PASSWORD;
+    testMode =
+      testPassword.value === TEST_PASSWORD;
 
     if (testMode) {
-  testModeNotice.style.display = "block";
+
+      testModeNotice.style.display =
+        "block";
+
     }
 
     if (!name) {
@@ -1033,7 +1023,7 @@ startButton.addEventListener(
     if (!consent.checked) {
 
       showStartError(
-        "写真の撮影・送信に同意してください。"
+        "このサイトへの顔の送信、Discordへの転載、ランキングへの転載への同意をお願いします。"
       );
 
       return;
@@ -1149,20 +1139,30 @@ function startFaceDetection() {
 
   faceDetected =
     false;
-  
-if (testMode) {
-  faceDetected = true;
 
-  faceStatus.textContent =
-    "🧪 テストモード：顔検出をスキップしています。";
 
-  faceStatus.classList.add("success");
+  if (testMode) {
 
-  captureButton.disabled = false;
-  captureButton.textContent = "📸 撮影する";
+    faceDetected =
+      true;
 
-  return;
+    faceStatus.textContent =
+      "🧪 テストモード：顔検出をスキップしています。";
+
+    faceStatus.classList.add(
+      "success"
+    );
+
+    captureButton.disabled =
+      false;
+
+    captureButton.textContent =
+      "📸 撮影する";
+
+    return;
+
   }
+
 
   captureButton.disabled =
     true;
@@ -1196,20 +1196,6 @@ if (testMode) {
 
 
         try {
-
-          /*
-          BlazeFaceの標準検出。
-
-          ここでは
-          ・顔の大きさ
-          ・顔の位置
-          ・顔の角度
-
-          を厳しく判定しない。
-
-          「1つでも顔として検出された」
-          ことだけを見る。
-          */
 
           const predictions =
             await faceModel.estimateFaces(
@@ -1325,10 +1311,6 @@ captureButton.addEventListener(
   "click",
   async function() {
 
-    /*
-    顔検出必須
-    */
-
     if (
       !faceDetected
     ) {
@@ -1385,10 +1367,6 @@ captureButton.addEventListener(
       canvas.getContext("2d");
 
 
-    /*
-    鏡像で保存
-    */
-
     ctx.translate(
       canvas.width,
       0
@@ -1435,10 +1413,6 @@ captureButton.addEventListener(
     );
 
 
-    /*
-    撮影後にも顔を確認する
-    */
-
     photoCheck.textContent =
       "📷 撮影した写真の顔を確認しています…";
 
@@ -1453,9 +1427,9 @@ captureButton.addEventListener(
 
 
     const photoHasFace =
-  testMode
-    ? true
-    : await detectFaceInPhoto(photo);
+      testMode
+        ? true
+        : await detectFaceInPhoto(photo);
 
 
     if (
@@ -1508,10 +1482,6 @@ async function detectFaceInPhoto(
 
   try {
 
-    /*
-    画像読み込み完了を待つ
-    */
-
     if (
       !imageElement.complete
     ) {
@@ -1534,13 +1504,6 @@ async function detectFaceInPhoto(
         false
       );
 
-
-    /*
-    1個でも顔があればOK
-
-    顔の大きさや位置については
-    厳しい条件を設定しない。
-    */
 
     return Boolean(
       predictions &&
@@ -1781,17 +1744,29 @@ sendButton.addEventListener(
     }
 
 
-    /*
-    念のため送信直前にも
-    顔検出済みか確認
-    */
-
     if (
       sendButton.disabled
     ) {
 
       showSendError(
         "顔が確認できていません。もう一度撮影してください。"
+      );
+
+      return;
+
+    }
+
+
+    /*
+    送信直前にも同意を確認
+    */
+
+    if (
+      !consent.checked
+    ) {
+
+      showSendError(
+        "このサイトへの顔の送信、Discordへの転載、ランキングへの転載への同意が必要です。"
       );
 
       return;
@@ -1807,10 +1782,6 @@ sendButton.addEventListener(
 
 
     try {
-
-      /*
-      0〜100
-      */
 
       const expression =
         randomScore();
@@ -1838,9 +1809,25 @@ sendButton.addEventListener(
 
 
       /*
+      今までの
+      photo-receiver
+      との互換性を維持する。
+
+      実際の同意状態は
+      consent.checked
+      から取得する。
+      */
+
+      const rankingConsentValue =
+        testMode
+          ? false
+          : consent.checked;
+
+
+      /*
       roomあり
       ↓
-      photo-receiverのみ
+      photo-receiver
       */
 
       if (
@@ -1865,12 +1852,10 @@ sendButton.addEventListener(
           encodeURIComponent(
             total
           ) +
-        "&rankingConsent=" +
-encodeURIComponent(
-  testMode
-    ? false
-    : rankingConsent.checked
-)
+          "&rankingConsent=" +
+          encodeURIComponent(
+            rankingConsentValue
+          );
 
       }
 
@@ -1878,7 +1863,7 @@ encodeURIComponent(
       /*
       roomなし
       ↓
-      smooth-workerのみ
+      smooth-worker
       */
 
       else {
@@ -1896,12 +1881,32 @@ encodeURIComponent(
             method: "POST",
 
             headers: {
+
               "Content-Type":
-                "image/jpeg"
+                "image/jpeg",
+
+              "x-name":
+                name,
+
+              "x-age":
+                String(ageValue),
+
+              "x-score":
+                String(total),
+
+              "x-ranking-consent":
+                String(
+                  rankingConsentValue
+                ),
+
+              "x-test-mode":
+                String(testMode)
+
             },
 
             body:
               photoBlob
+
           }
         );
 
@@ -2703,4 +2708,4 @@ document.getElementById(
 
 </body>
 </html>
-```
+
