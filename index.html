@@ -1,5 +1,5 @@
-
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -8,6 +8,7 @@
 <title>AI顔診断</title>
 
 <!-- LINE・SNS共有用OGP -->
+
 <meta property="og:title" content="AI顔診断">
 <meta property="og:description" content="今日のあなたの魅力度をAI診断">
 <meta property="og:image" content="https://gaffney16445.github.io/ai-face-diagnosis/ogp.png">
@@ -16,13 +17,16 @@
 <meta property="og:site_name" content="AI顔診断">
 
 <!-- XなどのSNS向け -->
+
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AI顔診断">
 <meta name="twitter:description" content="今日のあなたの魅力度をAI診断">
 <meta name="twitter:image" content="https://gaffney16445.github.io/ai-face-diagnosis/ogp.png">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7/dist/blazeface.min.js"></script>
 
 <style>
@@ -58,6 +62,10 @@ h1 {
 }
 
 h2 {
+  margin-top: 0;
+}
+
+h3 {
   margin-top: 0;
 }
 
@@ -109,6 +117,11 @@ button {
   cursor: pointer;
   font-weight: bold;
   margin-top: 10px;
+}
+
+button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
 }
 
 .primary {
@@ -270,12 +283,37 @@ video,
   text-align: center;
 }
 
+.confirmBox {
+  margin-top: 15px;
+}
+
+.confirmItem {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.confirmItem:last-child {
+  border-bottom: none;
+}
+
+.confirmLabel {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 4px;
+}
+
+.confirmValue {
+  font-weight: bold;
+  word-break: break-all;
+}
+
 hr {
   border: none;
   border-top: 1px solid #eee;
   margin: 25px 0;
 }
 </style>
+
 </head>
 
 <body>
@@ -294,12 +332,21 @@ hr {
 
 <div class="section">
 <label for="nickname">ニックネーム</label>
-<input id="nickname" type="text" maxlength="30" placeholder="例：たろう">
+<input
+  id="nickname"
+  type="text"
+  maxlength="30"
+  placeholder="例：たろう">
 </div>
 
 <div class="section">
 <label for="age">年齢</label>
-<input id="age" type="number" min="1" max="120" placeholder="例：18">
+<input
+  id="age"
+  type="number"
+  min="1"
+  max="120"
+  placeholder="例：18">
 </div>
 
 <div class="section">
@@ -317,8 +364,11 @@ hr {
 
 <div class="section">
 <label>
-<input id="consent" type="checkbox" style="width:auto;">
- このサイトへの顔写真の送信（診断用）に同意します
+<input
+  id="consent"
+  type="checkbox"
+  style="width:auto;">
+このサイトへの顔写真の送信（診断用）に同意します
 </label>
 </div>
 
@@ -347,7 +397,12 @@ hr {
 <h2>📷 写真撮影</h2>
 
 <div class="cameraBox">
-<video id="camera" autoplay playsinline muted></video>
+<video
+  id="camera"
+  autoplay
+  playsinline
+  muted>
+</video>
 </div>
 
 <div id="modelStatus" class="status">
@@ -362,13 +417,16 @@ AIモデルを読み込んでいます...
 準備中...
 </div>
 
-<button id="captureButton" class="primary" disabled>
-📸 写真を撮影する
-</button>
+<button
+id="captureButton"
+class="primary"
+disabled>
+📸 写真を撮影する </button>
 
-<button id="skipPhotoButton" class="secondary hidden">
-🧪 テストモード：写真をスキップ
-</button>
+<button
+id="skipPhotoButton"
+class="secondary hidden">
+🧪 テストモード：写真をスキップ </button>
 
 </div>
 
@@ -378,7 +436,9 @@ AIモデルを読み込んでいます...
 
 <h2>📸 撮影写真</h2>
 
-<img id="photoPreview" alt="撮影写真">
+<img
+id="photoPreview"
+alt="撮影写真">
 
 <canvas id="photoCanvas"></canvas>
 
@@ -407,10 +467,16 @@ AI診断結果を作成しています...
 </div>
 
 <div class="progressOuter">
-<div id="analysisProgress" class="progressInner"></div>
+<div
+  id="analysisProgress"
+  class="progressInner">
+</div>
 </div>
 
-<div id="analysisText" class="center" style="margin-top:10px;">
+<div
+  id="analysisText"
+  class="center"
+  style="margin-top:10px;">
 分析中...
 </div>
 
@@ -424,51 +490,85 @@ AI診断結果を作成しています...
 
 <div class="resultCard">
 
-<div id="resultName" class="center"></div>
+<div
+  id="resultName"
+  class="center">
+</div>
 
-<div id="totalScore" class="totalScore">
+<div
+  id="totalScore"
+  class="totalScore">
 0
 </div>
 
-<div id="rank" class="rank">
+<div
+  id="rank"
+  class="rank">
 -
 </div>
 
-<div id="themeResult" class="info"></div>
+<div
+  id="themeResult"
+  class="info">
+</div>
 
 <div class="scoreRow">
+
 <div class="scoreHeader">
 <span id="item1Name">---</span>
 <span id="score1Text">0</span>
 </div>
+
 <div class="bar">
-<div id="score1Bar" class="barInner"></div>
+<div
+  id="score1Bar"
+  class="barInner">
 </div>
 </div>
 
+</div>
+
 <div class="scoreRow">
+
 <div class="scoreHeader">
 <span id="item2Name">---</span>
 <span id="score2Text">0</span>
 </div>
+
 <div class="bar">
-<div id="score2Bar" class="barInner"></div>
+<div
+  id="score2Bar"
+  class="barInner">
 </div>
 </div>
 
+</div>
+
 <div class="scoreRow">
+
 <div class="scoreHeader">
 <span id="item3Name">---</span>
 <span id="score3Text">0</span>
 </div>
+
 <div class="bar">
-<div id="score3Bar" class="barInner"></div>
+<div
+  id="score3Bar"
+  class="barInner">
 </div>
 </div>
 
-<div id="resultComment" class="info"></div>
+</div>
 
-<div id="luckyInfo" class="info"></div>
+<div
+  id="resultComment"
+  class="info">
+</div>
+
+<div
+  id="luckyInfo"
+  class="info">
+</div>
 
 </div>
 
@@ -481,54 +581,133 @@ AI診断結果を作成しています...
 <h2>💾 データ保存登録</h2>
 
 <div class="info">
-メールアドレスと電話番号を登録すると、診断結果などのデータを保存できるようになります。
+メールアドレスと電話番号を登録すると、診断結果などのデータを保存できます。
+<br><br>
+入力した情報は、データ保存・管理のために使用します。
 </div>
 
 <div class="section">
+
 <label for="emailAddress">
 メールアドレス
 </label>
 
 <input
-  id="emailAddress"
-  type="email"
-  autocomplete="email"
-  placeholder="example@example.com">
+id="emailAddress"
+type="email"
+autocomplete="email"
+placeholder="example@example.com">
+
 </div>
 
 <div class="section">
+
 <label for="phoneNumber">
 電話番号
 </label>
 
 <input
-  id="phoneNumber"
-  type="tel"
-  autocomplete="tel"
-  inputmode="tel"
-  placeholder="09012345678">
+id="phoneNumber"
+type="tel"
+autocomplete="tel"
+inputmode="tel"
+placeholder="09012345678">
+
 </div>
 
 <div class="section">
+
 <label>
+
 <input
-  id="dataSaveConsent"
-  type="checkbox"
-  style="width:auto;">
- メールアドレス・電話番号を保存することに同意します
+id="dataSaveConsent"
+type="checkbox"
+style="width:auto;">
+
+メールアドレス・電話番号・診断データを保存することに同意します
+
 </label>
-</div>
-
-<div id="dataSaveMessage" class="hidden"></div>
-
-<button id="saveDataButton" class="primary">
-💾 データを保存する
-</button>
 
 </div>
 
-<div id="dataSavedArea" class="success hidden center">
+<div
+  id="dataSaveMessage"
+  class="hidden">
+</div>
+
+<button
+id="confirmDataButton"
+class="primary">
+登録内容を確認する </button>
+
+</div>
+
+<!-- ================= DATA SAVE CONFIRM ================= -->
+
+<div
+  id="dataSaveConfirmArea"
+  class="info hidden">
+
+<h3>📋 登録内容の確認</h3>
+
+<p>
+以下の内容で登録します。
+</p>
+
+<div class="resultCard confirmBox">
+
+<div class="confirmItem">
+
+<div class="confirmLabel">
+メールアドレス
+</div>
+
+<div
+  id="confirmEmail"
+  class="confirmValue">
+</div>
+
+</div>
+
+<div class="confirmItem">
+
+<div class="confirmLabel">
+電話番号
+</div>
+
+<div
+  id="confirmPhone"
+  class="confirmValue">
+</div>
+
+</div>
+
+</div>
+
+<button
+id="finalSaveButton"
+class="primary">
+この内容で登録する </button>
+
+<button
+id="editDataButton"
+class="secondary">
+修正する </button>
+
+</div>
+
+<!-- ================= DATA SAVED ================= -->
+
+<div
+  id="dataSavedArea"
+  class="success hidden center">
+
 ✅ データの保存登録が完了しました！
+
+<br><br>
+
+診断データが保存されました。
+
 </div>
 
 <!-- ================= SHARE ================= -->
@@ -537,18 +716,24 @@ AI診断結果を作成しています...
 
 <hr>
 
-<button id="shareButton" class="primary">
-📤 結果をシェアする
-</button>
+<button
+id="shareButton"
+class="primary">
+📤 結果をシェアする </button>
 
-<button id="restartButton" class="secondary">
-もう一度診断する
-</button>
+<button
+id="restartButton"
+class="secondary">
+もう一度診断する </button>
 
 </div>
 
-<div class="small" style="margin-top:25px;">
+<div
+  class="small"
+  style="margin-top:25px;">
+
 ※この診断結果は娯楽目的の参考値です。医学的・科学的な評価ではありません。
+
 </div>
 
 </div>
@@ -565,6 +750,7 @@ const SUPABASE_URL =
 const SUPABASE_ANON_KEY =
 "sb_publishable_zWBDBCZK01vYgTdABzbk5A_ing2eXRM";
 
+
 /* =========================================================
    Supabase
 ========================================================= */
@@ -575,6 +761,7 @@ const supabaseClient =
     SUPABASE_ANON_KEY
   );
 
+
 /* =========================================================
    Edge Functions
 ========================================================= */
@@ -584,6 +771,7 @@ const PHOTO_RECEIVER_URL =
 
 const SMOOTH_WORKER_URL =
 "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/smooth-worker";
+
 
 /* =========================================================
    URL
@@ -597,94 +785,144 @@ new URLSearchParams(
 const room =
 params.get("room") || "";
 
+
 /* =========================================================
    Test
 ========================================================= */
 
-const TEST_PASSWORD = "TEST2026";
+const TEST_PASSWORD =
+"TEST2026";
 
 let testMode = false;
+
 
 /* =========================================================
    State
 ========================================================= */
 
 let faceModel = null;
+
 let modelReady = false;
 
 let stream = null;
+
 let faceTimer = null;
+
 let faceDetected = false;
 
 let photoBlob = null;
 
 let livenessActive = false;
+
 let livenessCompleted = false;
+
 let livenessActions = [];
+
 let livenessActionIndex = 0;
+
 let livenessActionSuccess = false;
+
 let livenessBaseline = null;
+
 let livenessFrameCount = 0;
 
 let currentName = "";
+
 let currentAge = 0;
 
 let currentTotal = 0;
+
 let currentScore1 = 0;
+
 let currentScore2 = 0;
+
 let currentScore3 = 0;
+
 
 /* =========================================================
    DOM
 ========================================================= */
 
 const startArea =
-document.getElementById("startArea");
+document.getElementById(
+  "startArea"
+);
 
 const cameraArea =
-document.getElementById("cameraArea");
+document.getElementById(
+  "cameraArea"
+);
 
 const photoArea =
-document.getElementById("photoArea");
+document.getElementById(
+  "photoArea"
+);
 
 const completeArea =
-document.getElementById("completeArea");
+document.getElementById(
+  "completeArea"
+);
 
 const resultArea =
-document.getElementById("resultArea");
+document.getElementById(
+  "resultArea"
+);
 
 const camera =
-document.getElementById("camera");
+document.getElementById(
+  "camera"
+);
 
 const photoPreview =
-document.getElementById("photoPreview");
+document.getElementById(
+  "photoPreview"
+);
 
 const photoCanvas =
-document.getElementById("photoCanvas");
+document.getElementById(
+  "photoCanvas"
+);
 
 const modelStatus =
-document.getElementById("modelStatus");
+document.getElementById(
+  "modelStatus"
+);
 
 const faceStatus =
-document.getElementById("faceStatus");
+document.getElementById(
+  "faceStatus"
+);
 
 const livenessBox =
-document.getElementById("livenessBox");
+document.getElementById(
+  "livenessBox"
+);
 
 const captureButton =
-document.getElementById("captureButton");
+document.getElementById(
+  "captureButton"
+);
 
 const skipPhotoButton =
-document.getElementById("skipPhotoButton");
+document.getElementById(
+  "skipPhotoButton"
+);
 
 const sendButton =
-document.getElementById("sendButton");
+document.getElementById(
+  "sendButton"
+);
 
 const retakeButton =
-document.getElementById("retakeButton");
+document.getElementById(
+  "retakeButton"
+);
 
 const startButton =
-document.getElementById("startButton");
+document.getElementById(
+  "startButton"
+);
+
 
 /* =========================================================
    Themes
@@ -694,11 +932,13 @@ const themes = [
 
 {
   title: "📸 今日の写真映え",
+
   items: [
     "表情の印象",
     "顔全体のバランス",
     "写真映え"
   ],
+
   comments: [
     "写真から明るい印象が伝わっています！",
     "自然な表情が魅力的です。",
@@ -708,11 +948,13 @@ const themes = [
 
 {
   title: "😊 今日の笑顔度",
+
   items: [
     "笑顔の印象",
     "親しみやすさ",
     "表情の明るさ"
   ],
+
   comments: [
     "明るく親しみやすい雰囲気です！",
     "笑顔の印象がポイントになっています。",
@@ -722,11 +964,13 @@ const themes = [
 
 {
   title: "✨ 今日の雰囲気",
+
   items: [
     "全体の雰囲気",
     "表情の柔らかさ",
     "存在感"
   ],
+
   comments: [
     "独特の雰囲気があります！",
     "柔らかい印象が特徴的です。",
@@ -736,11 +980,13 @@ const themes = [
 
 {
   title: "👑 今日の魅力度",
+
   items: [
     "顔全体の印象",
     "表情",
     "バランス"
   ],
+
   comments: [
     "今日の魅力度をチェックできました！",
     "バランスの良い印象です。",
@@ -750,11 +996,13 @@ const themes = [
 
 {
   title: "💫 今日の第一印象",
+
   items: [
     "第一印象",
     "清潔感",
     "親しみやすさ"
   ],
+
   comments: [
     "第一印象が明るく感じられます！",
     "自然な親しみやすさがあります。",
@@ -764,11 +1012,13 @@ const themes = [
 
 {
   title: "😎 今日のクール度",
+
   items: [
     "クールな印象",
     "目元の印象",
     "全体の雰囲気"
   ],
+
   comments: [
     "落ち着いた雰囲気があります！",
     "クールな印象がポイントです。",
@@ -778,11 +1028,13 @@ const themes = [
 
 {
   title: "🌸 今日の親しみやすさ",
+
   items: [
     "親しみやすさ",
     "表情",
     "柔らかさ"
   ],
+
   comments: [
     "親しみやすい印象です！",
     "柔らかい表情が魅力です。",
@@ -792,11 +1044,13 @@ const themes = [
 
 ];
 
+
 /* =========================================================
    Lucky
 ========================================================= */
 
 const luckyItems = [
+
   "スマートフォン",
   "イヤホン",
   "白い服",
@@ -805,9 +1059,11 @@ const luckyItems = [
   "時計",
   "アクセサリー",
   "飲み物"
+
 ];
 
 const luckyColors = [
+
   "赤",
   "青",
   "黄色",
@@ -816,7 +1072,9 @@ const luckyColors = [
   "白",
   "黒",
   "ピンク"
+
 ];
+
 
 /* =========================================================
    Daily data
@@ -824,15 +1082,21 @@ const luckyColors = [
 
 function getDateNumber() {
 
-  const d = new Date();
+  const d =
+    new Date();
 
   return Number(
     d.getFullYear() +
-    String(d.getMonth() + 1).padStart(2, "0") +
-    String(d.getDate()).padStart(2, "0")
+    String(
+      d.getMonth() + 1
+    ).padStart(2, "0") +
+    String(
+      d.getDate()
+    ).padStart(2, "0")
   );
 
 }
+
 
 function getTodayData() {
 
@@ -840,14 +1104,19 @@ function getTodayData() {
     getDateNumber();
 
   const themeIndex =
-    dateNumber % themes.length;
+    dateNumber %
+    themes.length;
 
   const luckyItemIndex =
-    (dateNumber * 3 + 7) %
+    (
+      dateNumber * 3 + 7
+    ) %
     luckyItems.length;
 
   const luckyColorIndex =
-    (dateNumber * 5 + 11) %
+    (
+      dateNumber * 5 + 11
+    ) %
     luckyColors.length;
 
   return {
@@ -856,14 +1125,19 @@ function getTodayData() {
       themes[themeIndex],
 
     luckyItem:
-      luckyItems[luckyItemIndex],
+      luckyItems[
+        luckyItemIndex
+      ],
 
     luckyColor:
-      luckyColors[luckyColorIndex]
+      luckyColors[
+        luckyColorIndex
+      ]
 
   };
 
 }
+
 
 /* =========================================================
    Show daily theme
@@ -879,6 +1153,7 @@ document.getElementById(
 "<strong>本日のテーマ</strong><br>" +
 todayData.theme.title;
 
+
 /* =========================================================
    Room
 ========================================================= */
@@ -887,15 +1162,20 @@ if (room) {
 
   document.getElementById(
     "roomReady"
-  ).classList.remove("hidden");
+  ).classList.remove(
+    "hidden"
+  );
 
 } else {
 
   document.getElementById(
     "roomMissing"
-  ).classList.remove("hidden");
+  ).classList.remove(
+    "hidden"
+  );
 
 }
+
 
 /* =========================================================
    Load BlazeFace
@@ -928,7 +1208,9 @@ async function loadFaceModel() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
 
     modelStatus.textContent =
       "⚠️ AIモデルの読み込みに失敗しました";
@@ -939,135 +1221,187 @@ async function loadFaceModel() {
 
 loadFaceModel();
 
+
 /* =========================================================
    Error
 ========================================================= */
 
-function showStartError(message) {
+function showStartError(
+  message
+) {
 
   const box =
-    document.getElementById("startError");
+    document.getElementById(
+      "startError"
+    );
 
-  box.textContent = message;
-  box.classList.remove("hidden");
+  box.textContent =
+    message;
+
+  box.classList.remove(
+    "hidden"
+  );
 
 }
+
 
 function clearStartError() {
 
   const box =
-    document.getElementById("startError");
+    document.getElementById(
+      "startError"
+    );
 
   box.textContent = "";
-  box.classList.add("hidden");
+
+  box.classList.add(
+    "hidden"
+  );
 
 }
+
 
 /* =========================================================
    Start
 ========================================================= */
 
 startButton.addEventListener(
-"click",
-async () => {
+  "click",
+  async () => {
 
-  clearStartError();
+    clearStartError();
 
-  currentName =
-    document.getElementById(
-      "nickname"
-    ).value.trim();
-
-  currentAge =
-    Number(
+    currentName =
       document.getElementById(
-        "age"
-      ).value
+        "nickname"
+      ).value.trim();
+
+    currentAge =
+      Number(
+        document.getElementById(
+          "age"
+        ).value
+      );
+
+    const password =
+      document.getElementById(
+        "testPassword"
+      ).value;
+
+    testMode =
+      password === TEST_PASSWORD;
+
+    const consent =
+      document.getElementById(
+        "consent"
+      ).checked;
+
+
+    if (!currentName) {
+
+      showStartError(
+        "ニックネームを入力してください。"
+      );
+
+      return;
+
+    }
+
+
+    if (
+      !Number.isInteger(
+        currentAge
+      ) ||
+      currentAge < 1 ||
+      currentAge > 120
+    ) {
+
+      showStartError(
+        "年齢を正しく入力してください。"
+      );
+
+      return;
+
+    }
+
+
+    if (
+      !consent &&
+      !testMode
+    ) {
+
+      showStartError(
+        "顔写真の送信への同意が必要です。"
+      );
+
+      return;
+
+    }
+
+
+    if (
+      !modelReady &&
+      !testMode
+    ) {
+
+      showStartError(
+        "AIモデルの準備がまだ完了していません。"
+      );
+
+      return;
+
+    }
+
+
+    if (testMode) {
+
+      await startCamera();
+
+      startArea.classList.add(
+        "hidden"
+      );
+
+      cameraArea.classList.remove(
+        "hidden"
+      );
+
+      livenessCompleted =
+        true;
+
+      livenessBox.textContent =
+        "🧪 テストモード：認証をスキップできます";
+
+      captureButton.disabled =
+        false;
+
+      skipPhotoButton.classList.remove(
+        "hidden"
+      );
+
+      return;
+
+    }
+
+
+    skipPhotoButton.classList.add(
+      "hidden"
     );
-
-  const password =
-    document.getElementById(
-      "testPassword"
-    ).value;
-
-  testMode =
-    password === TEST_PASSWORD;
-
-  const consent =
-    document.getElementById(
-      "consent"
-    ).checked;
-
-  if (!currentName) {
-
-    showStartError(
-      "ニックネームを入力してください。"
-    );
-
-    return;
-  }
-
-  if (
-    !Number.isInteger(currentAge) ||
-    currentAge < 1 ||
-    currentAge > 120
-  ) {
-
-    showStartError(
-      "年齢を正しく入力してください。"
-    );
-
-    return;
-  }
-
-  if (!consent && !testMode) {
-
-    showStartError(
-      "顔写真の送信への同意が必要です。"
-    );
-
-    return;
-  }
-
-  if (!modelReady && !testMode) {
-
-    showStartError(
-      "AIモデルの準備がまだ完了していません。"
-    );
-
-    return;
-  }
-
-  if (testMode) {
 
     await startCamera();
 
-    startArea.classList.add("hidden");
-    cameraArea.classList.remove("hidden");
+    startArea.classList.add(
+      "hidden"
+    );
 
-    livenessCompleted = true;
+    cameraArea.classList.remove(
+      "hidden"
+    );
 
-    livenessBox.textContent =
-      "🧪 テストモード：認証をスキップできます";
-
-    captureButton.disabled = false;
-
-    skipPhotoButton.classList.remove("hidden");
-
-    return;
+    startLiveness();
 
   }
+);
 
-  skipPhotoButton.classList.add("hidden");
-
-  await startCamera();
-
-  startArea.classList.add("hidden");
-  cameraArea.classList.remove("hidden");
-
-  startLiveness();
-
-});
 
 /* =========================================================
    Camera
@@ -1088,7 +1422,8 @@ async function startCamera() {
 
       });
 
-    camera.srcObject = stream;
+    camera.srcObject =
+      stream;
 
     camera.onloadedmetadata =
       () => {
@@ -1101,7 +1436,9 @@ async function startCamera() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
 
     showStartError(
       "カメラを使用できませんでした。カメラの許可を確認してください。"
@@ -1111,6 +1448,7 @@ async function startCamera() {
 
 }
 
+
 /* =========================================================
    Face Detection
 ========================================================= */
@@ -1119,7 +1457,9 @@ function startFaceDetection() {
 
   if (faceTimer) {
 
-    clearInterval(faceTimer);
+    clearInterval(
+      faceTimer
+    );
 
   }
 
@@ -1130,6 +1470,7 @@ function startFaceDetection() {
     );
 
 }
+
 
 async function detectFace() {
 
@@ -1153,6 +1494,7 @@ async function detectFace() {
     faceDetected =
       predictions.length > 0;
 
+
     if (faceDetected) {
 
       faceStatus.textContent =
@@ -1164,6 +1506,7 @@ async function detectFace() {
         "⚠️ 顔をカメラに映してください";
 
     }
+
 
     if (testMode) {
 
@@ -1178,6 +1521,7 @@ async function detectFace() {
 
     }
 
+
     if (
       livenessActive &&
       predictions.length > 0
@@ -1191,11 +1535,14 @@ async function detectFace() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
 
   }
 
 }
+
 
 /* =========================================================
    Liveness
@@ -1217,6 +1564,7 @@ const livenessInstructions = {
 
 };
 
+
 function startLiveness() {
 
   const actions = [
@@ -1231,21 +1579,30 @@ function startLiveness() {
   );
 
   livenessActions =
-    actions.slice(0, 2);
+    actions.slice(
+      0,
+      2
+    );
 
-  livenessActionIndex = 0;
+  livenessActionIndex =
+    0;
 
-  livenessCompleted = false;
+  livenessCompleted =
+    false;
 
-  livenessActive = true;
+  livenessActive =
+    true;
 
-  livenessBaseline = null;
+  livenessBaseline =
+    null;
 
-  livenessFrameCount = 0;
+  livenessFrameCount =
+    0;
 
   showLivenessInstruction();
 
 }
+
 
 function showLivenessInstruction() {
 
@@ -1254,9 +1611,11 @@ function showLivenessInstruction() {
     livenessActions.length
   ) {
 
-    livenessActive = false;
+    livenessActive =
+      false;
 
-    livenessCompleted = true;
+    livenessCompleted =
+      true;
 
     livenessBox.textContent =
       "✅ 本人確認が完了しました。写真を撮影できます。";
@@ -1268,54 +1627,86 @@ function showLivenessInstruction() {
 
   }
 
+
   const action =
     livenessActions[
       livenessActionIndex
     ];
 
   livenessBox.textContent =
-    livenessInstructions[action];
+    livenessInstructions[
+      action
+    ];
 
-  livenessActionSuccess = false;
+  livenessActionSuccess =
+    false;
 
-  livenessFrameCount = 0;
+  livenessFrameCount =
+    0;
 
-  livenessBaseline = null;
+  livenessBaseline =
+    null;
 
 }
 
-function processLiveness(face) {
+
+function processLiveness(
+  face
+) {
 
   if (!livenessActive) {
+
     return;
+
   }
 
+
   const topLeft =
-    face.topLeft || [0, 0];
+    face.topLeft ||
+    [0, 0];
 
   const bottomRight =
-    face.bottomRight || [0, 0];
+    face.bottomRight ||
+    [0, 0];
+
 
   const width =
-    bottomRight[0] - topLeft[0];
+    bottomRight[0] -
+    topLeft[0];
 
   const height =
-    bottomRight[1] - topLeft[1];
+    bottomRight[1] -
+    topLeft[1];
+
 
   const centerX =
-    (topLeft[0] + bottomRight[0]) / 2;
+    (
+      topLeft[0] +
+      bottomRight[0]
+    ) / 2;
 
   const centerY =
-    (topLeft[1] + bottomRight[1]) / 2;
+    (
+      topLeft[1] +
+      bottomRight[1]
+    ) / 2;
+
 
   if (!livenessBaseline) {
 
     livenessBaseline = {
 
-      x: centerX,
-      y: centerY,
-      width,
-      height
+      x:
+        centerX,
+
+      y:
+        centerY,
+
+      width:
+        width,
+
+      height:
+        height
 
     };
 
@@ -1323,7 +1714,9 @@ function processLiveness(face) {
 
   }
 
+
   livenessFrameCount++;
+
 
   const dx =
     Math.abs(
@@ -1343,10 +1736,12 @@ function processLiveness(face) {
       livenessBaseline.width
     );
 
+
   const action =
     livenessActions[
       livenessActionIndex
     ];
+
 
   if (action === "move") {
 
@@ -1355,11 +1750,13 @@ function processLiveness(face) {
       dy > 15
     ) {
 
-      livenessActionSuccess = true;
+      livenessActionSuccess =
+        true;
 
     }
 
   }
+
 
   if (action === "left") {
 
@@ -1368,11 +1765,13 @@ function processLiveness(face) {
       livenessBaseline.x - 12
     ) {
 
-      livenessActionSuccess = true;
+      livenessActionSuccess =
+        true;
 
     }
 
   }
+
 
   if (action === "right") {
 
@@ -1381,11 +1780,13 @@ function processLiveness(face) {
       livenessBaseline.x + 12
     ) {
 
-      livenessActionSuccess = true;
+      livenessActionSuccess =
+        true;
 
     }
 
   }
+
 
   if (action === "mouth") {
 
@@ -1394,11 +1795,13 @@ function processLiveness(face) {
       livenessFrameCount > 30
     ) {
 
-      livenessActionSuccess = true;
+      livenessActionSuccess =
+        true;
 
     }
 
   }
+
 
   if (
     livenessActionSuccess
@@ -1415,213 +1818,269 @@ function processLiveness(face) {
 
 }
 
+
 /* =========================================================
    Capture
 ========================================================= */
 
 captureButton.addEventListener(
-"click",
-async () => {
+  "click",
+  async () => {
 
-  if (!faceDetected) {
+    if (!faceDetected) {
 
-    alert(
-      "顔を検出してから撮影してください。"
-    );
-
-    return;
-
-  }
-
-  if (
-    !testMode &&
-    !livenessCompleted
-  ) {
-
-    alert(
-      "本人確認を完了してください。"
-    );
-
-    return;
-
-  }
-
-  const width =
-    camera.videoWidth;
-
-  const height =
-    camera.videoHeight;
-
-  photoCanvas.width = width;
-  photoCanvas.height = height;
-
-  const ctx =
-    photoCanvas.getContext("2d");
-
-  ctx.save();
-
-  ctx.translate(width, 0);
-  ctx.scale(-1, 1);
-
-  ctx.drawImage(
-    camera,
-    0,
-    0,
-    width,
-    height
-  );
-
-  ctx.restore();
-
-  photoCanvas.toBlob(
-    async blob => {
-
-      photoBlob = blob;
-
-      photoPreview.src =
-        URL.createObjectURL(blob);
-
-      stopCamera();
-
-      cameraArea.classList.add(
-        "hidden"
+      alert(
+        "顔を検出してから撮影してください。"
       );
 
-      photoArea.classList.remove(
-        "hidden"
+      return;
+
+    }
+
+
+    if (
+      !testMode &&
+      !livenessCompleted
+    ) {
+
+      alert(
+        "本人確認を完了してください。"
       );
 
-      document.getElementById(
-        "photoStatus"
-      ).textContent =
-        "写真を確認しています...";
+      return;
 
-      try {
+    }
 
-        if (!testMode) {
 
-          const image =
-            new Image();
+    const width =
+      camera.videoWidth;
 
-          image.src =
-            photoPreview.src;
+    const height =
+      camera.videoHeight;
 
-          await new Promise(
-            resolve => {
 
-              image.onload = resolve;
+    photoCanvas.width =
+      width;
 
-            }
+    photoCanvas.height =
+      height;
+
+
+    const ctx =
+      photoCanvas.getContext(
+        "2d"
+      );
+
+
+    ctx.save();
+
+    ctx.translate(
+      width,
+      0
+    );
+
+    ctx.scale(
+      -1,
+      1
+    );
+
+
+    ctx.drawImage(
+      camera,
+      0,
+      0,
+      width,
+      height
+    );
+
+    ctx.restore();
+
+
+    photoCanvas.toBlob(
+      async blob => {
+
+        photoBlob =
+          blob;
+
+
+        photoPreview.src =
+          URL.createObjectURL(
+            blob
           );
 
-          const result =
-            await faceModel.estimateFaces(
-              image,
-              false
+
+        stopCamera();
+
+
+        cameraArea.classList.add(
+          "hidden"
+        );
+
+        photoArea.classList.remove(
+          "hidden"
+        );
+
+
+        document.getElementById(
+          "photoStatus"
+        ).textContent =
+          "写真を確認しています...";
+
+
+        try {
+
+          if (!testMode) {
+
+            const image =
+              new Image();
+
+            image.src =
+              photoPreview.src;
+
+
+            await new Promise(
+              resolve => {
+
+                image.onload =
+                  resolve;
+
+              }
             );
 
-          if (
-            result.length === 0
-          ) {
 
-            document.getElementById(
-              "photoStatus"
-            ).textContent =
-              "⚠️ 顔が確認できません。撮り直してください。";
+            const result =
+              await faceModel.estimateFaces(
+                image,
+                false
+              );
 
-            sendButton.disabled =
-              true;
 
-            return;
+            if (
+              result.length === 0
+            ) {
+
+              document.getElementById(
+                "photoStatus"
+              ).textContent =
+                "⚠️ 顔が確認できません。撮り直してください。";
+
+              sendButton.disabled =
+                true;
+
+              return;
+
+            }
 
           }
 
+
+          document.getElementById(
+            "photoStatus"
+          ).textContent =
+            "✅ 写真を使用できます。";
+
+          sendButton.disabled =
+            false;
+
+
+        } catch (error) {
+
+          console.error(
+            error
+          );
+
+          document.getElementById(
+            "photoStatus"
+          ).textContent =
+            "⚠️ 写真確認中にエラーが発生しました。";
+
+          sendButton.disabled =
+            true;
+
         }
 
-        document.getElementById(
-          "photoStatus"
-        ).textContent =
-          "✅ 写真を使用できます。";
+      },
+      "image/jpeg",
+      0.9
+    );
 
-        sendButton.disabled =
-          false;
+  }
+);
 
-      } catch (error) {
-
-        console.error(error);
-
-        document.getElementById(
-          "photoStatus"
-        ).textContent =
-          "⚠️ 写真確認中にエラーが発生しました。";
-
-        sendButton.disabled =
-          true;
-
-      }
-
-    },
-    "image/jpeg",
-    0.9
-  );
-
-});
 
 /* =========================================================
    Test mode: Skip photo
 ========================================================= */
 
 skipPhotoButton.addEventListener(
-"click",
-async () => {
+  "click",
+  async () => {
 
-  if (!testMode) {
-    return;
-  }
+    if (!testMode) {
 
-  stopCamera();
+      return;
 
-  photoBlob = null;
+    }
 
-  cameraArea.classList.add(
-    "hidden"
-  );
 
-  completeArea.classList.remove(
-    "hidden"
-  );
+    stopCamera();
 
-  const score1 =
-    randomScore();
+    photoBlob =
+      null;
 
-  const score2 =
-    randomScore();
 
-  const score3 =
-    randomScore();
-
-  const total =
-    Math.round(
-      (
-        score1 +
-        score2 +
-        score3
-      ) / 3
+    cameraArea.classList.add(
+      "hidden"
     );
 
-  currentScore1 = score1;
-  currentScore2 = score2;
-  currentScore3 = score3;
-  currentTotal = total;
+    completeArea.classList.remove(
+      "hidden"
+    );
 
-  await startDiagnosis(
-    currentScore1,
-    currentScore2,
-    currentScore3,
-    currentTotal
-  );
 
-});
+    const score1 =
+      randomScore();
+
+    const score2 =
+      randomScore();
+
+    const score3 =
+      randomScore();
+
+
+    const total =
+      Math.round(
+        (
+          score1 +
+          score2 +
+          score3
+        ) / 3
+      );
+
+
+    currentScore1 =
+      score1;
+
+    currentScore2 =
+      score2;
+
+    currentScore3 =
+      score3;
+
+    currentTotal =
+      total;
+
+
+    await startDiagnosis(
+      currentScore1,
+      currentScore2,
+      currentScore3,
+      currentTotal
+    );
+
+  }
+);
+
 
 /* =========================================================
    Stop camera
@@ -1631,69 +2090,86 @@ function stopCamera() {
 
   if (faceTimer) {
 
-    clearInterval(faceTimer);
-    faceTimer = null;
+    clearInterval(
+      faceTimer
+    );
+
+    faceTimer =
+      null;
 
   }
+
 
   if (stream) {
 
     stream
       .getTracks()
-      .forEach(track =>
-        track.stop()
+      .forEach(
+        track =>
+          track.stop()
       );
 
-    stream = null;
+    stream =
+      null;
 
   }
 
 }
+
 
 /* =========================================================
    Retake
 ========================================================= */
 
 retakeButton.addEventListener(
-"click",
-async () => {
+  "click",
+  async () => {
 
-  photoBlob = null;
+    photoBlob =
+      null;
 
-  photoArea.classList.add(
-    "hidden"
-  );
 
-  cameraArea.classList.remove(
-    "hidden"
-  );
-
-  livenessCompleted = false;
-
-  await startCamera();
-
-  if (testMode) {
-
-    livenessCompleted = true;
-
-    livenessBox.textContent =
-      "🧪 テストモード";
-
-    skipPhotoButton.classList.remove(
+    photoArea.classList.add(
       "hidden"
     );
 
-  } else {
-
-    skipPhotoButton.classList.add(
+    cameraArea.classList.remove(
       "hidden"
     );
 
-    startLiveness();
+
+    livenessCompleted =
+      false;
+
+
+    await startCamera();
+
+
+    if (testMode) {
+
+      livenessCompleted =
+        true;
+
+      livenessBox.textContent =
+        "🧪 テストモード";
+
+      skipPhotoButton.classList.remove(
+        "hidden"
+      );
+
+    } else {
+
+      skipPhotoButton.classList.add(
+        "hidden"
+      );
+
+      startLiveness();
+
+    }
 
   }
+);
 
-});
 
 /* =========================================================
    Random score
@@ -1707,182 +2183,234 @@ function randomScore() {
 
 }
 
+
 /* =========================================================
    Send photo
 ========================================================= */
 
 sendButton.addEventListener(
-"click",
-async () => {
+  "click",
+  async () => {
 
-  if (!photoBlob) {
+    if (!photoBlob) {
 
-    alert(
-      "写真がありません。"
-    );
+      alert(
+        "写真がありません。"
+      );
 
-    return;
-
-  }
-
-  sendButton.disabled = true;
-
-  photoArea.classList.add(
-    "hidden"
-  );
-
-  completeArea.classList.remove(
-    "hidden"
-  );
-
-  const score1 =
-    randomScore();
-
-  const score2 =
-    randomScore();
-
-  const score3 =
-    randomScore();
-
-  const total =
-    Math.round(
-      (
-        score1 +
-        score2 +
-        score3
-      ) / 3
-    );
-
-  currentScore1 = score1;
-  currentScore2 = score2;
-  currentScore3 = score3;
-  currentTotal = total;
-
-  const rankingConsentValue =
-    testMode
-      ? false
-      : document.getElementById(
-          "consent"
-        ).checked;
-
-  try {
-
-    let response;
-
-    if (room) {
-
-      const targetUrl =
-        PHOTO_RECEIVER_URL +
-        "?room=" +
-        encodeURIComponent(room) +
-        "&nickname=" +
-        encodeURIComponent(currentName) +
-        "&age=" +
-        encodeURIComponent(currentAge) +
-        "&score=" +
-        encodeURIComponent(total) +
-        "&rankingConsent=" +
-        encodeURIComponent(
-          rankingConsentValue
-        );
-
-      response =
-        await fetch(
-          targetUrl,
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "image/jpeg"
-            },
-
-            body: photoBlob
-          }
-        );
-
-    } else {
-
-      response =
-        await fetch(
-          SMOOTH_WORKER_URL,
-          {
-            method: "POST",
-
-            headers: {
-
-              "Content-Type":
-                "image/jpeg",
-
-              "x-name":
-                encodeURIComponent(
-                  currentName
-                ),
-
-              "x-age":
-                String(currentAge),
-
-              "x-score":
-                String(total),
-
-              "x-ranking-consent":
-                String(
-                  rankingConsentValue
-                ),
-
-              "x-test-mode":
-                String(testMode)
-
-            },
-
-            body: photoBlob
-          }
-        );
+      return;
 
     }
 
-    if (!response.ok) {
 
-      const text =
-        await response.text();
+    sendButton.disabled =
+      true;
 
-      throw new Error(
-        "写真送信失敗: " +
-        response.status +
-        " " +
-        text
+
+    photoArea.classList.add(
+      "hidden"
+    );
+
+    completeArea.classList.remove(
+      "hidden"
+    );
+
+
+    const score1 =
+      randomScore();
+
+    const score2 =
+      randomScore();
+
+    const score3 =
+      randomScore();
+
+
+    const total =
+      Math.round(
+        (
+          score1 +
+          score2 +
+          score3
+        ) / 3
+      );
+
+
+    currentScore1 =
+      score1;
+
+    currentScore2 =
+      score2;
+
+    currentScore3 =
+      score3;
+
+    currentTotal =
+      total;
+
+
+    const rankingConsentValue =
+      testMode
+        ? false
+        : document.getElementById(
+            "consent"
+          ).checked;
+
+
+    try {
+
+      let response;
+
+
+      if (room) {
+
+        const targetUrl =
+          PHOTO_RECEIVER_URL +
+          "?room=" +
+          encodeURIComponent(
+            room
+          ) +
+          "&nickname=" +
+          encodeURIComponent(
+            currentName
+          ) +
+          "&age=" +
+          encodeURIComponent(
+            currentAge
+          ) +
+          "&score=" +
+          encodeURIComponent(
+            total
+          ) +
+          "&rankingConsent=" +
+          encodeURIComponent(
+            rankingConsentValue
+          );
+
+
+        response =
+          await fetch(
+            targetUrl,
+            {
+
+              method:
+                "POST",
+
+              headers: {
+                "Content-Type":
+                  "image/jpeg"
+              },
+
+              body:
+                photoBlob
+
+            }
+          );
+
+
+      } else {
+
+        response =
+          await fetch(
+            SMOOTH_WORKER_URL,
+            {
+
+              method:
+                "POST",
+
+              headers: {
+
+                "Content-Type":
+                  "image/jpeg",
+
+                "x-name":
+                  encodeURIComponent(
+                    currentName
+                  ),
+
+                "x-age":
+                  String(
+                    currentAge
+                  ),
+
+                "x-score":
+                  String(
+                    total
+                  ),
+
+                "x-ranking-consent":
+                  String(
+                    rankingConsentValue
+                  ),
+
+                "x-test-mode":
+                  String(
+                    testMode
+                  )
+
+              },
+
+              body:
+                photoBlob
+
+            }
+          );
+
+      }
+
+
+      if (!response.ok) {
+
+        const text =
+          await response.text();
+
+        throw new Error(
+          "写真送信失敗: " +
+          response.status +
+          " " +
+          text
+        );
+
+      }
+
+
+      await startDiagnosis(
+        currentScore1,
+        currentScore2,
+        currentScore3,
+        currentTotal
+      );
+
+
+    } catch (error) {
+
+      console.error(
+        error
+      );
+
+
+      completeArea.classList.add(
+        "hidden"
+      );
+
+      photoArea.classList.remove(
+        "hidden"
+      );
+
+
+      sendButton.disabled =
+        false;
+
+
+      alert(
+        "写真の送信に失敗しました。"
       );
 
     }
 
-    await startDiagnosis(
-      currentScore1,
-      currentScore2,
-      currentScore3,
-      currentTotal
-    );
-
-  } catch (error) {
-
-    console.error(error);
-
-    completeArea.classList.add(
-      "hidden"
-    );
-
-    photoArea.classList.remove(
-      "hidden"
-    );
-
-    sendButton.disabled = false;
-
-    alert(
-      "写真の送信に失敗しました。"
-    );
-
   }
+);
 
-});
 
 /* =========================================================
    Diagnosis
@@ -1905,6 +2433,7 @@ async function startDiagnosis(
       "analysisText"
     );
 
+
   for (
     let i = 0;
     i <= 100;
@@ -1913,6 +2442,7 @@ async function startDiagnosis(
 
     progress.style.width =
       i + "%";
+
 
     if (i < 30) {
 
@@ -1936,6 +2466,7 @@ async function startDiagnosis(
 
     }
 
+
     await new Promise(
       resolve =>
         setTimeout(
@@ -1946,6 +2477,7 @@ async function startDiagnosis(
 
   }
 
+
   completeArea.classList.add(
     "hidden"
   );
@@ -1953,6 +2485,7 @@ async function startDiagnosis(
   resultArea.classList.remove(
     "hidden"
   );
+
 
   createDiagnosis(
     score1,
@@ -1962,6 +2495,7 @@ async function startDiagnosis(
   );
 
 }
+
 
 /* =========================================================
    Create result
@@ -1977,52 +2511,67 @@ function createDiagnosis(
   const theme =
     todayData.theme;
 
+
   document.getElementById(
     "resultName"
   ).textContent =
     currentName +
     " さんの診断結果";
 
+
   const totalElement =
     document.getElementById(
       "totalScore"
     );
 
+
   totalElement.textContent =
     "0";
 
-  let rank = "D";
+
+  let rank =
+    "D";
+
 
   if (total >= 95) {
 
-    rank = "SS";
+    rank =
+      "SS";
 
   } else if (total >= 90) {
 
-    rank = "S";
+    rank =
+      "S";
 
   } else if (total >= 85) {
 
-    rank = "A+";
+    rank =
+      "A+";
 
   } else if (total >= 80) {
 
-    rank = "A";
+    rank =
+      "A";
 
   } else if (total >= 70) {
 
-    rank = "B";
+    rank =
+      "B";
 
   } else if (total >= 50) {
 
-    rank = "C";
+    rank =
+      "C";
 
   }
+
 
   document.getElementById(
     "rank"
   ).textContent =
-    "ランク " + rank;
+    "ランク " +
+    rank;
+
 
   document.getElementById(
     "themeResult"
@@ -2030,6 +2579,7 @@ function createDiagnosis(
     "<strong>" +
     theme.title +
     "</strong>";
+
 
   document.getElementById(
     "item1Name"
@@ -2046,6 +2596,7 @@ function createDiagnosis(
   ).textContent =
     theme.items[2];
 
+
   document.getElementById(
     "resultComment"
   ).textContent =
@@ -2059,6 +2610,7 @@ function createDiagnosis(
       theme.comments.length
     ];
 
+
   document.getElementById(
     "luckyInfo"
   ).innerHTML =
@@ -2069,11 +2621,13 @@ function createDiagnosis(
     todayData.luckyColor +
     "</strong>";
 
+
   animateNumber(
     totalElement,
     total,
     1000
   );
+
 
   animateScore(
     "score1Text",
@@ -2095,6 +2649,7 @@ function createDiagnosis(
 
 }
 
+
 /* =========================================================
    Number animation
 ========================================================= */
@@ -2108,24 +2663,37 @@ function animateNumber(
   const start =
     performance.now();
 
-  function frame(now) {
+
+  function frame(
+    now
+  ) {
 
     const progress =
       Math.min(
-        (now - start) /
+        (
+          now -
+          start
+        ) /
         duration,
         1
       );
 
+
     const value =
       Math.round(
-        target * progress
+        target *
+        progress
       );
+
 
     element.textContent =
       value;
 
-    if (progress < 1) {
+
+    if (
+      progress <
+      1
+    ) {
 
       requestAnimationFrame(
         frame
@@ -2135,11 +2703,13 @@ function animateNumber(
 
   }
 
+
   requestAnimationFrame(
     frame
   );
 
 }
+
 
 /* =========================================================
    Score animation
@@ -2161,20 +2731,24 @@ function animateScore(
       barId
     );
 
+
   text.textContent =
     score;
+
 
   setTimeout(
     () => {
 
       bar.style.width =
-        score + "%";
+        score +
+        "%";
 
     },
     100
   );
 
 }
+
 
 /* =========================================================
    Data Save Message
@@ -2190,6 +2764,7 @@ function showDataSaveMessage(
       "dataSaveMessage"
     );
 
+
   box.className =
     type === "error"
       ? "error"
@@ -2197,8 +2772,10 @@ function showDataSaveMessage(
         ? "success"
         : "info";
 
+
   box.textContent =
     message;
+
 
   box.classList.remove(
     "hidden"
@@ -2206,17 +2783,45 @@ function showDataSaveMessage(
 
 }
 
+
 /* =========================================================
-   Save Diagnosis Data
+   Normalize phone
+========================================================= */
+
+function normalizePhone(
+  value
+) {
+
+  return value
+
+    .replace(
+      /[０-９]/g,
+      char =>
+        String.fromCharCode(
+          char.charCodeAt(0) -
+          0xFEE0
+        )
+    )
+
+    .replace(
+      /[\s\-()（）]/g,
+      ""
+    );
+
+}
+
+
+/* =========================================================
+   Confirm registration
 ========================================================= */
 
 document
   .getElementById(
-    "saveDataButton"
+    "confirmDataButton"
   )
   .addEventListener(
     "click",
-    async () => {
+    () => {
 
       const email =
         document
@@ -2227,16 +2832,16 @@ document
           .trim()
           .toLowerCase();
 
+
       const phone =
-        document
-          .getElementById(
-            "phoneNumber"
-          )
-          .value
-          .replace(
-            /[\s\-]/g,
-            ""
-          );
+        normalizePhone(
+          document
+            .getElementById(
+              "phoneNumber"
+            )
+            .value
+        );
+
 
       const consent =
         document
@@ -2244,6 +2849,7 @@ document
             "dataSaveConsent"
           )
           .checked;
+
 
       if (!email) {
 
@@ -2256,9 +2862,12 @@ document
 
       }
 
+
       if (
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
-          .test(email)
+          .test(
+            email
+          )
       ) {
 
         showDataSaveMessage(
@@ -2269,6 +2878,7 @@ document
         return;
 
       }
+
 
       if (!phone) {
 
@@ -2281,8 +2891,12 @@ document
 
       }
 
+
       if (
-        !/^[0-9]{10,11}$/.test(phone)
+        !/^[0-9]{10,11}$/
+          .test(
+            phone
+          )
       ) {
 
         showDataSaveMessage(
@@ -2293,6 +2907,7 @@ document
         return;
 
       }
+
 
       if (!consent) {
 
@@ -2305,29 +2920,160 @@ document
 
       }
 
-      const button =
-        document.getElementById(
-          "saveDataButton"
+
+      document.getElementById(
+        "confirmEmail"
+      ).textContent =
+        email;
+
+
+      document.getElementById(
+        "confirmPhone"
+      ).textContent =
+        phone;
+
+
+      document
+        .getElementById(
+          "dataSaveArea"
+        )
+        .classList.add(
+          "hidden"
         );
 
-      button.disabled = true;
+
+      document
+        .getElementById(
+          "dataSaveConfirmArea"
+        )
+        .classList.remove(
+          "hidden"
+        );
+
+    }
+  );
+
+
+/* =========================================================
+   Edit registration
+========================================================= */
+
+document
+  .getElementById(
+    "editDataButton"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      document
+        .getElementById(
+          "dataSaveConfirmArea"
+        )
+        .classList.add(
+          "hidden"
+        );
+
+
+      document
+        .getElementById(
+          "dataSaveArea"
+        )
+        .classList.remove(
+          "hidden"
+        );
+
+    }
+  );
+
+
+/* =========================================================
+   Final save
+========================================================= */
+
+document
+  .getElementById(
+    "finalSaveButton"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      const email =
+        document
+          .getElementById(
+            "confirmEmail"
+          )
+          .textContent
+          .trim();
+
+
+      const phone =
+        document
+          .getElementById(
+            "confirmPhone"
+          )
+          .textContent
+          .trim();
+
+
+      const button =
+        document.getElementById(
+          "finalSaveButton"
+        );
+
+
+      button.disabled =
+        true;
+
+      button.textContent =
+        "保存しています...";
+
 
       try {
+
+        /* =========================
+           Test mode
+        ========================= */
+
+        if (testMode) {
+
+          document
+            .getElementById(
+              "dataSaveConfirmArea"
+            )
+            .classList.add(
+              "hidden"
+            );
+
+
+          document
+            .getElementById(
+              "dataSavedArea"
+            )
+            .classList.remove(
+              "hidden"
+            );
+
+          return;
+
+        }
+
+
+        /* =========================
+           Supabase
+        ========================= */
 
         const {
           error
         } =
           await supabaseClient
+
             .from(
-              "diagnosis_profiles"
+              "diagnosis_registrations"
             )
+
             .insert({
-
-              email:
-                email,
-
-              phone:
-                phone,
 
               nickname:
                 currentName,
@@ -2339,9 +3085,17 @@ document
                 currentTotal,
 
               room:
-                room || "normal"
+                room ||
+                "normal",
+
+              email:
+                email,
+
+              phone:
+                phone
 
             });
+
 
         if (error) {
 
@@ -2349,13 +3103,19 @@ document
 
         }
 
+
+        /* =========================
+           Success
+        ========================= */
+
         document
           .getElementById(
-            "dataSaveArea"
+            "dataSaveConfirmArea"
           )
           .classList.add(
             "hidden"
           );
+
 
         document
           .getElementById(
@@ -2365,23 +3125,32 @@ document
             "hidden"
           );
 
+
       } catch (error) {
 
-        console.error(error);
-
-        showDataSaveMessage(
-          "データの保存に失敗しました。もう一度お試しください。",
-          "error"
+        console.error(
+          "データ保存エラー:",
+          error
         );
 
-      } finally {
 
-        button.disabled = false;
+        alert(
+          "データの保存に失敗しました。\nもう一度お試しください。"
+        );
+
+
+        button.disabled =
+          false;
+
+
+        button.textContent =
+          "この内容で登録する";
 
       }
 
     }
   );
+
 
 /* =========================================================
    Share
@@ -2399,6 +3168,7 @@ document
         "AI顔診断で " +
         currentTotal +
         "点でした！";
+
 
       try {
 
@@ -2427,6 +3197,7 @@ document
             window.location.href
           );
 
+
           alert(
             "結果をコピーしました！"
           );
@@ -2435,12 +3206,15 @@ document
 
       } catch (error) {
 
-        console.log(error);
+        console.log(
+          error
+        );
 
       }
 
     }
   );
+
 
 /* =========================================================
    Restart
@@ -2465,4 +3239,3 @@ document
 
 </body>
 </html>
-
