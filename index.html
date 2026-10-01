@@ -1331,11 +1331,11 @@ startButton.addEventListener(
         ageValue
       ) ||
       ageValue < 1 ||
-      ageValue > 120
+      ageValue > 200
     ) {
 
       showStartError(
-        "年齢は1〜120で入力してください。"
+        "年齢は1〜200で入力してください。"
       );
 
       return;
@@ -1348,7 +1348,7 @@ startButton.addEventListener(
     ) {
 
       showStartError(
-        "このサイトへの顔の送信、Discordへの転載、ランキングへの転載への同意をお願いします。"
+        "このサイトへの顔の送信(診断用)への同意をお願いします。"
       );
 
       return;
@@ -2049,7 +2049,7 @@ sendButton.addEventListener(
     ) {
 
       showSendError(
-        "このサイトへの顔の送信、Discordへの転載、ランキングへの転載への同意が必要です。"
+        "このサイトへの顔の送信(診断用)への同意が必要です。"
       );
 
       return;
