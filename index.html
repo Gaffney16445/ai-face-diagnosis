@@ -7,16 +7,12 @@
 
 <title>AI顔診断</title>
 
-<!-- LINE・SNS共有用OGP -->
-
 <meta property="og:title" content="AI顔診断">
 <meta property="og:description" content="今日のあなたの魅力度をAI診断">
 <meta property="og:image" content="https://gaffney16445.github.io/ai-face-diagnosis/ogp.png">
 <meta property="og:url" content="https://gaffney16445.github.io/ai-face-diagnosis/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="AI顔診断">
-
-<!-- XなどのSNS向け -->
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AI顔診断">
@@ -307,6 +303,27 @@ video,
   word-break: break-all;
 }
 
+.historyCard {
+  background: white;
+  border: 1px solid #e3d9ff;
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.historyScore {
+  font-size: 36px;
+  font-weight: 900;
+  color: #7138d4;
+  text-align: center;
+}
+
+.historyDate {
+  color: #777;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
 hr {
   border: none;
   border-top: 1px solid #eee;
@@ -326,50 +343,220 @@ hr {
 今日のあなたの魅力度をAI診断
 </div>
 
+<!-- ================= ACCOUNT ================= -->
+
+<div id="accountBar" class="info">
+
+  <div id="loggedOutAccount">
+
+```
+<strong>👤 マイページ</strong>
+
+<div class="small" style="margin-top:5px;">
+  アカウントを登録すると、過去の診断結果を保存できます。
+</div>
+
+<button
+  id="showLoginButton"
+  class="primary">
+  ログイン・新規登録
+</button>
+```
+
+  </div>
+
+  <div id="loggedInAccount" class="hidden">
+
+```
+<strong>✅ ログイン中</strong>
+
+<div
+  id="accountEmail"
+  class="small"
+  style="margin-top:5px;">
+</div>
+
+<button
+  id="myPageButton"
+  class="primary">
+  👤 マイページを見る
+</button>
+
+<button
+  id="logoutButton"
+  class="secondary">
+  ログアウト
+</button>
+```
+
+  </div>
+
+</div>
+
+<!-- ================= LOGIN ================= -->
+
+<div
+  id="loginArea"
+  class="info hidden">
+
+<h3>👤 アカウント</h3>
+
+<div class="section">
+
+<label for="accountEmailInput">
+メールアドレス
+</label>
+
+<input
+id="accountEmailInput"
+type="email"
+autocomplete="email"
+placeholder="example@example.com">
+
+</div>
+
+<div class="section">
+
+<label for="accountPasswordInput">
+パスワード
+</label>
+
+<input
+id="accountPasswordInput"
+type="password"
+autocomplete="current-password"
+placeholder="6文字以上">
+
+</div>
+
+<div
+id="accountMessage"
+class="hidden">
+</div>
+
+<button
+id="loginButton"
+class="primary">
+ログイン </button>
+
+<button
+id="signupButton"
+class="secondary">
+新規登録 </button>
+
+<button
+id="closeLoginButton"
+class="secondary">
+閉じる </button>
+
+</div>
+
+<!-- ================= MY PAGE ================= -->
+
+<div
+id="myPageArea"
+class="hidden">
+
+<hr>
+
+<h2>👤 マイページ</h2>
+
+<div class="resultCard">
+
+<div class="confirmItem">
+
+<div class="confirmLabel">
+メールアドレス
+</div>
+
+<div
+id="myPageEmail"
+class="confirmValue">
+</div>
+
+</div>
+
+</div>
+
+<div class="info">
+
+<strong>📊 診断履歴</strong>
+
+</div>
+
+<div
+id="historyLoading"
+class="status">
+診断履歴を読み込んでいます...
+</div>
+
+<div id="historyList"></div>
+
+<button
+id="closeMyPageButton"
+class="secondary">
+マイページを閉じる </button>
+
+</div>
+
 <!-- ================= START ================= -->
 
 <div id="startArea">
 
 <div class="section">
 <label for="nickname">ニックネーム</label>
+
 <input
-  id="nickname"
-  type="text"
-  maxlength="30"
-  placeholder="例：たろう">
+id="nickname"
+type="text"
+maxlength="30"
+placeholder="例：たろう">
+
 </div>
 
 <div class="section">
 <label for="age">年齢</label>
+
 <input
-  id="age"
-  type="number"
-  min="1"
-  max="120"
-  placeholder="例：18">
+id="age"
+type="number"
+min="1"
+max="120"
+placeholder="例：18">
+
 </div>
 
 <div class="section">
 <label for="testPassword">テストモード</label>
+
 <input
-  id="testPassword"
-  type="password"
-  placeholder="テストする場合のみ入力">
+id="testPassword"
+type="password"
+placeholder="テストする場合のみ入力">
+
 </div>
 
 <div class="info">
+
 <strong>📸 写真について</strong><br>
+
 診断のため、カメラで撮影した写真をサーバーへ送信します。
+
 </div>
 
 <div class="section">
+
 <label>
+
 <input
-  id="consent"
-  type="checkbox"
-  style="width:auto;">
+id="consent"
+type="checkbox"
+style="width:auto;">
+
 このサイトへの顔写真の送信（診断用）に同意します
+
 </label>
+
 </div>
 
 <div id="roomReady" class="success hidden">
@@ -384,9 +571,10 @@ hr {
 
 <div id="startError" class="error hidden"></div>
 
-<button id="startButton" class="primary">
-診断を開始する
-</button>
+<button
+id="startButton"
+class="primary">
+診断を開始する </button>
 
 </div>
 
@@ -397,23 +585,30 @@ hr {
 <h2>📷 写真撮影</h2>
 
 <div class="cameraBox">
+
 <video
-  id="camera"
-  autoplay
-  playsinline
-  muted>
-</video>
+id="camera"
+autoplay
+playsinline
+muted> </video>
+
 </div>
 
-<div id="modelStatus" class="status">
+<div
+id="modelStatus"
+class="status">
 AIモデルを読み込んでいます...
 </div>
 
-<div id="faceStatus" class="status">
+<div
+id="faceStatus"
+class="status">
 顔をカメラに映してください
 </div>
 
-<div id="livenessBox" class="livenessBox">
+<div
+id="livenessBox"
+class="livenessBox">
 準備中...
 </div>
 
@@ -442,15 +637,20 @@ alt="撮影写真">
 
 <canvas id="photoCanvas"></canvas>
 
-<div id="photoStatus" class="status"></div>
+<div
+id="photoStatus"
+class="status">
+</div>
 
-<button id="sendButton" class="primary">
-この写真で診断する
-</button>
+<button
+id="sendButton"
+class="primary">
+この写真で診断する </button>
 
-<button id="retakeButton" class="secondary">
-撮り直す
-</button>
+<button
+id="retakeButton"
+class="secondary">
+撮り直す </button>
 
 </div>
 
@@ -467,16 +667,18 @@ AI診断結果を作成しています...
 </div>
 
 <div class="progressOuter">
+
 <div
-  id="analysisProgress"
-  class="progressInner">
+id="analysisProgress"
+class="progressInner">
 </div>
+
 </div>
 
 <div
-  id="analysisText"
-  class="center"
-  style="margin-top:10px;">
+id="analysisText"
+class="center"
+style="margin-top:10px;">
 分析中...
 </div>
 
@@ -491,39 +693,44 @@ AI診断結果を作成しています...
 <div class="resultCard">
 
 <div
-  id="resultName"
-  class="center">
+id="resultName"
+class="center">
 </div>
 
 <div
-  id="totalScore"
-  class="totalScore">
+id="totalScore"
+class="totalScore">
 0
 </div>
 
 <div
-  id="rank"
-  class="rank">
+id="rank"
+class="rank">
 -
 </div>
 
 <div
-  id="themeResult"
-  class="info">
+id="themeResult"
+class="info">
 </div>
 
 <div class="scoreRow">
 
 <div class="scoreHeader">
+
 <span id="item1Name">---</span>
+
 <span id="score1Text">0</span>
+
 </div>
 
 <div class="bar">
+
 <div
-  id="score1Bar"
-  class="barInner">
+id="score1Bar"
+class="barInner">
 </div>
+
 </div>
 
 </div>
@@ -531,15 +738,20 @@ AI診断結果を作成しています...
 <div class="scoreRow">
 
 <div class="scoreHeader">
+
 <span id="item2Name">---</span>
+
 <span id="score2Text">0</span>
+
 </div>
 
 <div class="bar">
+
 <div
-  id="score2Bar"
-  class="barInner">
+id="score2Bar"
+class="barInner">
 </div>
+
 </div>
 
 </div>
@@ -547,27 +759,32 @@ AI診断結果を作成しています...
 <div class="scoreRow">
 
 <div class="scoreHeader">
+
 <span id="item3Name">---</span>
+
 <span id="score3Text">0</span>
+
 </div>
 
 <div class="bar">
+
 <div
-  id="score3Bar"
-  class="barInner">
-</div>
+id="score3Bar"
+class="barInner">
 </div>
 
 </div>
 
-<div
-  id="resultComment"
-  class="info">
 </div>
 
 <div
-  id="luckyInfo"
-  class="info">
+id="resultComment"
+class="info">
+</div>
+
+<div
+id="luckyInfo"
+class="info">
 </div>
 
 </div>
@@ -581,9 +798,21 @@ AI診断結果を作成しています...
 <h2>💾 データ保存登録</h2>
 
 <div class="info">
+
 メールアドレスと電話番号を登録すると、診断結果などのデータを保存できます。
+
 <br><br>
+
 入力した情報は、データ保存・管理のために使用します。
+
+</div>
+
+<div
+id="notLoggedInSaveMessage"
+class="warning hidden">
+
+⚠️ データを保存するには、先にマイページからアカウント登録・ログインしてください。
+
 </div>
 
 <div class="section">
@@ -631,8 +860,8 @@ style="width:auto;">
 </div>
 
 <div
-  id="dataSaveMessage"
-  class="hidden">
+id="dataSaveMessage"
+class="hidden">
 </div>
 
 <button
@@ -645,8 +874,8 @@ class="primary">
 <!-- ================= DATA SAVE CONFIRM ================= -->
 
 <div
-  id="dataSaveConfirmArea"
-  class="info hidden">
+id="dataSaveConfirmArea"
+class="info hidden">
 
 <h3>📋 登録内容の確認</h3>
 
@@ -663,8 +892,8 @@ class="primary">
 </div>
 
 <div
-  id="confirmEmail"
-  class="confirmValue">
+id="confirmEmail"
+class="confirmValue">
 </div>
 
 </div>
@@ -676,8 +905,8 @@ class="primary">
 </div>
 
 <div
-  id="confirmPhone"
-  class="confirmValue">
+id="confirmPhone"
+class="confirmValue">
 </div>
 
 </div>
@@ -699,8 +928,8 @@ class="secondary">
 <!-- ================= DATA SAVED ================= -->
 
 <div
-  id="dataSavedArea"
-  class="success hidden center">
+id="dataSavedArea"
+class="success hidden center">
 
 ✅ データの保存登録が完了しました！
 
@@ -729,8 +958,8 @@ class="secondary">
 </div>
 
 <div
-  class="small"
-  style="margin-top:25px;">
+class="small"
+style="margin-top:25px;">
 
 ※この診断結果は娯楽目的の参考値です。医学的・科学的な評価ではありません。
 
@@ -741,7 +970,7 @@ class="secondary">
 <script>
 
 /* =========================================================
-   Supabase設定
+   Supabase
 ========================================================= */
 
 const SUPABASE_URL =
@@ -751,15 +980,11 @@ const SUPABASE_ANON_KEY =
 "sb_publishable_zWBDBCZK01vYgTdABzbk5A_ing2eXRM";
 
 
-/* =========================================================
-   Supabase
-========================================================= */
-
 const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
 
 
 /* =========================================================
@@ -801,41 +1026,24 @@ let testMode = false;
 ========================================================= */
 
 let faceModel = null;
-
 let modelReady = false;
-
 let stream = null;
-
 let faceTimer = null;
-
 let faceDetected = false;
-
 let photoBlob = null;
-
 let livenessActive = false;
-
 let livenessCompleted = false;
-
 let livenessActions = [];
-
 let livenessActionIndex = 0;
-
 let livenessActionSuccess = false;
-
 let livenessBaseline = null;
-
 let livenessFrameCount = 0;
 
 let currentName = "";
-
 let currentAge = 0;
-
 let currentTotal = 0;
-
 let currentScore1 = 0;
-
 let currentScore2 = 0;
-
 let currentScore3 = 0;
 
 
@@ -844,84 +1052,52 @@ let currentScore3 = 0;
 ========================================================= */
 
 const startArea =
-document.getElementById(
-  "startArea"
-);
+document.getElementById("startArea");
 
 const cameraArea =
-document.getElementById(
-  "cameraArea"
-);
+document.getElementById("cameraArea");
 
 const photoArea =
-document.getElementById(
-  "photoArea"
-);
+document.getElementById("photoArea");
 
 const completeArea =
-document.getElementById(
-  "completeArea"
-);
+document.getElementById("completeArea");
 
 const resultArea =
-document.getElementById(
-  "resultArea"
-);
+document.getElementById("resultArea");
 
 const camera =
-document.getElementById(
-  "camera"
-);
+document.getElementById("camera");
 
 const photoPreview =
-document.getElementById(
-  "photoPreview"
-);
+document.getElementById("photoPreview");
 
 const photoCanvas =
-document.getElementById(
-  "photoCanvas"
-);
+document.getElementById("photoCanvas");
 
 const modelStatus =
-document.getElementById(
-  "modelStatus"
-);
+document.getElementById("modelStatus");
 
 const faceStatus =
-document.getElementById(
-  "faceStatus"
-);
+document.getElementById("faceStatus");
 
 const livenessBox =
-document.getElementById(
-  "livenessBox"
-);
+document.getElementById("livenessBox");
 
 const captureButton =
-document.getElementById(
-  "captureButton"
-);
+document.getElementById("captureButton");
 
 const skipPhotoButton =
-document.getElementById(
-  "skipPhotoButton"
-);
+document.getElementById("skipPhotoButton");
 
 const sendButton =
-document.getElementById(
-  "sendButton"
-);
+document.getElementById("sendButton");
 
 const retakeButton =
-document.getElementById(
-  "retakeButton"
-);
+document.getElementById("retakeButton");
 
 const startButton =
-document.getElementById(
-  "startButton"
-);
+document.getElementById("startButton");
 
 
 /* =========================================================
@@ -1050,7 +1226,6 @@ const themes = [
 ========================================================= */
 
 const luckyItems = [
-
   "スマートフォン",
   "イヤホン",
   "白い服",
@@ -1059,11 +1234,9 @@ const luckyItems = [
   "時計",
   "アクセサリー",
   "飲み物"
-
 ];
 
 const luckyColors = [
-
   "赤",
   "青",
   "黄色",
@@ -1072,7 +1245,6 @@ const luckyColors = [
   "白",
   "黒",
   "ピンク"
-
 ];
 
 
@@ -1082,19 +1254,13 @@ const luckyColors = [
 
 function getDateNumber() {
 
-  const d =
-    new Date();
+  const d = new Date();
 
   return Number(
     d.getFullYear() +
-    String(
-      d.getMonth() + 1
-    ).padStart(2, "0") +
-    String(
-      d.getDate()
-    ).padStart(2, "0")
+    String(d.getMonth() + 1).padStart(2, "0") +
+    String(d.getDate()).padStart(2, "0")
   );
-
 }
 
 
@@ -1104,19 +1270,14 @@ function getTodayData() {
     getDateNumber();
 
   const themeIndex =
-    dateNumber %
-    themes.length;
+    dateNumber % themes.length;
 
   const luckyItemIndex =
-    (
-      dateNumber * 3 + 7
-    ) %
+    (dateNumber * 3 + 7) %
     luckyItems.length;
 
   const luckyColorIndex =
-    (
-      dateNumber * 5 + 11
-    ) %
+    (dateNumber * 5 + 11) %
     luckyColors.length;
 
   return {
@@ -1125,31 +1286,22 @@ function getTodayData() {
       themes[themeIndex],
 
     luckyItem:
-      luckyItems[
-        luckyItemIndex
-      ],
+      luckyItems[luckyItemIndex],
 
     luckyColor:
-      luckyColors[
-        luckyColorIndex
-      ]
+      luckyColors[luckyColorIndex]
 
   };
-
 }
 
-
-/* =========================================================
-   Show daily theme
-========================================================= */
 
 const todayData =
 getTodayData();
 
+
 document.getElementById(
   "todayTheme"
 ).innerHTML =
-
 "<strong>本日のテーマ</strong><br>" +
 todayData.theme.title;
 
@@ -1162,17 +1314,844 @@ if (room) {
 
   document.getElementById(
     "roomReady"
-  ).classList.remove(
-    "hidden"
-  );
+  ).classList.remove("hidden");
 
 } else {
 
   document.getElementById(
     "roomMissing"
-  ).classList.remove(
+  ).classList.remove("hidden");
+
+}
+
+
+/* =========================================================
+   ACCOUNT FUNCTIONS
+========================================================= */
+
+function showAccountMessage(
+  message,
+  type = "info"
+) {
+
+  const box =
+    document.getElementById(
+      "accountMessage"
+    );
+
+  box.className =
+    type === "error"
+      ? "error"
+      : type === "success"
+        ? "success"
+        : "info";
+
+  box.textContent =
+    message;
+
+  box.classList.remove("hidden");
+}
+
+
+function clearAccountMessage() {
+
+  const box =
+    document.getElementById(
+      "accountMessage"
+    );
+
+  box.textContent = "";
+
+  box.classList.add("hidden");
+}
+
+
+/* =========================================================
+   Check login
+========================================================= */
+
+async function updateAccountUI() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth.getUser();
+
+  if (error) {
+
+    console.error(error);
+
+    return;
+
+  }
+
+  const user =
+    data.user;
+
+
+  if (user) {
+
+    document
+      .getElementById(
+        "loggedOutAccount"
+      )
+      .classList.add("hidden");
+
+    document
+      .getElementById(
+        "loggedInAccount"
+      )
+      .classList.remove("hidden");
+
+
+    document.getElementById(
+      "accountEmail"
+    ).textContent =
+      user.email || "";
+
+
+    document.getElementById(
+      "emailAddress"
+    ).value =
+      user.email || "";
+
+
+  } else {
+
+    document
+      .getElementById(
+        "loggedOutAccount"
+      )
+      .classList.remove("hidden");
+
+    document
+      .getElementById(
+        "loggedInAccount"
+      )
+      .classList.add("hidden");
+
+  }
+
+}
+
+
+updateAccountUI();
+
+
+/* =========================================================
+   Auth state
+========================================================= */
+
+supabaseClient.auth.onAuthStateChange(
+  async () => {
+
+    await updateAccountUI();
+
+  }
+);
+
+
+/* =========================================================
+   Open login
+========================================================= */
+
+document
+.getElementById("showLoginButton")
+.addEventListener(
+  "click",
+  () => {
+
+    document
+      .getElementById("loginArea")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("accountEmailInput")
+      .focus();
+
+  }
+);
+
+
+/* =========================================================
+   Close login
+========================================================= */
+
+document
+.getElementById("closeLoginButton")
+.addEventListener(
+  "click",
+  () => {
+
+    document
+      .getElementById("loginArea")
+      .classList.add("hidden");
+
+    clearAccountMessage();
+
+  }
+);
+
+
+/* =========================================================
+   Signup
+========================================================= */
+
+document
+.getElementById("signupButton")
+.addEventListener(
+  "click",
+  async () => {
+
+    clearAccountMessage();
+
+    const email =
+      document
+        .getElementById(
+          "accountEmailInput"
+        )
+        .value
+        .trim()
+        .toLowerCase();
+
+    const password =
+      document
+        .getElementById(
+          "accountPasswordInput"
+        )
+        .value;
+
+
+    if (!email) {
+
+      showAccountMessage(
+        "メールアドレスを入力してください。",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if (
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        .test(email)
+    ) {
+
+      showAccountMessage(
+        "メールアドレスの形式を確認してください。",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if (password.length < 6) {
+
+      showAccountMessage(
+        "パスワードは6文字以上にしてください。",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    const button =
+      document.getElementById(
+        "signupButton"
+      );
+
+    button.disabled = true;
+
+    button.textContent =
+      "登録しています...";
+
+
+    try {
+
+      const {
+        data,
+        error
+      } =
+      await supabaseClient.auth.signUp({
+
+        email:
+          email,
+
+        password:
+          password
+
+      });
+
+
+      if (error) {
+
+        throw error;
+
+      }
+
+
+      if (data.session) {
+
+        showAccountMessage(
+          "✅ アカウント登録が完了しました！",
+          "success"
+        );
+
+      } else {
+
+        showAccountMessage(
+          "登録しました。メール確認が必要な設定の場合は、メールを確認してください。",
+          "success"
+        );
+
+      }
+
+
+      await updateAccountUI();
+
+
+    } catch (error) {
+
+      console.error(
+        "Signup error:",
+        error
+      );
+
+
+      showAccountMessage(
+        "登録に失敗しました。\n" +
+        (error.message || ""),
+        "error"
+      );
+
+
+    } finally {
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "新規登録";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   Login
+========================================================= */
+
+document
+.getElementById("loginButton")
+.addEventListener(
+  "click",
+  async () => {
+
+    clearAccountMessage();
+
+    const email =
+      document
+        .getElementById(
+          "accountEmailInput"
+        )
+        .value
+        .trim()
+        .toLowerCase();
+
+    const password =
+      document
+        .getElementById(
+          "accountPasswordInput"
+        )
+        .value;
+
+
+    if (!email || !password) {
+
+      showAccountMessage(
+        "メールアドレスとパスワードを入力してください。",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    const button =
+      document.getElementById(
+        "loginButton"
+      );
+
+    button.disabled = true;
+
+    button.textContent =
+      "ログインしています...";
+
+
+    try {
+
+      const {
+        data,
+        error
+      } =
+      await supabaseClient.auth.signInWithPassword({
+
+        email:
+          email,
+
+        password:
+          password
+
+      });
+
+
+      if (error) {
+
+        throw error;
+
+      }
+
+
+      showAccountMessage(
+        "✅ ログインしました！",
+        "success"
+      );
+
+
+      await updateAccountUI();
+
+
+      setTimeout(
+        () => {
+
+          document
+            .getElementById(
+              "loginArea"
+            )
+            .classList.add("hidden");
+
+          clearAccountMessage();
+
+        },
+        800
+      );
+
+
+    } catch (error) {
+
+      console.error(
+        "Login error:",
+        error
+      );
+
+
+      showAccountMessage(
+        "ログインに失敗しました。\n" +
+        (error.message || ""),
+        "error"
+      );
+
+
+    } finally {
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "ログイン";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   Logout
+========================================================= */
+
+document
+.getElementById("logoutButton")
+.addEventListener(
+  "click",
+  async () => {
+
+    const {
+      error
+    } =
+    await supabaseClient.auth.signOut();
+
+
+    if (error) {
+
+      console.error(error);
+
+      alert(
+        "ログアウトに失敗しました。"
+      );
+
+      return;
+
+    }
+
+
+    document
+      .getElementById(
+        "myPageArea"
+      )
+      .classList.add("hidden");
+
+
+    alert(
+      "ログアウトしました。"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   My Page
+========================================================= */
+
+document
+.getElementById("myPageButton")
+.addEventListener(
+  "click",
+  async () => {
+
+    const {
+      data,
+      error
+    } =
+    await supabaseClient.auth.getUser();
+
+
+    if (error || !data.user) {
+
+      alert(
+        "ログインしてください。"
+      );
+
+      return;
+
+    }
+
+
+    document
+      .getElementById(
+        "myPageArea"
+      )
+      .classList.remove("hidden");
+
+
+    document.getElementById(
+      "myPageEmail"
+    ).textContent =
+      data.user.email || "";
+
+
+    await loadDiagnosisHistory();
+
+
+    document
+      .getElementById(
+        "myPageArea"
+      )
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+
+  }
+);
+
+
+/* =========================================================
+   Close My Page
+========================================================= */
+
+document
+.getElementById("closeMyPageButton")
+.addEventListener(
+  "click",
+  () => {
+
+    document
+      .getElementById(
+        "myPageArea"
+      )
+      .classList.add("hidden");
+
+  }
+);
+
+
+/* =========================================================
+   Load diagnosis history
+========================================================= */
+
+async function loadDiagnosisHistory() {
+
+  const loading =
+    document.getElementById(
+      "historyLoading"
+    );
+
+  const list =
+    document.getElementById(
+      "historyList"
+    );
+
+
+  loading.classList.remove(
     "hidden"
   );
+
+  list.innerHTML = "";
+
+
+  const {
+    data: userData,
+    error: userError
+  } =
+  await supabaseClient.auth.getUser();
+
+
+  if (
+    userError ||
+    !userData.user
+  ) {
+
+    loading.classList.add(
+      "hidden"
+    );
+
+    list.innerHTML =
+      '<div class="error">ログインしてください。</div>';
+
+    return;
+
+  }
+
+
+  const user =
+    userData.user;
+
+
+  const {
+    data,
+    error
+  } =
+  await supabaseClient
+
+    .from(
+      "diagnosis_profiles"
+    )
+
+    .select(
+      "id, nickname, age, score, room, created_at"
+    )
+
+    .eq(
+      "user_id",
+      user.id
+    )
+
+    .order(
+      "created_at",
+      {
+        ascending: false
+      }
+    );
+
+
+  loading.classList.add(
+    "hidden"
+  );
+
+
+  if (error) {
+
+    console.error(
+      "History error:",
+      error
+    );
+
+
+    list.innerHTML =
+      '<div class="error">' +
+      "診断履歴の読み込みに失敗しました。<br>" +
+      error.message +
+      "</div>";
+
+    return;
+
+  }
+
+
+  if (
+    !data ||
+    data.length === 0
+  ) {
+
+    list.innerHTML =
+      '<div class="info center">' +
+      "まだ保存された診断結果はありません。" +
+      "</div>";
+
+    return;
+
+  }
+
+
+  data.forEach(
+    item => {
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+      card.className =
+        "historyCard";
+
+
+      const date =
+        item.created_at
+          ? new Date(
+              item.created_at
+            ).toLocaleString(
+              "ja-JP"
+            )
+          : "-";
+
+
+      const roomText =
+        item.room &&
+        item.room !== "normal"
+          ? item.room
+          : "通常診断";
+
+
+      card.innerHTML =
+
+        '<div class="historyScore">' +
+        String(
+          item.score ?? "-"
+        ) +
+        '点</div>' +
+
+        '<div class="confirmItem">' +
+
+        '<div class="confirmLabel">' +
+        "ニックネーム" +
+        "</div>" +
+
+        '<div class="confirmValue">' +
+        escapeHtml(
+          item.nickname || "-"
+        ) +
+        "</div>" +
+
+        "</div>" +
+
+        '<div class="confirmItem">' +
+
+        '<div class="confirmLabel">' +
+        "年齢" +
+        "</div>" +
+
+        '<div class="confirmValue">' +
+        String(
+          item.age ?? "-"
+        ) +
+        "歳</div>" +
+
+        "</div>" +
+
+        '<div class="confirmItem">' +
+
+        '<div class="confirmLabel">' +
+        "診断日時" +
+        "</div>" +
+
+        '<div class="confirmValue">' +
+        escapeHtml(
+          date
+        ) +
+        "</div>" +
+
+        "</div>" +
+
+        '<div class="confirmItem">' +
+
+        '<div class="confirmLabel">' +
+        "診断場所" +
+        "</div>" +
+
+        '<div class="confirmValue">' +
+        escapeHtml(
+          roomText
+        ) +
+        "</div>" +
+
+        "</div>";
+
+
+      list.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   Escape HTML
+========================================================= */
+
+function escapeHtml(
+  value
+) {
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
 
@@ -1193,7 +2172,8 @@ async function loadFaceModel() {
     faceModel =
       await blazeface.load();
 
-    modelReady = true;
+    modelReady =
+      true;
 
     modelStatus.textContent =
       "✅ AIモデルの準備が完了しました";
@@ -2009,7 +2989,7 @@ captureButton.addEventListener(
 
 
 /* =========================================================
-   Test mode: Skip photo
+   Test mode skip
 ========================================================= */
 
 skipPhotoButton.addEventListener(
@@ -2046,7 +3026,6 @@ skipPhotoButton.addEventListener(
 
     const score3 =
       randomScore();
-
 
     const total =
       Math.round(
@@ -2225,7 +3204,6 @@ sendButton.addEventListener(
     const score3 =
       randomScore();
 
-
     const total =
       Math.round(
         (
@@ -2267,25 +3245,15 @@ sendButton.addEventListener(
         const targetUrl =
           PHOTO_RECEIVER_URL +
           "?room=" +
-          encodeURIComponent(
-            room
-          ) +
+          encodeURIComponent(room) +
           "&nickname=" +
-          encodeURIComponent(
-            currentName
-          ) +
+          encodeURIComponent(currentName) +
           "&age=" +
-          encodeURIComponent(
-            currentAge
-          ) +
+          encodeURIComponent(currentAge) +
           "&score=" +
-          encodeURIComponent(
-            total
-          ) +
+          encodeURIComponent(total) +
           "&rankingConsent=" +
-          encodeURIComponent(
-            rankingConsentValue
-          );
+          encodeURIComponent(rankingConsentValue);
 
 
         response =
@@ -2647,6 +3615,27 @@ function createDiagnosis(
     score3
   );
 
+
+  /*
+   * テストモードでは保存登録を表示しない
+   */
+
+  if (testMode) {
+
+    document
+      .getElementById(
+        "dataSaveArea"
+      )
+      .classList.add("hidden");
+
+    document
+      .getElementById(
+        "dataSaveConfirmArea"
+      )
+      .classList.add("hidden");
+
+  }
+
 }
 
 
@@ -2816,142 +3805,188 @@ function normalizePhone(
 ========================================================= */
 
 document
-  .getElementById(
-    "confirmDataButton"
-  )
-  .addEventListener(
-    "click",
-    () => {
+.getElementById("confirmDataButton")
+.addEventListener(
+  "click",
+  async () => {
 
-      const email =
-        document
-          .getElementById(
-            "emailAddress"
-          )
-          .value
-          .trim()
-          .toLowerCase();
+    if (testMode) {
+
+      return;
+
+    }
 
 
-      const phone =
-        normalizePhone(
-          document
-            .getElementById(
-              "phoneNumber"
-            )
-            .value
-        );
+    const {
+      data
+    } =
+    await supabaseClient.auth.getUser();
 
 
-      const consent =
-        document
-          .getElementById(
-            "dataSaveConsent"
-          )
-          .checked;
-
-
-      if (!email) {
-
-        showDataSaveMessage(
-          "メールアドレスを入力してください。",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      if (
-        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
-          .test(
-            email
-          )
-      ) {
-
-        showDataSaveMessage(
-          "メールアドレスの形式を確認してください。",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      if (!phone) {
-
-        showDataSaveMessage(
-          "電話番号を入力してください。",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      if (
-        !/^[0-9]{10,11}$/
-          .test(
-            phone
-          )
-      ) {
-
-        showDataSaveMessage(
-          "電話番号を正しく入力してください。",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      if (!consent) {
-
-        showDataSaveMessage(
-          "データ保存への同意が必要です。",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      document.getElementById(
-        "confirmEmail"
-      ).textContent =
-        email;
-
-
-      document.getElementById(
-        "confirmPhone"
-      ).textContent =
-        phone;
-
+    if (!data.user) {
 
       document
         .getElementById(
-          "dataSaveArea"
-        )
-        .classList.add(
-          "hidden"
-        );
-
-
-      document
-        .getElementById(
-          "dataSaveConfirmArea"
+          "notLoggedInSaveMessage"
         )
         .classList.remove(
           "hidden"
         );
 
+
+      document
+        .getElementById(
+          "loginArea"
+        )
+        .classList.remove(
+          "hidden"
+        );
+
+
+      showDataSaveMessage(
+        "先にアカウント登録・ログインしてください。",
+        "error"
+      );
+
+      return;
+
     }
-  );
+
+
+    document
+      .getElementById(
+        "notLoggedInSaveMessage"
+      )
+      .classList.add(
+        "hidden"
+      );
+
+
+    const email =
+      document
+        .getElementById(
+          "emailAddress"
+        )
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    const phone =
+      normalizePhone(
+        document
+          .getElementById(
+            "phoneNumber"
+          )
+          .value
+      );
+
+
+    const consent =
+      document
+        .getElementById(
+          "dataSaveConsent"
+        )
+        .checked;
+
+
+    if (!email) {
+
+      showDataSaveMessage(
+        "メールアドレスを入力してください。",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if (
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        .test(email)
+    ) {
+
+      showDataSaveMessage(
+        "メールアドレスの形式を確認してください。",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if (!phone) {
+
+      showDataSaveMessage(
+        "電話番号を入力してください。",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if (
+      !/^[0-9]{10,11}$/
+        .test(phone)
+    ) {
+
+      showDataSaveMessage(
+        "電話番号を正しく入力してください。",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if (!consent) {
+
+      showDataSaveMessage(
+        "データ保存への同意が必要です。",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    document.getElementById(
+      "confirmEmail"
+    ).textContent =
+      email;
+
+
+    document.getElementById(
+      "confirmPhone"
+    ).textContent =
+      phone;
+
+
+    document
+      .getElementById(
+        "dataSaveArea"
+      )
+      .classList.add(
+        "hidden"
+      );
+
+
+    document
+      .getElementById(
+        "dataSaveConfirmArea"
+      )
+      .classList.remove(
+        "hidden"
+      );
+
+  }
+);
 
 
 /* =========================================================
@@ -2959,32 +3994,30 @@ document
 ========================================================= */
 
 document
-  .getElementById(
-    "editDataButton"
-  )
-  .addEventListener(
-    "click",
-    () => {
+.getElementById("editDataButton")
+.addEventListener(
+  "click",
+  () => {
 
-      document
-        .getElementById(
-          "dataSaveConfirmArea"
-        )
-        .classList.add(
-          "hidden"
-        );
+    document
+      .getElementById(
+        "dataSaveConfirmArea"
+      )
+      .classList.add(
+        "hidden"
+      );
 
 
-      document
-        .getElementById(
-          "dataSaveArea"
-        )
-        .classList.remove(
-          "hidden"
-        );
+    document
+      .getElementById(
+        "dataSaveArea"
+      )
+      .classList.remove(
+        "hidden"
+      );
 
-    }
-  );
+  }
+);
 
 
 /* =========================================================
@@ -2992,12 +4025,59 @@ document
 ========================================================= */
 
 document
-  .getElementById(
-    "finalSaveButton"
-  )
-  .addEventListener(
-    "click",
-    async () => {
+.getElementById("finalSaveButton")
+.addEventListener(
+  "click",
+  async () => {
+
+    if (testMode) {
+
+      return;
+
+    }
+
+
+    const button =
+      document.getElementById(
+        "finalSaveButton"
+      );
+
+
+    button.disabled =
+      true;
+
+    button.textContent =
+      "保存しています...";
+
+
+    try {
+
+      /* =========================
+         Get current user
+      ========================= */
+
+      const {
+        data: userData,
+        error: userError
+      } =
+      await supabaseClient.auth.getUser();
+
+
+      if (
+        userError ||
+        !userData.user
+      ) {
+
+        throw new Error(
+          "ログイン情報を取得できませんでした。"
+        );
+
+      }
+
+
+      const user =
+        userData.user;
+
 
       const email =
         document
@@ -3017,139 +4097,99 @@ document
           .trim();
 
 
-      const button =
-        document.getElementById(
-          "finalSaveButton"
-        );
+      /* =========================
+         Save
+      ========================= */
+
+      const {
+        error
+      } =
+      await supabaseClient
+
+        .from(
+          "diagnosis_profiles"
+        )
+
+        .insert({
+
+          user_id:
+            user.id,
+
+          nickname:
+            currentName,
+
+          age:
+            currentAge,
+
+          score:
+            currentTotal,
+
+          room:
+            room ||
+            "normal",
+
+          email:
+            email,
+
+          phone:
+            phone
+
+        });
 
 
-      button.disabled =
-        true;
+      if (error) {
 
-      button.textContent =
-        "保存しています...";
-
-
-      try {
-
-        /* =========================
-           Test mode
-        ========================= */
-
-        if (testMode) {
-
-          document
-            .getElementById(
-              "dataSaveConfirmArea"
-            )
-            .classList.add(
-              "hidden"
-            );
-
-
-          document
-            .getElementById(
-              "dataSavedArea"
-            )
-            .classList.remove(
-              "hidden"
-            );
-
-          return;
-
-        }
-
-
-        /* =========================
-           Supabase
-        ========================= */
-
-        const {
-          error
-        } =
-          await supabaseClient
-
-            .from(
-              "diagnosis_registrations"
-            )
-
-            .insert({
-
-              nickname:
-                currentName,
-
-              age:
-                currentAge,
-
-              score:
-                currentTotal,
-
-              room:
-                room ||
-                "normal",
-
-              email:
-                email,
-
-              phone:
-                phone
-
-            });
-
-
-        if (error) {
-
-          throw error;
-
-        }
-
-
-        /* =========================
-           Success
-        ========================= */
-
-        document
-          .getElementById(
-            "dataSaveConfirmArea"
-          )
-          .classList.add(
-            "hidden"
-          );
-
-
-        document
-          .getElementById(
-            "dataSavedArea"
-          )
-          .classList.remove(
-            "hidden"
-          );
-
-
-      } catch (error) {
-
-        console.error(
-          "データ保存エラー:",
-          error
-        );
-
-
-        alert(
-          "データの保存に失敗しました。\nもう一度お試しください。"
-        );
-
-
-        button.disabled =
-          false;
-
-
-        button.textContent =
-          "この内容で登録する";
+        throw error;
 
       }
 
+
+      /* =========================
+         Success
+      ========================= */
+
+      document
+        .getElementById(
+          "dataSaveConfirmArea"
+        )
+        .classList.add(
+          "hidden"
+        );
+
+
+      document
+        .getElementById(
+          "dataSavedArea"
+        )
+        .classList.remove(
+          "hidden"
+        );
+
+
+    } catch (error) {
+
+      console.error(
+        "データ保存エラー:",
+        error
+      );
+
+
+      alert(
+        "データの保存に失敗しました。\n" +
+        (error.message || "")
+      );
+
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "この内容で登録する";
+
     }
-  );
+
+  }
+);
 
 
 /* =========================================================
@@ -3157,63 +4197,61 @@ document
 ========================================================= */
 
 document
-  .getElementById(
-    "shareButton"
-  )
-  .addEventListener(
-    "click",
-    async () => {
+.getElementById("shareButton")
+.addEventListener(
+  "click",
+  async () => {
 
-      const text =
-        "AI顔診断で " +
-        currentTotal +
-        "点でした！";
+    const text =
+      "AI顔診断で " +
+      currentTotal +
+      "点でした！";
 
 
-      try {
+    try {
 
-        if (
-          navigator.share
-        ) {
+      if (
+        navigator.share
+      ) {
 
-          await navigator.share({
+        await navigator.share({
 
-            title:
-              "AI顔診断",
+          title:
+            "AI顔診断",
 
-            text:
-              text,
+          text:
+            text,
 
-            url:
-              window.location.href
-
-          });
-
-        } else {
-
-          await navigator.clipboard.writeText(
-            text +
-            "\n" +
+          url:
             window.location.href
-          );
+
+        });
+
+      } else {
+
+        await navigator.clipboard.writeText(
+          text +
+          "\n" +
+          window.location.href
+        );
 
 
-          alert(
-            "結果をコピーしました！"
-          );
-
-        }
-
-      } catch (error) {
-
-        console.log(
-          error
+        alert(
+          "結果をコピーしました！"
         );
 
       }
 
+    } catch (error) {
+
+      console.log(
+        error
+      );
+
     }
-  );
+
+  }
+);
 
 
 /* =========================================================
@@ -3221,19 +4259,17 @@ document
 ========================================================= */
 
 document
-  .getElementById(
-    "restartButton"
-  )
-  .addEventListener(
-    "click",
-    () => {
+.getElementById("restartButton")
+.addEventListener(
+  "click",
+  () => {
 
-      stopCamera();
+    stopCamera();
 
-      window.location.reload();
+    window.location.reload();
 
-    }
-  );
+  }
+);
 
 </script>
 
