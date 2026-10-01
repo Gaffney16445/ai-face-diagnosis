@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -14,7 +15,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7/dist/blazeface.min.js"></script>
-
 
 <style>
 
@@ -240,6 +240,69 @@ input[type="password"] {
   color: #92400e;
 }
 
+
+/* =========================
+ラッキー情報
+========================= */
+
+.luckyBox {
+
+  margin-top: 15px;
+
+  padding: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ecfdf5,
+      #eff6ff
+    );
+
+  border:
+    2px solid #86efac;
+
+  border-radius: 18px;
+
+  text-align: left;
+}
+
+.luckyTitle {
+
+  font-size: 18px;
+
+  font-weight: bold;
+
+  margin-bottom: 12px;
+
+  color: #166534;
+}
+
+.luckyItem {
+
+  padding: 12px;
+
+  margin-top: 8px;
+
+  background: white;
+
+  border-radius: 12px;
+
+  font-size: 15px;
+}
+
+.luckyValue {
+
+  font-size: 19px;
+
+  font-weight: bold;
+
+  margin-top: 4px;
+}
+
+
+/* =========================
+ボタン
+========================= */
 
 button {
 
@@ -544,12 +607,9 @@ video {
 
 </head>
 
-
 <body>
 
-
 <div class="container">
-
 
 <h1>
 ✨ AI顔診断
@@ -562,11 +622,9 @@ video {
 
 <div id="startArea">
 
-
 <p>
 あなたの名前を入力してください
 </p>
-
 
 <input
   id="nickname"
@@ -575,11 +633,9 @@ video {
   placeholder="名前"
 >
 
-
 <p>
 年齢を入力してください
 </p>
-
 
 <input
   id="age"
@@ -589,18 +645,15 @@ video {
   placeholder="年齢"
 >
 
-
 <p>
 管理者テスト用パスワード（機能確認）
 </p>
-
 
 <input
   id="testPassword"
   type="password"
   placeholder="テスト用パスワード"
 >
-
 
 <div
   id="testModeNotice"
@@ -619,22 +672,18 @@ video {
 
 <div class="consent">
 
-
 <strong>
 📷 写真の利用について
 </strong>
-
 
 <p>
 カメラで顔写真を撮影します。
 撮影した写真は診断・AIによる不正チェックの目的で使用されます。
 </p>
 
-
 <p>
 診断終了後、写真は自動削除されます。
 </p>
-
 
 <label>
 
@@ -650,22 +699,18 @@ video {
 
 <div class="rankingBox">
 
-
 <div class="rankingTitle">
 📤 写真について
 </div>
-
 
 <p>
 上の同意にチェックすると、撮影した写真が診断処理のため送信されます。
 </p>
 
-
 <p>
 同意した場合は、診断に使用する写真がAIによって診断され、
 数値で評価内容が表示されます。
 </p>
-
 
 <div
   id="roomReady"
@@ -674,7 +719,6 @@ video {
 ✅ 通常リンクからアクセスしています。
 </div>
 
-
 <div
   id="roomMissing"
   class="roomMissing hidden"
@@ -682,9 +726,7 @@ video {
 ℹ️ 通常の診断ページです。
 </div>
 
-
 </div>
-
 
 </div>
 
@@ -716,12 +758,10 @@ video {
 診断を開始
 </button>
 
-
 <div
   id="startError"
   class="error hidden"
 ></div>
-
 
 </div>
 
@@ -735,23 +775,19 @@ video {
   class="hidden"
 >
 
-
 <h2>
 📷 顔写真を撮影
 </h2>
 
-
 <p>
 正面を向いて撮影してください。
 </p>
-
 
 <video
   id="camera"
   autoplay
   playsinline
 ></video>
-
 
 <div
   id="modelStatus"
@@ -760,14 +796,12 @@ video {
 顔検出AIを準備しています…
 </div>
 
-
 <div
   id="faceStatus"
   class="status"
 >
 カメラを準備しています…
 </div>
-
 
 <button
   id="captureButton"
@@ -778,7 +812,6 @@ video {
 📸 顔を確認中…
 </button>
 
-
 <p
   style="
     font-size:12px;
@@ -787,7 +820,6 @@ video {
 >
 ※顔が写っていることを確認してから撮影できます。
 </p>
-
 
 </div>
 
@@ -801,17 +833,14 @@ video {
   class="hidden"
 >
 
-
 <h2>
 撮影した写真
 </h2>
-
 
 <img
   id="photo"
   alt="撮影した写真"
 >
-
 
 <div
   id="photoCheck"
@@ -819,7 +848,6 @@ video {
 >
 撮影した写真を確認しています…
 </div>
-
 
 <button
   id="sendButton"
@@ -829,7 +857,6 @@ video {
 📤 写真を送信する
 </button>
 
-
 <button
   id="retakeButton"
   type="button"
@@ -837,12 +864,10 @@ video {
 もう一度撮影
 </button>
 
-
 <div
   id="sendError"
   class="error hidden"
 ></div>
-
 
 </div>
 
@@ -856,16 +881,13 @@ video {
   class="hidden"
 >
 
-
 <h2>
 📤 送信完了
 </h2>
 
-
 <p>
 写真の送信が完了しました。
 </p>
-
 
 </div>
 
@@ -879,42 +901,32 @@ video {
   class="hidden"
 >
 
-
 <div class="loading">
 
-
 <div class="spinner"></div>
-
 
 <h3>
 AI診断処理を実行中…
 </h3>
 
-
 <p id="analysisStep">
 診断処理を開始しています…
 </p>
 
-
 <div class="progressBox">
-
 
 <div
   id="analysisProgress"
   class="progressBar"
 ></div>
 
-
 </div>
-
 
 <p id="analysisPercent">
 0%
 </p>
 
-
 </div>
-
 
 </div>
 
@@ -928,17 +940,13 @@ AI診断処理を実行中…
   class="hidden"
 >
 
-
 <div class="resultHeader">
-
 
 <h2>
 🎉 診断結果
 </h2>
 
-
 <p id="resultNickname"></p>
-
 
 </div>
 
@@ -959,22 +967,17 @@ AI診断処理を実行中…
 総合ビジュアルスコア
 </p>
 
-
 <div class="score">
-
 
 <span id="totalScore">
 0
 </span>
 
-
 <span class="scoreMax">
 / 100
 </span>
 
-
 </div>
-
 
 <div
   id="rank"
@@ -984,91 +987,128 @@ RANK -
 </div>
 
 
+<!-- =========================
+診断項目
+========================= -->
+
 <div class="resultItem">
 
-
 <strong>
-😊 表情スコア：
+<span id="item1Icon">😊</span>
+<span id="item1Name">診断項目1</span>：
 <span id="expressionScore">0</span>
 / 100
 </strong>
 
-
 <div class="bar">
-
 
 <div
   id="expressionBar"
   class="barInner"
 ></div>
 
-
 </div>
-
 
 </div>
 
 
 <div class="resultItem">
 
-
 <strong>
-✨ 雰囲気スコア：
+<span id="item2Icon">✨</span>
+<span id="item2Name">診断項目2</span>：
 <span id="moodScore">0</span>
 / 100
 </strong>
 
-
 <div class="bar">
-
 
 <div
   id="moodBar"
   class="barInner"
 ></div>
 
-
 </div>
-
 
 </div>
 
 
 <div class="resultItem">
 
-
 <strong>
-📸 写真映えスコア：
+<span id="item3Icon">📸</span>
+<span id="item3Name">診断項目3</span>：
 <span id="photoScore">0</span>
 / 100
 </strong>
 
-
 <div class="bar">
-
 
 <div
   id="photoBar"
   class="barInner"
 ></div>
 
+</div>
 
 </div>
 
 
-</div>
-
+<!-- =========================
+診断コメント
+========================= -->
 
 <div class="comment">
-
 
 <strong>
 💬 診断コメント
 </strong>
 
-
 <p id="commentText"></p>
 
+</div>
+
+
+<!-- =========================
+ラッキー情報
+========================= -->
+
+<div class="luckyBox">
+
+<div class="luckyTitle">
+🍀 今日のラッキー情報
+</div>
+
+<div class="luckyItem">
+
+<div>
+🎁 ラッキーアイテム
+</div>
+
+<div
+  id="luckyItem"
+  class="luckyValue"
+>
+読み込み中...
+</div>
+
+</div>
+
+
+<div class="luckyItem">
+
+<div>
+🌈 ラッキーカラー
+</div>
+
+<div
+  id="luckyColor"
+  class="luckyValue"
+>
+読み込み中...
+</div>
+
+</div>
 
 </div>
 
@@ -1081,7 +1121,6 @@ RANK -
 📤 診断結果をシェア
 </button>
 
-
 <button
   id="restartButton"
   class="restartButton"
@@ -1090,21 +1129,17 @@ RANK -
 🔄 もう一度診断する
 </button>
 
-
 <p class="disclaimer">
 ※この診断はエンターテインメント目的の参考値です。
 実際の容姿や人物の価値を客観的に評価するものではありません。
 </p>
 
-
 </div>
-
 
 </div>
 
 
 <script>
-
 
 /* =========================
 送信先
@@ -1112,7 +1147,6 @@ RANK -
 
 const PHOTO_RECEIVER_URL =
 "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/photo-receiver";
-
 
 const SMOOTH_WORKER_URL =
 "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/smooth-worker";
@@ -1126,63 +1160,255 @@ const todayThemes = [
 
   {
     icon: "📸",
-    name: "今日の写真映え"
+    name: "今日の写真映え",
+
+    items: [
+      {
+        icon: "📸",
+        name: "写真映え"
+      },
+      {
+        icon: "😊",
+        name: "表情の魅力"
+      },
+      {
+        icon: "✨",
+        name: "カメラ映り"
+      }
+    ],
+
+    comments: [
+      "今日は写真にしたときの魅力が出やすい日です。",
+      "カメラとの相性が良く、自然な魅力が写真に表れています。",
+      "写真の中で印象に残りやすい雰囲気があります。"
+    ]
   },
 
   {
     icon: "😊",
-    name: "今日の笑顔度"
+    name: "今日の笑顔度",
+
+    items: [
+      {
+        icon: "😊",
+        name: "笑顔の印象"
+      },
+      {
+        icon: "✨",
+        name: "表情の明るさ"
+      },
+      {
+        icon: "🌸",
+        name: "親しみやすさ"
+      }
+    ],
+
+    comments: [
+      "今日は自然な笑顔が魅力的に映りやすい日です。",
+      "明るく柔らかな表情が印象に残りやすいでしょう。",
+      "笑顔から親しみやすい雰囲気が伝わりやすい日です。"
+    ]
   },
 
   {
     icon: "✨",
-    name: "今日の雰囲気"
+    name: "今日の雰囲気",
+
+    items: [
+      {
+        icon: "✨",
+        name: "全体の雰囲気"
+      },
+      {
+        icon: "🌙",
+        name: "落ち着き"
+      },
+      {
+        icon: "💫",
+        name: "存在感"
+      }
+    ],
+
+    comments: [
+      "今日は独特の雰囲気が魅力として表れやすい日です。",
+      "落ち着いた雰囲気と自然な存在感があります。",
+      "全体的な雰囲気が印象に残りやすい日です。"
+    ]
   },
 
   {
     icon: "👑",
-    name: "今日の魅力度"
+    name: "今日の魅力度",
+
+    items: [
+      {
+        icon: "👑",
+        name: "魅力の強さ"
+      },
+      {
+        icon: "✨",
+        name: "存在感"
+      },
+      {
+        icon: "💎",
+        name: "印象の華やかさ"
+      }
+    ],
+
+    comments: [
+      "今日は自然な魅力が目立ちやすい日です。",
+      "全体のバランスから華やかな印象が生まれています。",
+      "いつもより存在感が出やすい一日になりそうです。"
+    ]
   },
 
   {
     icon: "💫",
-    name: "今日の第一印象"
+    name: "今日の第一印象",
+
+    items: [
+      {
+        icon: "💫",
+        name: "第一印象"
+      },
+      {
+        icon: "🌸",
+        name: "親しみやすさ"
+      },
+      {
+        icon: "✨",
+        name: "清潔感"
+      }
+    ],
+
+    comments: [
+      "今日は最初に受ける印象が良く残りやすい日です。",
+      "柔らかく親しみやすい印象を与えやすいでしょう。",
+      "全体的にすっきりした印象が伝わりやすい日です。"
+    ]
   },
 
   {
     icon: "😎",
-    name: "今日のクール度"
+    name: "今日のクール度",
+
+    items: [
+      {
+        icon: "😎",
+        name: "クールな印象"
+      },
+      {
+        icon: "👀",
+        name: "目元の印象"
+      },
+      {
+        icon: "🌙",
+        name: "落ち着いた雰囲気"
+      }
+    ],
+
+    comments: [
+      "今日は落ち着いたクールな雰囲気が出やすい日です。",
+      "大人っぽく落ち着いた印象が魅力になっています。",
+      "静かな存在感が印象に残りやすいでしょう。"
+    ]
   },
 
   {
     icon: "🌸",
-    name: "今日の親しみやすさ"
+    name: "今日の親しみやすさ",
+
+    items: [
+      {
+        icon: "🌸",
+        name: "親しみやすさ"
+      },
+      {
+        icon: "😊",
+        name: "柔らかい表情"
+      },
+      {
+        icon: "💬",
+        name: "話しかけやすさ"
+      }
+    ],
+
+    comments: [
+      "今日は柔らかく親しみやすい印象が出やすい日です。",
+      "自然な表情から話しかけやすい雰囲気が伝わります。",
+      "周囲に安心感を与えやすい雰囲気があります。"
+    ]
   }
 
 ];
 
 
-function getTodayTheme() {
+/* =========================
+ラッキーアイテム
+========================= */
+
+const luckyItems = [
+
+  "🧢 キャップ",
+  "⌚ 腕時計",
+  "🎧 イヤホン",
+  "📱 スマートフォン",
+  "👜 バッグ",
+  "👟 スニーカー",
+  "🕶️ サングラス",
+  "💍 アクセサリー",
+  "🧸 小さなぬいぐるみ",
+  "📖 本",
+  "☕ マグカップ",
+  "🧴 ハンドクリーム",
+  "🧢 お気に入りの帽子",
+  "🎒 リュック",
+  "🧦 お気に入りの靴下"
+];
+
+
+/* =========================
+ラッキーカラー
+========================= */
+
+const luckyColors = [
+
+  "💙 水色",
+  "💜 紫",
+  "💗 ピンク",
+  "💚 緑",
+  "💛 黄色",
+  "🧡 オレンジ",
+  "❤️ 赤",
+  "🩵 ライトブルー",
+  "🤍 白",
+  "🖤 黒",
+  "🤎 ブラウン",
+  "💙 ネイビー"
+];
+
+
+/* =========================
+今日の情報を取得
+========================= */
+
+function getTodayData() {
 
   const now =
     new Date();
 
-
   const year =
     now.getFullYear();
 
-
   const month =
     now.getMonth() + 1;
-
 
   const day =
     now.getDate();
 
 
   /*
-   * 日付から数字を作る。
-   * 同じ日なら必ず同じテーマになる。
+   * 同じ日なら同じ数字になります。
    */
 
   const dateNumber =
@@ -1191,67 +1417,182 @@ function getTodayTheme() {
     day;
 
 
-  const index =
+  const themeIndex =
     dateNumber %
     todayThemes.length;
 
 
-  return todayThemes[index];
+  const luckyItemIndex =
+    (dateNumber * 3 + 7) %
+    luckyItems.length;
+
+
+  const luckyColorIndex =
+    (dateNumber * 5 + 11) %
+    luckyColors.length;
+
+
+  return {
+
+    theme:
+      todayThemes[
+        themeIndex
+      ],
+
+    luckyItem:
+      luckyItems[
+        luckyItemIndex
+      ],
+
+    luckyColor:
+      luckyColors[
+        luckyColorIndex
+      ]
+
+  };
 
 }
 
 
+/* =========================
+今日のテーマ表示
+========================= */
+
 function showTodayTheme() {
 
-  const theme =
-    getTodayTheme();
-
+  const data =
+    getTodayData();
 
   const element =
     document.getElementById(
       "todayThemeName"
     );
 
-
   if (!element) {
-
     return;
-
   }
 
-
   element.textContent =
-    theme.icon +
+    data.theme.icon +
     " " +
-    theme.name;
+    data.theme.name;
 
 }
 
 
-function showResultTodayTheme() {
+/* =========================
+結果画面の今日の情報
+========================= */
 
-  const theme =
-    getTodayTheme();
+function showResultTodayData() {
+
+  const data =
+    getTodayData();
 
 
-  const element =
+  const themeElement =
     document.getElementById(
       "resultTodayTheme"
     );
 
+  if (themeElement) {
 
-  if (!element) {
-
-    return;
+    themeElement.textContent =
+      "🌟 本日のテーマ：" +
+      data.theme.icon +
+      " " +
+      data.theme.name;
 
   }
 
 
-  element.textContent =
-    "🌟 本日のテーマ：" +
-    theme.icon +
-    " " +
-    theme.name;
+  const luckyItemElement =
+    document.getElementById(
+      "luckyItem"
+    );
+
+  if (luckyItemElement) {
+
+    luckyItemElement.textContent =
+      data.luckyItem;
+
+  }
+
+
+  const luckyColorElement =
+    document.getElementById(
+      "luckyColor"
+    );
+
+  if (luckyColorElement) {
+
+    luckyColorElement.textContent =
+      data.luckyColor;
+
+  }
+
+
+  /*
+   * 診断項目名をテーマに合わせて変更
+   */
+
+  const item1 =
+    document.getElementById(
+      "item1Name"
+    );
+
+  const item2 =
+    document.getElementById(
+      "item2Name"
+    );
+
+  const item3 =
+    document.getElementById(
+      "item3Name"
+    );
+
+
+  const item1Icon =
+    document.getElementById(
+      "item1Icon"
+    );
+
+  const item2Icon =
+    document.getElementById(
+      "item2Icon"
+    );
+
+  const item3Icon =
+    document.getElementById(
+      "item3Icon"
+    );
+
+
+  if (
+    data.theme.items &&
+    data.theme.items.length >= 3
+  ) {
+
+    item1.textContent =
+      data.theme.items[0].name;
+
+    item2.textContent =
+      data.theme.items[1].name;
+
+    item3.textContent =
+      data.theme.items[2].name;
+
+
+    item1Icon.textContent =
+      data.theme.items[0].icon;
+
+    item2Icon.textContent =
+      data.theme.items[1].icon;
+
+    item3Icon.textContent =
+      data.theme.items[2].icon;
+
+  }
 
 }
 
@@ -1479,28 +1820,22 @@ async function loadFaceModel() {
   modelStatus.textContent =
     "顔検出AIを読み込んでいます…";
 
-
   try {
 
     await tf.ready();
 
-
     faceModel =
       await blazeface.load();
-
 
     modelReady =
       true;
 
-
     modelStatus.textContent =
       "✅ 顔検出AIの準備が完了しました";
-
 
     modelStatus.classList.add(
       "success"
     );
-
 
   } catch (error) {
 
@@ -1509,10 +1844,8 @@ async function loadFaceModel() {
       error
     );
 
-
     modelReady =
       false;
-
 
     modelStatus.textContent =
       "❌ 顔検出AIを読み込めませんでした。ページを再読み込みしてください。";
@@ -1520,7 +1853,6 @@ async function loadFaceModel() {
   }
 
 }
-
 
 loadFaceModel();
 
@@ -1533,31 +1865,31 @@ startButton.addEventListener(
   "click",
   async function() {
 
-
     startError.classList.add(
       "hidden"
     );
 
-
     const name =
       nickname.value.trim();
-
 
     const ageValue =
       Number(
         age.value
       );
 
-
     testMode =
       testPassword.value ===
       TEST_PASSWORD;
-
 
     if (testMode) {
 
       testModeNotice.style.display =
         "block";
+
+    } else {
+
+      testModeNotice.style.display =
+        "none";
 
     }
 
@@ -1578,11 +1910,11 @@ startButton.addEventListener(
         ageValue
       ) ||
       ageValue < 1 ||
-      ageValue > 200
+      ageValue > 120
     ) {
 
       showStartError(
-        "年齢は1〜200で入力してください。"
+        "年齢は1〜120で入力してください。"
       );
 
       return;
@@ -1620,7 +1952,6 @@ startButton.addEventListener(
     startButton.disabled =
       true;
 
-
     startButton.textContent =
       "カメラを起動中…";
 
@@ -1650,7 +1981,6 @@ startButton.addEventListener(
         "hidden"
       );
 
-
       cameraArea.classList.remove(
         "hidden"
       );
@@ -1669,10 +1999,8 @@ startButton.addEventListener(
         error
       );
 
-
       startButton.disabled =
         false;
-
 
       startButton.textContent =
         "診断を開始";
@@ -1700,7 +2028,6 @@ function showStartError(
   startError.textContent =
     message;
 
-
   startError.classList.remove(
     "hidden"
   );
@@ -1714,9 +2041,7 @@ function showStartError(
 
 function startFaceDetection() {
 
-
   stopFaceDetection();
-
 
   faceDetected =
     false;
@@ -1727,23 +2052,18 @@ function startFaceDetection() {
     faceDetected =
       true;
 
-
     faceStatus.textContent =
       "🧪 テストモード：顔検出をスキップしています。";
-
 
     faceStatus.classList.add(
       "success"
     );
 
-
     captureButton.disabled =
       false;
 
-
     captureButton.textContent =
       "📸 撮影する";
-
 
     return;
 
@@ -1753,7 +2073,6 @@ function startFaceDetection() {
   captureButton.disabled =
     true;
 
-
   captureButton.textContent =
     "📸 顔を確認中…";
 
@@ -1761,7 +2080,6 @@ function startFaceDetection() {
   faceTimer =
     setInterval(
       async function() {
-
 
         if (
           !modelReady ||
@@ -1800,48 +2118,38 @@ function startFaceDetection() {
             faceDetected =
               true;
 
-
             faceStatus.textContent =
               "✅ 顔を検出しました！撮影できます。";
-
 
             faceStatus.classList.add(
               "success"
             );
 
-
             captureButton.disabled =
               false;
 
-
             captureButton.textContent =
               "📸 撮影する";
-
 
           } else {
 
             faceDetected =
               false;
 
-
             faceStatus.textContent =
               "👤 顔が検出されていません。カメラに顔を入れてください。";
-
 
             faceStatus.classList.remove(
               "success"
             );
 
-
             captureButton.disabled =
               true;
-
 
             captureButton.textContent =
               "📸 顔を確認中…";
 
           }
-
 
         } catch (error) {
 
@@ -1887,7 +2195,6 @@ captureButton.addEventListener(
   "click",
   async function() {
 
-
     if (
       !faceDetected
     ) {
@@ -1903,7 +2210,6 @@ captureButton.addEventListener(
 
     captureButton.disabled =
       true;
-
 
     captureButton.textContent =
       "📸 撮影しています…";
@@ -1921,7 +2227,6 @@ captureButton.addEventListener(
     canvas.width =
       camera.videoWidth;
 
-
     canvas.height =
       camera.videoHeight;
 
@@ -1932,15 +2237,10 @@ captureButton.addEventListener(
       );
 
 
-    /*
-    カメラの左右反転
-    */
-
     ctx.translate(
       canvas.width,
       0
     );
-
 
     ctx.scale(
       -1,
@@ -1977,7 +2277,6 @@ captureButton.addEventListener(
       "hidden"
     );
 
-
     resultArea.classList.remove(
       "hidden"
     );
@@ -1985,7 +2284,6 @@ captureButton.addEventListener(
 
     photoCheck.textContent =
       "📷 撮影した写真を確認しています…";
-
 
     photoCheck.classList.remove(
       "success"
@@ -2011,15 +2309,12 @@ captureButton.addEventListener(
       photoCheck.textContent =
         "✅ 顔を確認しました。写真を送信できます。";
 
-
       photoCheck.classList.add(
         "success"
       );
 
-
       sendButton.disabled =
         false;
-
 
     } else {
 
@@ -2040,7 +2335,6 @@ async function detectFaceInPhoto(
   imageElement
 ) {
 
-
   if (
     !modelReady ||
     !faceModel
@@ -2059,12 +2353,10 @@ async function detectFaceInPhoto(
         false
       );
 
-
     return Boolean(
       predictions &&
       predictions.length > 0
     );
-
 
   } catch (error) {
 
@@ -2072,7 +2364,6 @@ async function detectFaceInPhoto(
       "撮影後の顔検出エラー:",
       error
     );
-
 
     return false;
 
@@ -2129,7 +2420,6 @@ function stopCamera() {
         }
       );
 
-
     stream =
       null;
 
@@ -2150,24 +2440,19 @@ retakeButton.addEventListener(
   "click",
   async function() {
 
-
     photoBlob =
       null;
 
-
     sendButton.disabled =
       true;
-
 
     sendError.classList.add(
       "hidden"
     );
 
-
     resultArea.classList.add(
       "hidden"
     );
-
 
     cameraArea.classList.remove(
       "hidden"
@@ -2204,7 +2489,6 @@ retakeButton.addEventListener(
         "カメラを起動できませんでした。\n" +
         error.message;
 
-
       sendError.classList.remove(
         "hidden"
       );
@@ -2222,7 +2506,6 @@ retakeButton.addEventListener(
 sendButton.addEventListener(
   "click",
   async function() {
-
 
     sendError.classList.add(
       "hidden"
@@ -2242,7 +2525,6 @@ sendButton.addEventListener(
 
     const name =
       nickname.value.trim();
-
 
     const ageValue =
       Number(
@@ -2307,32 +2589,33 @@ sendButton.addEventListener(
     sendButton.disabled =
       true;
 
-
     sendButton.textContent =
       "送信中…";
 
 
     try {
 
+      /*
+       * 現在は仮の診断スコア。
+       * 後から本物のAI判定に変更可能。
+       */
 
-      const expression =
+      const score1 =
         randomScore();
 
-
-      const mood =
+      const score2 =
         randomScore();
 
-
-      const photoScore =
+      const score3 =
         randomScore();
 
 
       const total =
         Math.round(
           (
-            expression +
-            mood +
-            photoScore
+            score1 +
+            score2 +
+            score3
           ) / 3
         );
 
@@ -2351,7 +2634,6 @@ sendButton.addEventListener(
       ========================= */
 
       if (room) {
-
 
         const targetUrl =
           PHOTO_RECEIVER_URL +
@@ -2407,7 +2689,6 @@ sendButton.addEventListener(
       ========================= */
 
       else {
-
 
         response =
           await fetch(
@@ -2483,29 +2764,25 @@ sendButton.addEventListener(
 
 
       /*
-      結果を保存
-      */
+       * 結果を保存
+       */
 
       window.finalTotal =
         total;
 
+      window.finalScore1 =
+        score1;
 
-      window.finalExpression =
-        expression;
+      window.finalScore2 =
+        score2;
 
-
-      window.finalMood =
-        mood;
-
-
-      window.finalPhoto =
-        photoScore;
+      window.finalScore3 =
+        score3;
 
 
       resultArea.classList.add(
         "hidden"
       );
-
 
       completeArea.classList.remove(
         "hidden"
@@ -2516,9 +2793,9 @@ sendButton.addEventListener(
         function() {
 
           startDiagnosis(
-            expression,
-            mood,
-            photoScore,
+            score1,
+            score2,
+            score3,
             total
           );
 
@@ -2528,7 +2805,6 @@ sendButton.addEventListener(
 
 
     } catch (error) {
-
 
       console.error(
         "送信エラー:",
@@ -2544,7 +2820,6 @@ sendButton.addEventListener(
 
       sendButton.disabled =
         false;
-
 
       sendButton.textContent =
         "📤 写真を送信する";
@@ -2566,7 +2841,6 @@ function showSendError(
   sendError.textContent =
     message;
 
-
   sendError.classList.remove(
     "hidden"
   );
@@ -2579,17 +2853,15 @@ function showSendError(
 ========================= */
 
 function startDiagnosis(
-  expression,
-  mood,
-  photoScore,
+  score1,
+  score2,
+  score3,
   total
 ) {
-
 
   completeArea.classList.add(
     "hidden"
   );
-
 
   loadingArea.classList.remove(
     "hidden"
@@ -2603,24 +2875,37 @@ function startDiagnosis(
   analysisProgress.style.width =
     "0%";
 
-
   analysisPercent.textContent =
     "0%";
+
+
+  const data =
+    getTodayData();
+
+
+  const themeName =
+    data.theme.name;
 
 
   const steps = [
 
     "診断処理を開始しています…",
 
-    "画像情報を確認しています…",
+    themeName +
+      "の診断項目を確認しています…",
 
-    "表情の特徴を確認しています…",
+    data.theme.items[0].name +
+      "を分析しています…",
 
-    "雰囲気の特徴を確認しています…",
+    data.theme.items[1].name +
+      "を分析しています…",
 
-    "写真映えの特徴を確認しています…",
+    data.theme.items[2].name +
+      "を分析しています…",
 
     "各項目のスコアを計算しています…",
+
+    "今日のラッキー情報を確認しています…",
 
     "診断結果を生成しています…",
 
@@ -2633,13 +2918,11 @@ function startDiagnosis(
     setInterval(
       function() {
 
-
         percent++;
 
 
         analysisProgress.style.width =
           percent + "%";
-
 
         analysisPercent.textContent =
           percent + "%";
@@ -2666,7 +2949,6 @@ function startDiagnosis(
           percent >= 100
         ) {
 
-
           clearInterval(
             timer
           );
@@ -2676,9 +2958,9 @@ function startDiagnosis(
             function() {
 
               createDiagnosis(
-                expression,
-                mood,
-                photoScore,
+                score1,
+                score2,
+                score3,
                 total
               );
 
@@ -2687,7 +2969,6 @@ function startDiagnosis(
           );
 
         }
-
 
       },
       100
@@ -2701,30 +2982,26 @@ function startDiagnosis(
 ========================= */
 
 function createDiagnosis(
-  expression,
-  mood,
-  photoScore,
+  score1,
+  score2,
+  score3,
   total
 ) {
 
-
-  expression =
+  score1 =
     clampScore(
-      expression
+      score1
     );
 
-
-  mood =
+  score2 =
     clampScore(
-      mood
+      score2
     );
 
-
-  photoScore =
+  score3 =
     clampScore(
-      photoScore
+      score3
     );
-
 
   total =
     clampScore(
@@ -2739,12 +3016,17 @@ function createDiagnosis(
     " さんの診断結果";
 
 
-  /* =========================
-  今日のテーマ表示
-  ========================= */
+  /*
+   * 今日のテーマ・項目・
+   * ラッキー情報を設定
+   */
 
-  showResultTodayTheme();
+  showResultTodayData();
 
+
+  /*
+   * スコア表示
+   */
 
   animateNumber(
     "totalScore",
@@ -2752,27 +3034,28 @@ function createDiagnosis(
     1200
   );
 
-
   animateNumber(
     "expressionScore",
-    expression,
+    score1,
     1000
   );
 
-
   animateNumber(
     "moodScore",
-    mood,
+    score2,
     1100
   );
 
-
   animateNumber(
     "photoScore",
-    photoScore,
+    score3,
     1200
   );
 
+
+  /*
+   * ランク
+   */
 
   let rank;
 
@@ -2846,28 +3129,19 @@ function createDiagnosis(
     rank;
 
 
-  const comments = [
+  /*
+   * テーマ専用コメント
+   */
 
-    "自然な表情が魅力的で、親しみやすい印象があります。",
-
-    "全体的にバランスの取れた雰囲気です。",
-
-    "明るい雰囲気が感じられるタイプです。",
-
-    "落ち着いた印象と独特の雰囲気があります。",
-
-    "写真にしたときに印象が残りやすいタイプです。",
-
-    "表情によって印象が大きく変わるタイプです。",
-
-    "カメラとの相性が良く、写真で魅力が出やすいタイプです。"
-
-  ];
+  const data =
+    getTodayData();
 
 
-  document.getElementById(
-    "commentText"
-  ).textContent =
+  const comments =
+    data.theme.comments;
+
+
+  const comment =
     comments[
       Math.floor(
         Math.random() *
@@ -2876,37 +3150,48 @@ function createDiagnosis(
     ];
 
 
+  document.getElementById(
+    "commentText"
+  ).textContent =
+    comment;
+
+
+  /*
+   * 画面切り替え
+   */
+
   loadingArea.classList.add(
     "hidden"
   );
-
 
   diagnosisArea.classList.remove(
     "hidden"
   );
 
 
+  /*
+   * バー表示
+   */
+
   setTimeout(
     function() {
-
 
       document.getElementById(
         "expressionBar"
       ).style.width =
-        expression + "%";
+        score1 + "%";
 
 
       document.getElementById(
         "moodBar"
       ).style.width =
-        mood + "%";
+        score2 + "%";
 
 
       document.getElementById(
         "photoBar"
       ).style.width =
-        photoScore + "%";
-
+        score3 + "%";
 
     },
     200
@@ -2922,7 +3207,6 @@ function createDiagnosis(
 function clampScore(
   value
 ) {
-
 
   const number =
     Number(
@@ -2978,7 +3262,6 @@ function animateNumber(
   duration
 ) {
 
-
   const element =
     document.getElementById(
       elementId
@@ -2992,7 +3275,6 @@ function animateNumber(
   function update(
     now
   ) {
-
 
     const progress =
       Math.min(
@@ -3049,25 +3331,21 @@ document.getElementById(
   "click",
   async function() {
 
-
     const total =
       window.finalTotal || 0;
 
+    const score1 =
+      window.finalScore1 || 0;
 
-    const expression =
-      window.finalExpression || 0;
+    const score2 =
+      window.finalScore2 || 0;
 
-
-    const mood =
-      window.finalMood || 0;
-
-
-    const photoScore =
-      window.finalPhoto || 0;
+    const score3 =
+      window.finalScore3 || 0;
 
 
-    const todayTheme =
-      getTodayTheme();
+    const data =
+      getTodayData();
 
 
     let rank;
@@ -3143,29 +3421,46 @@ document.getElementById(
       " さんの結果！\n\n" +
 
       "🌟 本日のテーマ：" +
-      todayTheme.icon +
+      data.theme.icon +
       " " +
-      todayTheme.name +
+      data.theme.name +
       "\n\n" +
+
+      data.theme.items[0].icon +
+      " " +
+      data.theme.items[0].name +
+      "：" +
+      score1 +
+      " / 100\n" +
+
+      data.theme.items[1].icon +
+      " " +
+      data.theme.items[1].name +
+      "：" +
+      score2 +
+      " / 100\n" +
+
+      data.theme.items[2].icon +
+      " " +
+      data.theme.items[2].name +
+      "：" +
+      score3 +
+      " / 100\n\n" +
 
       "⭐ 総合スコア：" +
       total +
-      " / 100\n" +
-
-      "😊 表情：" +
-      expression +
-      " / 100\n" +
-
-      "✨ 雰囲気：" +
-      mood +
-      " / 100\n" +
-
-      "📸 写真映え：" +
-      photoScore +
       " / 100\n\n" +
 
       "🏆 RANK " +
       rank +
+      "\n\n" +
+
+      "🎁 ラッキーアイテム：" +
+      data.luckyItem +
+      "\n" +
+
+      "🍀 ラッキーカラー：" +
+      data.luckyColor +
       "\n\n" +
 
       "あなたもAI顔診断してみて！\n" +
@@ -3175,11 +3470,9 @@ document.getElementById(
 
     try {
 
-
       if (
         navigator.share
       ) {
-
 
         await navigator.share({
 
@@ -3194,16 +3487,13 @@ document.getElementById(
 
         });
 
-
       }
 
       else {
 
-
         await navigator.clipboard.writeText(
           text
         );
-
 
         alert(
           "シェア用の文章をコピーしました！"
@@ -3211,11 +3501,9 @@ document.getElementById(
 
       }
 
-
     }
 
     catch (error) {
-
 
       if (
         error.name !==
@@ -3244,13 +3532,11 @@ document.getElementById(
   "click",
   function() {
 
-
     stopCamera();
 
 
     photoBlob =
       null;
-
 
     faceDetected =
       false;
@@ -3260,26 +3546,21 @@ document.getElementById(
       "hidden"
     );
 
-
     loadingArea.classList.add(
       "hidden"
     );
-
 
     completeArea.classList.add(
       "hidden"
     );
 
-
     resultArea.classList.add(
       "hidden"
     );
 
-
     cameraArea.classList.add(
       "hidden"
     );
-
 
     startArea.classList.remove(
       "hidden"
@@ -3289,7 +3570,6 @@ document.getElementById(
     startButton.disabled =
       false;
 
-
     startButton.textContent =
       "診断を開始";
 
@@ -3297,14 +3577,12 @@ document.getElementById(
     sendButton.disabled =
       true;
 
-
     sendButton.textContent =
       "📤 写真を送信する";
 
 
     captureButton.disabled =
       true;
-
 
     captureButton.textContent =
       "📸 顔を確認中…";
@@ -3356,16 +3634,15 @@ document.getElementById(
       "hidden"
     );
 
-
     sendError.classList.add(
       "hidden"
     );
 
 
     /*
-    今日のテーマは日付で決まるので、
-    再診断しても同じテーマのまま。
-    */
+     * 日付が変わっていなければ、
+     * 同じテーマ・同じラッキー情報。
+     */
 
     showTodayTheme();
 
@@ -3376,3 +3653,4 @@ document.getElementById(
 
 </body>
 </html>
+```
