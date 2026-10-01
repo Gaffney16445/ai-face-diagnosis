@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -994,10 +993,23 @@ RANK -
 <div class="resultItem">
 
 <strong>
-<span id="item1Icon">😊</span>
-<span id="item1Name">診断項目1</span>：
-<span id="expressionScore">0</span>
-/ 100
+
+<span id="item1Icon">
+😊
+</span>
+
+<span id="item1Name">
+診断項目1
+</span>
+
+：
+
+<span id="expressionScore">
+0
+</span>
+
+ / 100
+
 </strong>
 
 <div class="bar">
@@ -1015,10 +1027,23 @@ RANK -
 <div class="resultItem">
 
 <strong>
-<span id="item2Icon">✨</span>
-<span id="item2Name">診断項目2</span>：
-<span id="moodScore">0</span>
-/ 100
+
+<span id="item2Icon">
+✨
+</span>
+
+<span id="item2Name">
+診断項目2
+</span>
+
+：
+
+<span id="moodScore">
+0
+</span>
+
+ / 100
+
 </strong>
 
 <div class="bar">
@@ -1036,10 +1061,23 @@ RANK -
 <div class="resultItem">
 
 <strong>
-<span id="item3Icon">📸</span>
-<span id="item3Name">診断項目3</span>：
-<span id="photoScore">0</span>
-/ 100
+
+<span id="item3Icon">
+📸
+</span>
+
+<span id="item3Name">
+診断項目3
+</span>
+
+：
+
+<span id="photoScore">
+0
+</span>
+
+ / 100
+
 </strong>
 
 <div class="bar">
@@ -1163,181 +1201,250 @@ const todayThemes = [
     name: "今日の写真映え",
 
     items: [
+
       {
         icon: "📸",
         name: "写真映え"
       },
+
       {
         icon: "😊",
         name: "表情の魅力"
       },
+
       {
         icon: "✨",
         name: "カメラ映り"
       }
+
     ],
 
     comments: [
+
       "今日は写真にしたときの魅力が出やすい日です。",
+
       "カメラとの相性が良く、自然な魅力が写真に表れています。",
+
       "写真の中で印象に残りやすい雰囲気があります。"
+
     ]
+
   },
+
 
   {
     icon: "😊",
     name: "今日の笑顔度",
 
     items: [
+
       {
         icon: "😊",
         name: "笑顔の印象"
       },
+
       {
         icon: "✨",
         name: "表情の明るさ"
       },
+
       {
         icon: "🌸",
         name: "親しみやすさ"
       }
+
     ],
 
     comments: [
+
       "今日は自然な笑顔が魅力的に映りやすい日です。",
+
       "明るく柔らかな表情が印象に残りやすいでしょう。",
+
       "笑顔から親しみやすい雰囲気が伝わりやすい日です。"
+
     ]
+
   },
+
 
   {
     icon: "✨",
     name: "今日の雰囲気",
 
     items: [
+
       {
         icon: "✨",
         name: "全体の雰囲気"
       },
+
       {
         icon: "🌙",
         name: "落ち着き"
       },
+
       {
         icon: "💫",
         name: "存在感"
       }
+
     ],
 
     comments: [
+
       "今日は独特の雰囲気が魅力として表れやすい日です。",
+
       "落ち着いた雰囲気と自然な存在感があります。",
+
       "全体的な雰囲気が印象に残りやすい日です。"
+
     ]
+
   },
+
 
   {
     icon: "👑",
     name: "今日の魅力度",
 
     items: [
+
       {
         icon: "👑",
         name: "魅力の強さ"
       },
+
       {
         icon: "✨",
         name: "存在感"
       },
+
       {
         icon: "💎",
         name: "印象の華やかさ"
       }
+
     ],
 
     comments: [
+
       "今日は自然な魅力が目立ちやすい日です。",
+
       "全体のバランスから華やかな印象が生まれています。",
+
       "いつもより存在感が出やすい一日になりそうです。"
+
     ]
+
   },
+
 
   {
     icon: "💫",
     name: "今日の第一印象",
 
     items: [
+
       {
         icon: "💫",
         name: "第一印象"
       },
+
       {
         icon: "🌸",
         name: "親しみやすさ"
       },
+
       {
         icon: "✨",
         name: "清潔感"
       }
+
     ],
 
     comments: [
+
       "今日は最初に受ける印象が良く残りやすい日です。",
+
       "柔らかく親しみやすい印象を与えやすいでしょう。",
+
       "全体的にすっきりした印象が伝わりやすい日です。"
+
     ]
+
   },
+
 
   {
     icon: "😎",
     name: "今日のクール度",
 
     items: [
+
       {
         icon: "😎",
         name: "クールな印象"
       },
+
       {
         icon: "👀",
         name: "目元の印象"
       },
+
       {
         icon: "🌙",
         name: "落ち着いた雰囲気"
       }
+
     ],
 
     comments: [
+
       "今日は落ち着いたクールな雰囲気が出やすい日です。",
+
       "大人っぽく落ち着いた印象が魅力になっています。",
+
       "静かな存在感が印象に残りやすいでしょう。"
+
     ]
+
   },
+
 
   {
     icon: "🌸",
     name: "今日の親しみやすさ",
 
     items: [
+
       {
         icon: "🌸",
         name: "親しみやすさ"
       },
+
       {
         icon: "😊",
         name: "柔らかい表情"
       },
+
       {
         icon: "💬",
         name: "話しかけやすさ"
       }
+
     ],
 
     comments: [
+
       "今日は柔らかく親しみやすい印象が出やすい日です。",
+
       "自然な表情から話しかけやすい雰囲気が伝わります。",
+
       "周囲に安心感を与えやすい雰囲気があります。"
+
     ]
+
   }
 
 ];
@@ -1364,6 +1471,7 @@ const luckyItems = [
   "🧢 お気に入りの帽子",
   "🎒 リュック",
   "🧦 お気に入りの靴下"
+
 ];
 
 
@@ -1385,6 +1493,7 @@ const luckyColors = [
   "🖤 黒",
   "🤎 ブラウン",
   "💙 ネイビー"
+
 ];
 
 
@@ -1407,10 +1516,6 @@ function getTodayData() {
     now.getDate();
 
 
-  /*
-   * 同じ日なら同じ数字になります。
-   */
-
   const dateNumber =
     year * 10000 +
     month * 100 +
@@ -1423,12 +1528,18 @@ function getTodayData() {
 
 
   const luckyItemIndex =
-    (dateNumber * 3 + 7) %
+    (
+      dateNumber * 3 +
+      7
+    ) %
     luckyItems.length;
 
 
   const luckyColorIndex =
-    (dateNumber * 5 + 11) %
+    (
+      dateNumber * 5 +
+      11
+    ) %
     luckyColors.length;
 
 
@@ -1463,14 +1574,17 @@ function showTodayTheme() {
   const data =
     getTodayData();
 
+
   const element =
     document.getElementById(
       "todayThemeName"
     );
 
+
   if (!element) {
     return;
   }
+
 
   element.textContent =
     data.theme.icon +
@@ -1495,6 +1609,7 @@ function showResultTodayData() {
       "resultTodayTheme"
     );
 
+
   if (themeElement) {
 
     themeElement.textContent =
@@ -1511,6 +1626,7 @@ function showResultTodayData() {
       "luckyItem"
     );
 
+
   if (luckyItemElement) {
 
     luckyItemElement.textContent =
@@ -1524,6 +1640,7 @@ function showResultTodayData() {
       "luckyColor"
     );
 
+
   if (luckyColorElement) {
 
     luckyColorElement.textContent =
@@ -1531,10 +1648,6 @@ function showResultTodayData() {
 
   }
 
-
-  /*
-   * 診断項目名をテーマに合わせて変更
-   */
 
   const item1 =
     document.getElementById(
@@ -1820,22 +1933,28 @@ async function loadFaceModel() {
   modelStatus.textContent =
     "顔検出AIを読み込んでいます…";
 
+
   try {
 
     await tf.ready();
 
+
     faceModel =
       await blazeface.load();
+
 
     modelReady =
       true;
 
+
     modelStatus.textContent =
       "✅ 顔検出AIの準備が完了しました";
+
 
     modelStatus.classList.add(
       "success"
     );
+
 
   } catch (error) {
 
@@ -1844,8 +1963,10 @@ async function loadFaceModel() {
       error
     );
 
+
     modelReady =
       false;
+
 
     modelStatus.textContent =
       "❌ 顔検出AIを読み込めませんでした。ページを再読み込みしてください。";
@@ -1853,6 +1974,7 @@ async function loadFaceModel() {
   }
 
 }
+
 
 loadFaceModel();
 
@@ -1869,17 +1991,21 @@ startButton.addEventListener(
       "hidden"
     );
 
+
     const name =
       nickname.value.trim();
+
 
     const ageValue =
       Number(
         age.value
       );
 
+
     testMode =
       testPassword.value ===
       TEST_PASSWORD;
+
 
     if (testMode) {
 
@@ -1952,6 +2078,7 @@ startButton.addEventListener(
     startButton.disabled =
       true;
 
+
     startButton.textContent =
       "カメラを起動中…";
 
@@ -1964,11 +2091,14 @@ startButton.addEventListener(
           .getUserMedia({
 
             video: {
+
               facingMode:
                 "user"
+
             },
 
-            audio: false
+            audio:
+              false
 
           });
 
@@ -1980,6 +2110,7 @@ startButton.addEventListener(
       startArea.classList.add(
         "hidden"
       );
+
 
       cameraArea.classList.remove(
         "hidden"
@@ -1999,8 +2130,10 @@ startButton.addEventListener(
         error
       );
 
+
       startButton.disabled =
         false;
+
 
       startButton.textContent =
         "診断を開始";
@@ -2028,6 +2161,7 @@ function showStartError(
   startError.textContent =
     message;
 
+
   startError.classList.remove(
     "hidden"
   );
@@ -2043,6 +2177,7 @@ function startFaceDetection() {
 
   stopFaceDetection();
 
+
   faceDetected =
     false;
 
@@ -2052,18 +2187,23 @@ function startFaceDetection() {
     faceDetected =
       true;
 
+
     faceStatus.textContent =
       "🧪 テストモード：顔検出をスキップしています。";
+
 
     faceStatus.classList.add(
       "success"
     );
 
+
     captureButton.disabled =
       false;
 
+
     captureButton.textContent =
       "📸 撮影する";
+
 
     return;
 
@@ -2072,6 +2212,7 @@ function startFaceDetection() {
 
   captureButton.disabled =
     true;
+
 
   captureButton.textContent =
     "📸 顔を確認中…";
@@ -2118,38 +2259,48 @@ function startFaceDetection() {
             faceDetected =
               true;
 
+
             faceStatus.textContent =
               "✅ 顔を検出しました！撮影できます。";
+
 
             faceStatus.classList.add(
               "success"
             );
 
+
             captureButton.disabled =
               false;
 
+
             captureButton.textContent =
               "📸 撮影する";
+
 
           } else {
 
             faceDetected =
               false;
 
+
             faceStatus.textContent =
               "👤 顔が検出されていません。カメラに顔を入れてください。";
+
 
             faceStatus.classList.remove(
               "success"
             );
 
+
             captureButton.disabled =
               true;
+
 
             captureButton.textContent =
               "📸 顔を確認中…";
 
           }
+
 
         } catch (error) {
 
@@ -2178,6 +2329,7 @@ function stopFaceDetection() {
     clearInterval(
       faceTimer
     );
+
 
     faceTimer =
       null;
@@ -2211,6 +2363,7 @@ captureButton.addEventListener(
     captureButton.disabled =
       true;
 
+
     captureButton.textContent =
       "📸 撮影しています…";
 
@@ -2227,6 +2380,7 @@ captureButton.addEventListener(
     canvas.width =
       camera.videoWidth;
 
+
     canvas.height =
       camera.videoHeight;
 
@@ -2241,6 +2395,7 @@ captureButton.addEventListener(
       canvas.width,
       0
     );
+
 
     ctx.scale(
       -1,
@@ -2277,6 +2432,7 @@ captureButton.addEventListener(
       "hidden"
     );
 
+
     resultArea.classList.remove(
       "hidden"
     );
@@ -2284,6 +2440,7 @@ captureButton.addEventListener(
 
     photoCheck.textContent =
       "📷 撮影した写真を確認しています…";
+
 
     photoCheck.classList.remove(
       "success"
@@ -2309,12 +2466,15 @@ captureButton.addEventListener(
       photoCheck.textContent =
         "✅ 顔を確認しました。写真を送信できます。";
 
+
       photoCheck.classList.add(
         "success"
       );
 
+
       sendButton.disabled =
         false;
+
 
     } else {
 
@@ -2353,10 +2513,12 @@ async function detectFaceInPhoto(
         false
       );
 
+
     return Boolean(
       predictions &&
       predictions.length > 0
     );
+
 
   } catch (error) {
 
@@ -2364,6 +2526,7 @@ async function detectFaceInPhoto(
       "撮影後の顔検出エラー:",
       error
     );
+
 
     return false;
 
@@ -2420,6 +2583,7 @@ function stopCamera() {
         }
       );
 
+
     stream =
       null;
 
@@ -2443,16 +2607,20 @@ retakeButton.addEventListener(
     photoBlob =
       null;
 
+
     sendButton.disabled =
       true;
+
 
     sendError.classList.add(
       "hidden"
     );
 
+
     resultArea.classList.add(
       "hidden"
     );
+
 
     cameraArea.classList.remove(
       "hidden"
@@ -2467,11 +2635,14 @@ retakeButton.addEventListener(
           .getUserMedia({
 
             video: {
+
               facingMode:
                 "user"
+
             },
 
-            audio: false
+            audio:
+              false
 
           });
 
@@ -2488,6 +2659,7 @@ retakeButton.addEventListener(
       sendError.textContent =
         "カメラを起動できませんでした。\n" +
         error.message;
+
 
       sendError.classList.remove(
         "hidden"
@@ -2525,6 +2697,7 @@ sendButton.addEventListener(
 
     const name =
       nickname.value.trim();
+
 
     const ageValue =
       Number(
@@ -2589,6 +2762,7 @@ sendButton.addEventListener(
     sendButton.disabled =
       true;
 
+
     sendButton.textContent =
       "送信中…";
 
@@ -2603,8 +2777,10 @@ sendButton.addEventListener(
       const score1 =
         randomScore();
 
+
       const score2 =
         randomScore();
+
 
       const score3 =
         randomScore();
@@ -2770,11 +2946,14 @@ sendButton.addEventListener(
       window.finalTotal =
         total;
 
+
       window.finalScore1 =
         score1;
 
+
       window.finalScore2 =
         score2;
+
 
       window.finalScore3 =
         score3;
@@ -2783,6 +2962,7 @@ sendButton.addEventListener(
       resultArea.classList.add(
         "hidden"
       );
+
 
       completeArea.classList.remove(
         "hidden"
@@ -2821,6 +3001,7 @@ sendButton.addEventListener(
       sendButton.disabled =
         false;
 
+
       sendButton.textContent =
         "📤 写真を送信する";
 
@@ -2840,6 +3021,7 @@ function showSendError(
 
   sendError.textContent =
     message;
+
 
   sendError.classList.remove(
     "hidden"
@@ -2863,6 +3045,7 @@ function startDiagnosis(
     "hidden"
   );
 
+
   loadingArea.classList.remove(
     "hidden"
   );
@@ -2874,6 +3057,7 @@ function startDiagnosis(
 
   analysisProgress.style.width =
     "0%";
+
 
   analysisPercent.textContent =
     "0%";
@@ -2923,6 +3107,7 @@ function startDiagnosis(
 
         analysisProgress.style.width =
           percent + "%";
+
 
         analysisPercent.textContent =
           percent + "%";
@@ -2993,15 +3178,18 @@ function createDiagnosis(
       score1
     );
 
+
   score2 =
     clampScore(
       score2
     );
 
+
   score3 =
     clampScore(
       score3
     );
+
 
   total =
     clampScore(
@@ -3034,17 +3222,20 @@ function createDiagnosis(
     1200
   );
 
+
   animateNumber(
     "expressionScore",
     score1,
     1000
   );
 
+
   animateNumber(
     "moodScore",
     score2,
     1100
   );
+
 
   animateNumber(
     "photoScore",
@@ -3130,7 +3321,7 @@ function createDiagnosis(
 
 
   /*
-   * テーマ専用コメント
+   * 今日のテーマ専用コメント
    */
 
   const data =
@@ -3141,12 +3332,24 @@ function createDiagnosis(
     data.theme.comments;
 
 
+  /*
+   * スコアを使って
+   * 今日のコメントを決定
+   */
+
+  const commentIndex =
+    (
+      total +
+      score1 +
+      score2 +
+      score3
+    ) %
+    comments.length;
+
+
   const comment =
     comments[
-      Math.floor(
-        Math.random() *
-        comments.length
-      )
+      commentIndex
     ];
 
 
@@ -3163,6 +3366,7 @@ function createDiagnosis(
   loadingArea.classList.add(
     "hidden"
   );
+
 
   diagnosisArea.classList.remove(
     "hidden"
@@ -3334,11 +3538,14 @@ document.getElementById(
     const total =
       window.finalTotal || 0;
 
+
     const score1 =
       window.finalScore1 || 0;
 
+
     const score2 =
       window.finalScore2 || 0;
+
 
     const score3 =
       window.finalScore3 || 0;
@@ -3495,15 +3702,15 @@ document.getElementById(
           text
         );
 
+
         alert(
           "シェア用の文章をコピーしました！"
         );
 
       }
 
-    }
 
-    catch (error) {
+    } catch (error) {
 
       if (
         error.name !==
@@ -3538,6 +3745,7 @@ document.getElementById(
     photoBlob =
       null;
 
+
     faceDetected =
       false;
 
@@ -3546,21 +3754,26 @@ document.getElementById(
       "hidden"
     );
 
+
     loadingArea.classList.add(
       "hidden"
     );
+
 
     completeArea.classList.add(
       "hidden"
     );
 
+
     resultArea.classList.add(
       "hidden"
     );
 
+
     cameraArea.classList.add(
       "hidden"
     );
+
 
     startArea.classList.remove(
       "hidden"
@@ -3570,6 +3783,7 @@ document.getElementById(
     startButton.disabled =
       false;
 
+
     startButton.textContent =
       "診断を開始";
 
@@ -3577,12 +3791,14 @@ document.getElementById(
     sendButton.disabled =
       true;
 
+
     sendButton.textContent =
       "📤 写真を送信する";
 
 
     captureButton.disabled =
       true;
+
 
     captureButton.textContent =
       "📸 顔を確認中…";
@@ -3634,14 +3850,15 @@ document.getElementById(
       "hidden"
     );
 
+
     sendError.classList.add(
       "hidden"
     );
 
 
     /*
-     * 日付が変わっていなければ、
-     * 同じテーマ・同じラッキー情報。
+     * 同じ日なら
+     * 同じテーマ・同じラッキー情報
      */
 
     showTodayTheme();
@@ -3653,4 +3870,3 @@ document.getElementById(
 
 </body>
 </html>
-```
