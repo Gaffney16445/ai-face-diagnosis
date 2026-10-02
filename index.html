@@ -2179,17 +2179,11 @@ const luckyColors = [
 
 function getTodayData() {
 
-  const now =
-    new Date();
+  const now = new Date();
 
-  const year =
-    now.getFullYear();
-
-  const month =
-    now.getMonth() + 1;
-
-  const day =
-    now.getDate();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
 
   const dateNumber =
     year * 10000 +
@@ -2197,42 +2191,21 @@ function getTodayData() {
     day;
 
   const themeIndex =
-    dateNumber %
-    todayThemes.length;
+    dateNumber % todayThemes.length;
 
   const luckyItemIndex =
-    (
-      dateNumber * 3 +
-      7
-    ) %
+    (dateNumber * 3 + 7) %
     luckyItems.length;
 
   const luckyColorIndex =
-    (
-      dateNumber * 5 +
-      11
-    ) %
+    (dateNumber * 5 + 11) %
     luckyColors.length;
 
   return {
-
-    theme:
-      todayThemes[
-        themeIndex
-      ],
-
-    luckyItem:
-      luckyItems[
-        luckyItemIndex
-      ],
-
-    luckyColor:
-      luckyColors[
-        luckyColorIndex
-      ]
-
+    theme: todayThemes[themeIndex],
+    luckyItem: luckyItems[luckyItemIndex],
+    luckyColor: luckyColors[luckyColorIndex]
   };
-
 }
 
 
