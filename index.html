@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -89,6 +89,248 @@ input[type="tel"] {
   border-radius: 12px;
 }
 
+
+/* =========================
+注意事項ボタン
+========================= */
+
+.noticeOpenButton {
+
+  background:
+    linear-gradient(
+      135deg,
+      #f59e0b,
+      #ef4444
+    );
+
+  margin-top: 18px;
+
+}
+
+
+/* =========================
+注意事項モーダル
+========================= */
+
+.noticeOverlay {
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9999;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 18px;
+
+  background:
+    rgba(0,0,0,.72);
+}
+
+.noticeModal {
+
+  width: 100%;
+
+  max-width: 500px;
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  padding: 22px;
+
+  background: white;
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 15px 50px rgba(0,0,0,.45);
+
+  text-align: left;
+}
+
+.noticeHeader {
+
+  margin-bottom: 15px;
+
+  padding: 15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5,
+      #9333ea
+    );
+
+  color: white;
+
+  border-radius: 16px;
+
+  text-align: center;
+}
+
+.noticeHeader h2 {
+
+  margin: 0;
+
+  font-size: 23px;
+}
+
+.noticeSection {
+
+  margin-top: 13px;
+
+  padding: 13px;
+
+  background: #f5f5f7;
+
+  border-radius: 13px;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+.noticeSection strong {
+
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-size: 15px;
+
+  color: #111827;
+}
+
+.noticeConsent {
+
+  margin-top: 15px;
+
+  padding: 15px;
+
+  background: #fff7ed;
+
+  border:
+    2px solid #f59e0b;
+
+  border-radius: 14px;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+.noticeConsent label {
+
+  display: flex;
+
+  gap: 8px;
+
+  align-items: flex-start;
+
+  cursor: pointer;
+}
+
+.noticeConsent input {
+
+  width: 20px;
+
+  height: 20px;
+
+  flex-shrink: 0;
+
+  margin-top: 2px;
+}
+
+.noticeCloseButton {
+
+  background: #111827;
+}
+
+.noticeCloseButton:disabled {
+
+  background: #999;
+}
+
+
+/* =========================
+登録エリア
+========================= */
+
+.registrationBox {
+
+  margin-top: 20px;
+
+  padding: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eef2ff,
+      #f5f3ff
+    );
+
+  border:
+    2px solid #818cf8;
+
+  border-radius: 18px;
+
+  text-align: left;
+}
+
+.registrationTitle {
+
+  text-align: center;
+
+  font-size: 19px;
+
+  font-weight: bold;
+
+  color: #3730a3;
+
+  margin-bottom: 12px;
+}
+
+.registrationDescription {
+
+  font-size: 13px;
+
+  line-height: 1.6;
+
+  color: #555;
+
+  text-align: center;
+}
+
+.optionalBadge {
+
+  display: inline-block;
+
+  margin-left: 5px;
+
+  padding: 3px 7px;
+
+  background: #dcfce7;
+
+  color: #166534;
+
+  border-radius: 7px;
+
+  font-size: 11px;
+
+  font-weight: bold;
+}
+
+
+/* =========================
+通常同意エリア
+========================= */
+
 .consent {
 
   margin-top: 20px;
@@ -120,6 +362,33 @@ input[type="tel"] {
 
   margin-right: 7px;
 }
+
+
+/* =========================
+注意事項確認状態
+========================= */
+
+.noticeConfirmed {
+
+  margin-top: 10px;
+
+  padding: 10px;
+
+  background: #dcfce7;
+
+  color: #166534;
+
+  border-radius: 10px;
+
+  font-size: 13px;
+
+  font-weight: bold;
+}
+
+
+/* =========================
+ランキング
+========================= */
 
 .rankingBox {
 
@@ -179,56 +448,6 @@ input[type="tel"] {
   border-radius: 8px;
 
   font-size: 13px;
-}
-
-
-/* =========================
-登録エリア
-========================= */
-
-.registrationBox {
-
-  margin-top: 20px;
-
-  padding: 18px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #eef2ff,
-      #f5f3ff
-    );
-
-  border:
-    2px solid #818cf8;
-
-  border-radius: 18px;
-
-  text-align: left;
-}
-
-.registrationTitle {
-
-  text-align: center;
-
-  font-size: 19px;
-
-  font-weight: bold;
-
-  color: #3730a3;
-
-  margin-bottom: 12px;
-}
-
-.registrationDescription {
-
-  font-size: 13px;
-
-  line-height: 1.6;
-
-  color: #555;
-
-  text-align: center;
 }
 
 
@@ -801,17 +1020,19 @@ video {
 
 
 <!-- =========================
-登録情報
+任意登録
 ========================= -->
 
 <div class="registrationBox">
 
 <div class="registrationTitle">
-📝 登録情報
+📝 新規登録
+<span class="optionalBadge">任意</span>
 </div>
 
 <p class="registrationDescription">
-診断を開始する前に、登録情報を入力してください。
+登録しなくても診断できます。<br>
+メールアドレス・電話番号を登録する場合のみ入力してください。
 </p>
 
 
@@ -844,7 +1065,7 @@ video {
   class="registrationButton"
   type="button"
 >
-📝 登録情報を送信
+📝 任意で登録する
 </button>
 
 
@@ -893,6 +1114,27 @@ video {
 
 
 <!-- =========================
+注意事項ボタン
+========================= -->
+
+<button
+  id="noticeOpenButton"
+  class="noticeOpenButton"
+  type="button"
+>
+📜 注意事項を確認する
+</button>
+
+
+<div
+  id="noticeConfirmed"
+  class="noticeConfirmed hidden"
+>
+✅ 注意事項を確認しました
+</div>
+
+
+<!-- =========================
 同意
 ========================= -->
 
@@ -903,17 +1145,11 @@ video {
 </strong>
 
 <p>
-カメラで顔写真を撮影します。
-撮影した写真は診断・AIによる不正チェックの目的で使用されます。
+診断ではカメラを使用して顔写真を撮影します。
 </p>
 
 <p>
-診断終了後、写真は自動削除されます。
-</p>
-
-<p>
-登録時に入力したメールアドレス・電話番号・ニックネーム・年齢は、
-登録管理および診断サービスの管理目的で保存されます。
+撮影した写真は、ユーザーが同意して送信した場合に診断処理へ送信されます。
 </p>
 
 <label>
@@ -923,7 +1159,7 @@ video {
   type="checkbox"
 >
 
-このサイトへの顔の送信(診断用)に同意します。
+顔写真の送信に同意します。
 
 </label>
 
@@ -939,8 +1175,7 @@ video {
 </p>
 
 <p>
-同意した場合は、診断に使用する写真がAIによって診断され、
-数値で評価内容が表示されます。
+ルームID付きリンクの場合は、ルームに応じた処理が行われます。
 </p>
 
 
@@ -1000,6 +1235,170 @@ video {
   id="startError"
   class="error hidden"
 ></div>
+
+</div>
+
+
+<!-- =========================
+注意事項モーダル
+========================= -->
+
+<div
+  id="noticeOverlay"
+  class="noticeOverlay hidden"
+>
+
+<div class="noticeModal">
+
+<div class="noticeHeader">
+
+<h2>
+📜 AI顔診断 注意事項
+</h2>
+
+<p>
+ゲームを開始する前に確認してください
+</p>
+
+</div>
+
+
+<div class="noticeSection">
+
+<strong>
+📷 1. 顔写真について
+</strong>
+
+診断ではカメラを使用して顔写真を撮影します。
+撮影した写真は、ユーザーが同意して送信した場合に診断処理に使用されます。
+</div>
+
+
+<div class="noticeSection">
+
+<strong>
+🤖 2. AI診断について
+</strong>
+
+顔検出や本人確認などの処理を行います。
+診断結果はエンターテインメント目的の参考値であり、
+実際の容姿や人物の価値を客観的に評価するものではありません。
+</div>
+
+
+<div class="noticeSection">
+
+<strong>
+🔐 3. 本人確認について
+</strong>
+
+カメラ上で指定された動作を行ってもらい、
+撮影前の簡易的な本人確認を行います。
+これは公的な本人確認や身元確認を意味するものではありません。
+</div>
+
+
+<div class="noticeSection">
+
+<strong>
+📤 4. 写真の送信について
+</strong>
+
+「写真を送信する」を実行すると、撮影した写真が診断処理のためサーバーへ送信されます。
+ルームID付きリンクでは、ルームに応じた送信処理が行われる場合があります。
+</div>
+
+
+<div class="noticeSection">
+
+<strong>
+🛡️ 5. 管理・不正チェックについて
+</strong>
+
+サービスの運営・診断処理・不正利用対策のため、
+写真や診断に関連する情報が管理用システムへ送信・記録される場合があります。
+管理用Discordへ情報が送信される構成の場合、その情報も管理目的で利用されます。
+</div>
+
+
+<div class="noticeSection">
+
+<strong>
+🌐 6. IPアドレス等について
+</strong>
+
+サービスの安全管理、不正利用対策、アクセス管理などのため、
+サーバー側でIPアドレス、アクセス時刻、リクエスト情報などが記録される場合があります。
+</div>
+
+
+<div class="noticeSection">
+
+<strong>
+📝 7. 新規登録について
+</strong>
+
+メールアドレス・電話番号の登録は任意です。
+登録しなくても診断を利用できます。
+
+登録した場合は、登録情報がサービスの管理・登録処理に利用されます。
+
+メールアドレスや電話番号を入力しただけでは、
+メールアドレスや電話番号の所有者確認が完了したことにはなりません。
+</div>
+
+
+<div class="noticeSection">
+
+<strong>
+🗑️ 8. 写真の保存について
+</strong>
+
+写真の保存期間や削除処理は、実際のサーバー側の設定・処理に従います。
+「診断終了後に必ず自動削除される」とは、サーバー側でその処理が実装されている場合に限ります。
+</div>
+
+
+<div class="noticeSection">
+
+<strong>
+⚠️ 9. 同意について
+</strong>
+
+内容を確認し、顔写真の送信に同意できる場合のみ診断を利用してください。
+同意しない場合はカメラ撮影・写真送信を行わないでください。
+</div>
+
+
+<div class="noticeConsent">
+
+<label>
+
+<input
+  id="noticeAgreement"
+  type="checkbox"
+>
+
+<span>
+上記の注意事項を読み、内容を確認しました。
+また、顔写真を診断処理のため送信することに同意します。
+</span>
+
+</label>
+
+</div>
+
+
+<button
+  id="noticeCloseButton"
+  class="noticeCloseButton"
+  type="button"
+  disabled
+>
+✅ 確認して閉じる
+</button>
+
+</div>
 
 </div>
 
@@ -1270,10 +1669,6 @@ RANK -
 </div>
 
 
-<!-- =========================
-項目1
-========================= -->
-
 <div class="resultItem">
 
 <strong>
@@ -1308,10 +1703,6 @@ RANK -
 
 </div>
 
-
-<!-- =========================
-項目2
-========================= -->
 
 <div class="resultItem">
 
@@ -1348,10 +1739,6 @@ RANK -
 </div>
 
 
-<!-- =========================
-項目3
-========================= -->
-
 <div class="resultItem">
 
 <strong>
@@ -1387,10 +1774,6 @@ RANK -
 </div>
 
 
-<!-- =========================
-コメント
-========================= -->
-
 <div class="comment">
 
 <strong>
@@ -1401,10 +1784,6 @@ RANK -
 
 </div>
 
-
-<!-- =========================
-ラッキー情報
-========================= -->
 
 <div class="luckyBox">
 
@@ -1545,7 +1924,6 @@ const todayThemes = [
 
   },
 
-
   {
     icon: "😊",
     name: "今日の笑顔度",
@@ -1572,7 +1950,6 @@ const todayThemes = [
     ]
 
   },
-
 
   {
     icon: "✨",
@@ -1601,7 +1978,6 @@ const todayThemes = [
 
   },
 
-
   {
     icon: "👑",
     name: "今日の魅力度",
@@ -1628,7 +2004,6 @@ const todayThemes = [
     ]
 
   },
-
 
   {
     icon: "💫",
@@ -1657,7 +2032,6 @@ const todayThemes = [
 
   },
 
-
   {
     icon: "😎",
     name: "今日のクール度",
@@ -1684,7 +2058,6 @@ const todayThemes = [
     ]
 
   },
-
 
   {
     icon: "🌸",
@@ -1772,29 +2145,23 @@ function getTodayData() {
   const now =
     new Date();
 
-
   const year =
     now.getFullYear();
-
 
   const month =
     now.getMonth() + 1;
 
-
   const day =
     now.getDate();
-
 
   const dateNumber =
     year * 10000 +
     month * 100 +
     day;
 
-
   const themeIndex =
     dateNumber %
     todayThemes.length;
-
 
   const luckyItemIndex =
     (
@@ -1803,14 +2170,12 @@ function getTodayData() {
     ) %
     luckyItems.length;
 
-
   const luckyColorIndex =
     (
       dateNumber * 5 +
       11
     ) %
     luckyColors.length;
-
 
   return {
 
@@ -1843,17 +2208,14 @@ function showTodayTheme() {
   const data =
     getTodayData();
 
-
   const element =
     document.getElementById(
       "todayThemeName"
     );
 
-
   if (!element) {
     return;
   }
-
 
   element.textContent =
     data.theme.icon +
@@ -1875,7 +2237,6 @@ const params =
     window.location.search
   );
 
-
 const room =
   params.get("room") ||
   "";
@@ -1890,94 +2251,104 @@ const startArea =
     "startArea"
   );
 
-
 const cameraArea =
   document.getElementById(
     "cameraArea"
   );
-
 
 const resultArea =
   document.getElementById(
     "resultArea"
   );
 
-
 const completeArea =
   document.getElementById(
     "completeArea"
   );
-
 
 const loadingArea =
   document.getElementById(
     "loadingArea"
   );
 
-
 const diagnosisArea =
   document.getElementById(
     "diagnosisArea"
   );
-
 
 const nickname =
   document.getElementById(
     "nickname"
   );
 
-
 const age =
   document.getElementById(
     "age"
   );
-
 
 const email =
   document.getElementById(
     "email"
   );
 
-
 const phone =
   document.getElementById(
     "phone"
   );
-
 
 const consent =
   document.getElementById(
     "consent"
   );
 
-
 const testPassword =
   document.getElementById(
     "testPassword"
   );
-
 
 const testModeNotice =
   document.getElementById(
     "testModeNotice"
   );
 
-
 const registrationButton =
   document.getElementById(
     "registrationButton"
   );
-
 
 const registrationStatus =
   document.getElementById(
     "registrationStatus"
   );
 
-
 const registrationError =
   document.getElementById(
     "registrationError"
+  );
+
+const noticeOpenButton =
+  document.getElementById(
+    "noticeOpenButton"
+  );
+
+const noticeOverlay =
+  document.getElementById(
+    "noticeOverlay"
+  );
+
+const noticeAgreement =
+  document.getElementById(
+    "noticeAgreement"
+  );
+
+const noticeCloseButton =
+  document.getElementById(
+    "noticeCloseButton"
+  );
+
+const noticeConfirmed =
+  document.getElementById(
+    "noticeConfirmed"
   );
 
 
@@ -1994,108 +2365,90 @@ const roomReady =
     "roomReady"
   );
 
-
 const roomMissing =
   document.getElementById(
     "roomMissing"
   );
-
 
 const startButton =
   document.getElementById(
     "startButton"
   );
 
-
 const startError =
   document.getElementById(
     "startError"
   );
-
 
 const camera =
   document.getElementById(
     "camera"
   );
 
-
 const captureButton =
   document.getElementById(
     "captureButton"
   );
-
 
 const modelStatus =
   document.getElementById(
     "modelStatus"
   );
 
-
 const faceStatus =
   document.getElementById(
     "faceStatus"
   );
-
 
 const livenessBox =
   document.getElementById(
     "livenessBox"
   );
 
-
 const livenessInstruction =
   document.getElementById(
     "livenessInstruction"
   );
-
 
 const livenessProgress =
   document.getElementById(
     "livenessProgress"
   );
 
-
 const photo =
   document.getElementById(
     "photo"
   );
-
 
 const photoCheck =
   document.getElementById(
     "photoCheck"
   );
 
-
 const sendButton =
   document.getElementById(
     "sendButton"
   );
-
 
 const retakeButton =
   document.getElementById(
     "retakeButton"
   );
 
-
 const sendError =
   document.getElementById(
     "sendError"
   );
-
 
 const analysisProgress =
   document.getElementById(
     "analysisProgress"
   );
 
-
 const analysisPercent =
   document.getElementById(
     "analysisPercent"
   );
-
 
 const analysisStep =
   document.getElementById(
@@ -2129,22 +2482,17 @@ if (room) {
 let faceModel =
   null;
 
-
 let modelReady =
   false;
-
 
 let stream =
   null;
 
-
 let faceTimer =
   null;
 
-
 let faceDetected =
   false;
-
 
 let photoBlob =
   null;
@@ -2157,8 +2505,15 @@ let photoBlob =
 let registeredUserId =
   null;
 
-
 let registrationCompleted =
+  false;
+
+
+/* =========================================================
+注意事項確認状態
+========================================================= */
+
+let noticeAcknowledged =
   false;
 
 
@@ -2169,29 +2524,80 @@ let registrationCompleted =
 let livenessActive =
   false;
 
-
 let livenessCompleted =
   false;
-
 
 let livenessActions =
   [];
 
-
 let livenessActionIndex =
   0;
-
 
 let livenessActionSuccess =
   false;
 
-
 let livenessBaseline =
   null;
 
-
 let livenessFrameCount =
   0;
+
+
+/* =========================================================
+注意事項モーダル
+========================================================= */
+
+noticeOpenButton.addEventListener(
+  "click",
+  function() {
+
+    noticeOverlay.classList.remove(
+      "hidden"
+    );
+
+  }
+);
+
+
+noticeAgreement.addEventListener(
+  "change",
+  function() {
+
+    noticeCloseButton.disabled =
+      !noticeAgreement.checked;
+
+  }
+);
+
+
+noticeCloseButton.addEventListener(
+  "click",
+  function() {
+
+    if (
+      !noticeAgreement.checked
+    ) {
+
+      return;
+
+    }
+
+    noticeAcknowledged =
+      true;
+
+    noticeOverlay.classList.add(
+      "hidden"
+    );
+
+    noticeConfirmed.classList.remove(
+      "hidden"
+    );
+
+    consent.checked =
+      true;
+
+  }
+);
 
 
 /* =========================================================
@@ -2203,28 +2609,22 @@ async function loadFaceModel() {
   modelStatus.textContent =
     "顔検出AIを読み込んでいます…";
 
-
   try {
 
     await tf.ready();
 
-
     faceModel =
       await blazeface.load();
-
 
     modelReady =
       true;
 
-
     modelStatus.textContent =
       "✅ 顔検出AIの準備が完了しました";
-
 
     modelStatus.classList.add(
       "success"
     );
-
 
   } catch (error) {
 
@@ -2233,10 +2633,8 @@ async function loadFaceModel() {
       error
     );
 
-
     modelReady =
       false;
-
 
     modelStatus.textContent =
       "❌ 顔検出AIを読み込めませんでした。ページを再読み込みしてください。";
@@ -2250,7 +2648,7 @@ loadFaceModel();
 
 
 /* =========================================================
-登録
+任意登録
 ========================================================= */
 
 registrationButton.addEventListener(
@@ -2261,7 +2659,6 @@ registrationButton.addEventListener(
       "hidden"
     );
 
-
     registrationStatus.classList.add(
       "hidden"
     );
@@ -2270,16 +2667,13 @@ registrationButton.addEventListener(
     const name =
       nickname.value.trim();
 
-
     const ageValue =
       Number(
         age.value
       );
 
-
     const emailValue =
       email.value.trim();
-
 
     const phoneValue =
       phone.value.trim();
@@ -2316,7 +2710,7 @@ registrationButton.addEventListener(
     if (!emailValue) {
 
       showRegistrationError(
-        "メールアドレスを入力してください。"
+        "登録する場合はメールアドレスを入力してください。"
       );
 
       return;
@@ -2340,7 +2734,7 @@ registrationButton.addEventListener(
     if (!phoneValue) {
 
       showRegistrationError(
-        "電話番号を入力してください。"
+        "登録する場合は電話番号を入力してください。"
       );
 
       return;
@@ -2351,14 +2745,12 @@ registrationButton.addEventListener(
     registrationButton.disabled =
       true;
 
-
     registrationButton.textContent =
       "登録処理中…";
 
 
     registrationStatus.textContent =
       "🔐 登録情報を準備しています…";
-
 
     registrationStatus.classList.remove(
       "hidden"
@@ -2370,12 +2762,6 @@ registrationButton.addEventListener(
       let userId =
         registeredUserId;
 
-
-      /*
-       * ==================================
-       * Supabase匿名ユーザー
-       * ==================================
-       */
 
       if (!userId) {
 
@@ -2412,18 +2798,11 @@ registrationButton.addEventListener(
         userId =
           data.user.id;
 
-
         registeredUserId =
           userId;
 
       }
 
-
-      /*
-       * ==================================
-       * registration-log
-       * ==================================
-       */
 
       registrationStatus.textContent =
         "📤 登録情報を送信しています…";
@@ -2523,24 +2902,16 @@ registrationButton.addEventListener(
       }
 
 
-      /*
-       * ==================================
-       * 登録成功
-       * ==================================
-       */
-
       registrationCompleted =
         true;
 
 
       registrationStatus.textContent =
-        "✅ 登録完了！このまま診断を開始できます。";
-
+        "✅ 登録完了！登録は任意なので、このまま診断できます。";
 
       registrationStatus.classList.add(
         "success"
       );
-
 
       registrationStatus.classList.remove(
         "hidden"
@@ -2549,7 +2920,6 @@ registrationButton.addEventListener(
 
       registrationButton.textContent =
         "✅ 登録済み";
-
 
       registrationButton.disabled =
         true;
@@ -2573,9 +2943,8 @@ registrationButton.addEventListener(
       registrationButton.disabled =
         false;
 
-
       registrationButton.textContent =
-        "📝 登録情報を送信";
+        "📝 任意で登録する";
 
     }
 
@@ -2593,7 +2962,6 @@ function showRegistrationError(
 
   registrationError.textContent =
     message;
-
 
   registrationError.classList.remove(
     "hidden"
@@ -2654,18 +3022,10 @@ startButton.addEventListener(
     }
 
 
-    if (
-      !registrationCompleted ||
-      !registeredUserId
-    ) {
-
-      showStartError(
-        "先に「登録情報を送信」を押して登録を完了してください。"
-      );
-
-      return;
-
-    }
+    /*
+     * 登録は任意
+     * registeredUserId がなくてもOK
+     */
 
 
     if (
@@ -2686,11 +3046,24 @@ startButton.addEventListener(
 
 
     if (
+      !noticeAcknowledged
+    ) {
+
+      showStartError(
+        "先に「注意事項を確認する」を開いて内容を確認してください。"
+      );
+
+      return;
+
+    }
+
+
+    if (
       !consent.checked
     ) {
 
       showStartError(
-        "このサイトへの顔の送信(診断用)への同意をお願いします。"
+        "顔写真の送信への同意をお願いします。"
       );
 
       return;
@@ -2714,7 +3087,6 @@ startButton.addEventListener(
 
     startButton.disabled =
       true;
-
 
     startButton.textContent =
       "カメラを起動中…";
@@ -2748,7 +3120,6 @@ startButton.addEventListener(
         "hidden"
       );
 
-
       cameraArea.classList.remove(
         "hidden"
       );
@@ -2770,7 +3141,6 @@ startButton.addEventListener(
 
       startButton.disabled =
         false;
-
 
       startButton.textContent =
         "診断を開始";
@@ -2798,7 +3168,6 @@ function showStartError(
   startError.textContent =
     message;
 
-
   startError.classList.remove(
     "hidden"
   );
@@ -2815,26 +3184,20 @@ function startLivenessCheck() {
   livenessActive =
     true;
 
-
   livenessCompleted =
     false;
-
 
   livenessActions =
     [];
 
-
   livenessActionIndex =
     0;
-
 
   livenessActionSuccess =
     false;
 
-
   livenessBaseline =
     null;
-
 
   livenessFrameCount =
     0;
@@ -2860,10 +3223,8 @@ function startLivenessCheck() {
         actions.length
       );
 
-
     const action =
       actions[index];
-
 
     if (
       !livenessActions.includes(
@@ -2884,7 +3245,6 @@ function startLivenessCheck() {
     "hidden"
   );
 
-
   livenessBox.classList.remove(
     "livenessSuccess"
   );
@@ -2902,7 +3262,6 @@ function startLivenessCheck() {
 
   captureButton.disabled =
     true;
-
 
   captureButton.textContent =
     "🔐 本人確認中…";
@@ -2926,7 +3285,6 @@ function getLivenessText(
 
   }
 
-
   if (
     action === "left"
   ) {
@@ -2934,7 +3292,6 @@ function getLivenessText(
     return "↩️ 顔を少し左に向けてください";
 
   }
-
 
   if (
     action === "right"
@@ -2944,7 +3301,6 @@ function getLivenessText(
 
   }
 
-
   if (
     action === "move"
   ) {
@@ -2952,7 +3308,6 @@ function getLivenessText(
     return "🙂 顔を少し動かしてください";
 
   }
-
 
   return "🙂 少し動いてください";
 
@@ -2977,32 +3332,25 @@ function startFaceDetection() {
     faceDetected =
       true;
 
-
     livenessCompleted =
       true;
 
-
     faceStatus.textContent =
       "🧪 テストモード：顔認識・本人確認をスキップしています。";
-
 
     faceStatus.classList.add(
       "success"
     );
 
-
     livenessBox.classList.add(
       "hidden"
     );
 
-
     captureButton.disabled =
       false;
 
-
     captureButton.textContent =
       "📸 撮影する";
-
 
     return;
 
@@ -3011,7 +3359,6 @@ function startFaceDetection() {
 
   captureButton.disabled =
     true;
-
 
   captureButton.textContent =
     "📸 顔を確認中…";
@@ -3070,7 +3417,6 @@ function startFaceDetection() {
             faceStatus.textContent =
               "✅ 顔を検出しました";
 
-
             faceStatus.classList.add(
               "success"
             );
@@ -3082,7 +3428,6 @@ function startFaceDetection() {
 
               firstFaceFound =
                 true;
-
 
               startLivenessCheck();
 
@@ -3109,7 +3454,6 @@ function startFaceDetection() {
 
             faceStatus.textContent =
               "👤 顔が検出されていません。カメラに顔を入れてください。";
-
 
             faceStatus.classList.remove(
               "success"
@@ -3452,10 +3796,8 @@ function completeLivenessAction() {
   livenessBaseline =
     null;
 
-
   livenessFrameCount =
     0;
-
 
   livenessActionSuccess =
     false;
@@ -3488,7 +3830,6 @@ function finishLiveness() {
 
   livenessActive =
     false;
-
 
   livenessCompleted =
     true;
@@ -3538,7 +3879,6 @@ function stopFaceDetection() {
       faceTimer
     );
 
-
     faceTimer =
       null;
 
@@ -3584,7 +3924,6 @@ captureButton.addEventListener(
 
     captureButton.disabled =
       true;
-
 
     captureButton.textContent =
       "📸 撮影しています…";
@@ -3991,17 +4330,10 @@ sendButton.addEventListener(
     }
 
 
-    if (
-      !registeredUserId
-    ) {
-
-      showSendError(
-        "登録情報が確認できません。最初からやり直してください。"
-      );
-
-      return;
-
-    }
+    /*
+     * 登録は任意なので
+     * registeredUserId がなくても送信可能
+     */
 
 
     if (
@@ -4022,7 +4354,7 @@ sendButton.addEventListener(
     ) {
 
       showSendError(
-        "このサイトへの顔の送信(診断用)への同意が必要です。"
+        "顔写真の送信への同意が必要です。"
       );
 
       return;
@@ -4032,7 +4364,6 @@ sendButton.addEventListener(
 
     sendButton.disabled =
       true;
-
 
     sendButton.textContent =
       "送信中…";
@@ -4160,9 +4491,11 @@ sendButton.addEventListener(
                   ),
 
                 "x-user-id":
-                  String(
-                    registeredUserId
-                  ),
+                  registeredUserId
+                    ? String(
+                        registeredUserId
+                      )
+                    : "",
 
                 "x-email":
                   encodeURIComponent(
@@ -4287,7 +4620,6 @@ function showSendError(
 
   sendError.textContent =
     message;
-
 
   sendError.classList.remove(
     "hidden"
@@ -5243,20 +5575,6 @@ document.getElementById(
     );
 
 
-    registrationStatus.classList.remove(
-      "success"
-    );
-
-
-    registrationStatus.textContent =
-      "✅ 登録済みです。もう一度診断できます。";
-
-
-    registrationStatus.classList.remove(
-      "hidden"
-    );
-
-
     showTodayTheme();
 
   }
@@ -5266,4 +5584,4 @@ document.getElementById(
 
 </body>
 </html>
-```
+
