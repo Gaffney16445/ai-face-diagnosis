@@ -376,6 +376,75 @@ input[type="tel"] {
 
 
 /* =========================
+カメラ画面の送信同意
+========================= */
+
+.cameraConsentBox {
+
+  margin-top: 15px;
+
+  padding: 16px;
+
+  background: #fff7ed;
+
+  border:
+    2px solid #f59e0b;
+
+  border-radius: 15px;
+
+  text-align: left;
+}
+
+.cameraConsentTitle {
+
+  font-size: 17px;
+
+  font-weight: bold;
+
+  color: #92400e;
+
+  margin-bottom: 8px;
+}
+
+.cameraConsentDescription {
+
+  font-size: 13px;
+
+  line-height: 1.6;
+
+  color: #555;
+
+  margin-bottom: 10px;
+}
+
+.cameraConsentLabel {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 9px;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  cursor: pointer;
+}
+
+.cameraConsentLabel input {
+
+  width: 21px;
+
+  height: 21px;
+
+  flex-shrink: 0;
+
+  margin-top: 1px;
+}
+
+
+/* =========================
 ランキング
 ========================= */
 
@@ -1107,7 +1176,7 @@ video {
 
 
 <!-- =========================
-同意
+開始画面の説明
 ========================= -->
 
 <div class="consent">
@@ -1121,19 +1190,13 @@ video {
 </p>
 
 <p>
-撮影した写真は、ユーザーが同意して送信した場合に診断処理へ送信されます。
+撮影した写真は、カメラ画面で同意した場合に診断処理へ送信されます。
 </p>
 
-<label>
-
-<input
-  id="consent"
-  type="checkbox"
->
-
-顔写真の送信に同意します。
-
-</label>
+<p>
+※この画面のチェックは診断開始には必要ありません。
+カメラ画面で送信への同意を確認します。
+</p>
 
 
 <div class="rankingBox">
@@ -1143,11 +1206,13 @@ video {
 </div>
 
 <p>
-上の同意にチェックすると、撮影した写真が診断処理のため送信されます。
+カメラ画面で写真送信に同意すると、
+撮影した写真が診断処理のため送信されます。
 </p>
 
 <p>
-ルームID付きリンクの場合は、ルームに応じた処理が行われます。
+ルームID付きリンクの場合は、
+ルームに応じた処理が行われます。
 </p>
 
 <div
@@ -1340,8 +1405,10 @@ video {
 ⚠️ 9. 同意について
 </strong>
 
-内容を確認し、顔写真の送信に同意できる場合のみ診断を利用してください。
-同意しない場合はカメラ撮影・写真送信を行わないでください。
+顔写真を診断処理のため送信する場合は、
+カメラ画面に表示される同意確認を行ってください。
+
+同意しない場合は写真の撮影・送信を行わないでください。
 
 </div>
 
@@ -1357,7 +1424,6 @@ video {
 
 <span>
 上記の注意事項を読み、内容を確認しました。
-また、顔写真を診断処理のため送信することに同意します。
 </span>
 
 </label>
@@ -1402,12 +1468,14 @@ video {
   playsinline
 ></video>
 
+
 <div
   id="modelStatus"
   class="status"
 >
 顔検出AIを準備しています…
 </div>
+
 
 <div
   id="faceStatus"
@@ -1416,6 +1484,41 @@ video {
 カメラを準備しています…
 </div>
 
+
+<!-- =========================
+カメラ画面の同意
+========================= -->
+
+<div class="cameraConsentBox">
+
+<div class="cameraConsentTitle">
+📷 写真送信への同意
+</div>
+
+<div class="cameraConsentDescription">
+撮影した顔写真はAI診断処理のためサーバーへ送信されます。
+写真を送信して診断を行う場合は、下のチェックを入れてください。
+</div>
+
+<label class="cameraConsentLabel">
+
+<input
+  id="cameraConsent"
+  type="checkbox"
+>
+
+<span>
+撮影した顔写真を診断処理のため送信することに同意します。
+</span>
+
+</label>
+
+</div>
+
+
+<!-- =========================
+本人確認
+========================= -->
 
 <div
   id="livenessBox"
@@ -1453,8 +1556,9 @@ video {
   type="button"
   disabled
 >
-📸 本人確認中…
+📷 写真送信への同意が必要です
 </button>
+
 
 <p
   style="
@@ -1462,7 +1566,7 @@ video {
     color:#777;
   "
 >
-※本人確認が完了すると撮影できます。
+※写真送信への同意と本人確認が完了すると撮影できます。
 </p>
 
 </div>
@@ -2150,6 +2254,7 @@ function showTodayTheme() {
     data.theme.icon +
     " " +
     data.theme.name;
+
 }
 
 
@@ -2204,9 +2309,6 @@ const email =
 const phone =
   document.getElementById("phone");
 
-const consent =
-  document.getElementById("consent");
-
 const testPassword =
   document.getElementById("testPassword");
 
@@ -2252,14 +2354,17 @@ const startError =
 const camera =
   document.getElementById("camera");
 
-const captureButton =
-  document.getElementById("captureButton");
-
 const modelStatus =
   document.getElementById("modelStatus");
 
 const faceStatus =
   document.getElementById("faceStatus");
+
+const cameraConsent =
+  document.getElementById("cameraConsent");
+
+const captureButton =
+  document.getElementById("captureButton");
 
 const livenessBox =
   document.getElementById("livenessBox");
@@ -2306,7 +2411,6 @@ const TEST_PASSWORD =
 let testMode =
   false;
 
-
 let faceModel =
   null;
 
@@ -2325,17 +2429,14 @@ let faceDetected =
 let photoBlob =
   null;
 
-
 let registeredUserId =
   null;
 
 let registrationCompleted =
   false;
 
-
 let noticeAcknowledged =
   false;
-
 
 let livenessActive =
   false;
@@ -2425,11 +2526,97 @@ noticeCloseButton.addEventListener(
       "hidden"
     );
 
-    consent.checked =
-      true;
+  }
+);
+
+
+/* =========================================================
+カメラ側同意
+========================================================= */
+
+cameraConsent.addEventListener(
+  "change",
+  function() {
+
+    updateCaptureButton();
 
   }
 );
+
+
+/* =========================================================
+撮影ボタン状態更新
+========================================================= */
+
+function updateCaptureButton() {
+
+  /*
+   * カメラ画面の同意がない
+   */
+
+  if (
+    !cameraConsent.checked
+  ) {
+
+    captureButton.disabled =
+      true;
+
+    captureButton.textContent =
+      "📷 写真送信への同意が必要です。";
+
+    return;
+
+  }
+
+
+  /*
+   * テストモード
+   */
+
+  if (testMode) {
+
+    captureButton.disabled =
+      false;
+
+    captureButton.textContent =
+      "📸 撮影する";
+
+    return;
+
+  }
+
+
+  /*
+   * 本人確認完了
+   */
+
+  if (
+    faceDetected &&
+    livenessCompleted
+  ) {
+
+    captureButton.disabled =
+      false;
+
+    captureButton.textContent =
+      "📸 撮影する";
+
+    return;
+
+  }
+
+
+  /*
+   * まだ本人確認中
+   */
+
+  captureButton.disabled =
+    true;
+
+  captureButton.textContent =
+    "🔐 本人確認中…";
+
+}
 
 
 /* =========================================================
@@ -2859,30 +3046,10 @@ startButton.addEventListener(
     }
 
 
-    if (
-      !noticeAcknowledged
-    ) {
-
-      showStartError(
-        "先に「注意事項を確認する」を開いて内容を確認してください。"
-      );
-
-      return;
-
-    }
-
-
-    if (
-      !consent.checked
-    ) {
-
-      showStartError(
-        "顔写真の送信への同意をお願いします。"
-      );
-
-      return;
-
-    }
+    /*
+     * 注意事項の確認はここでは必須にしない。
+     * カメラ画面で同意を確認する。
+     */
 
 
     if (
@@ -2914,8 +3081,10 @@ startButton.addEventListener(
           .getUserMedia({
 
             video: {
+
               facingMode:
                 "user"
+
             },
 
             audio:
@@ -2928,6 +3097,10 @@ startButton.addEventListener(
         stream;
 
 
+      /*
+       * カメラ画面へ移動
+       */
+
       startArea.classList.add(
         "hidden"
       );
@@ -2937,8 +3110,19 @@ startButton.addEventListener(
       );
 
 
+      /*
+       * カメラ側の同意は毎回必ず確認
+       */
+
+      cameraConsent.checked =
+        false;
+
+
       faceStatus.textContent =
         "カメラ起動完了。顔を確認しています…";
+
+
+      updateCaptureButton();
 
 
       startFaceDetection();
@@ -3008,10 +3192,12 @@ function startLivenessCheck() {
 
 
   const actions = [
+
     "mouth",
     "left",
     "right",
     "move"
+
   ];
 
 
@@ -3062,11 +3248,7 @@ function startLivenessCheck() {
     "本人確認 1 / 2";
 
 
-  captureButton.disabled =
-    true;
-
-  captureButton.textContent =
-    "🔐 本人確認中…";
+  updateCaptureButton();
 
 }
 
@@ -3143,22 +3325,15 @@ function startFaceDetection() {
       "hidden"
     );
 
-    captureButton.disabled =
-      false;
 
-    captureButton.textContent =
-      "📸 撮影する";
+    updateCaptureButton();
 
     return;
 
   }
 
 
-  captureButton.disabled =
-    true;
-
-  captureButton.textContent =
-    "📸 顔を確認中…";
+  updateCaptureButton();
 
 
   let firstFaceFound =
@@ -3242,10 +3417,15 @@ function startFaceDetection() {
 
             }
 
+
+            updateCaptureButton();
+
+
           } else {
 
             faceDetected =
               false;
+
 
             faceStatus.textContent =
               "👤 顔が検出されていません。カメラに顔を入れてください。";
@@ -3253,6 +3433,9 @@ function startFaceDetection() {
             faceStatus.classList.remove(
               "success"
             );
+
+
+            updateCaptureButton();
 
           }
 
@@ -3321,7 +3504,9 @@ function processLivenessFrame(
 
 
   if (!box) {
+
     return;
+
   }
 
 
@@ -3347,6 +3532,7 @@ function processLivenessFrame(
   const landmarks =
     face.landmarks || [];
 
+
   const nose =
     landmarks[2];
 
@@ -3355,7 +3541,9 @@ function processLivenessFrame(
 
 
   if (!nose) {
+
     return;
+
   }
 
 
@@ -3551,6 +3739,10 @@ function processLivenessFrame(
 }
 
 
+/* =========================================================
+本人確認1項目完了
+========================================================= */
+
 function completeLivenessAction() {
 
   livenessActionIndex++;
@@ -3591,8 +3783,15 @@ function completeLivenessAction() {
     ) +
     " / 2";
 
+
+  updateCaptureButton();
+
 }
 
+
+/* =========================================================
+本人確認完了
+========================================================= */
 
 function finishLiveness() {
 
@@ -3616,18 +3815,14 @@ function finishLiveness() {
 
 
   faceStatus.textContent =
-    "✅ 本人確認OK！撮影できます。";
+    "✅ 本人確認OK！";
 
   faceStatus.classList.add(
     "success"
   );
 
 
-  captureButton.disabled =
-    false;
-
-  captureButton.textContent =
-    "📸 撮影する";
+  updateCaptureButton();
 
 }
 
@@ -3659,6 +3854,25 @@ function stopFaceDetection() {
 captureButton.addEventListener(
   "click",
   async function() {
+
+    /*
+     * カメラ側の同意を再確認
+     */
+
+    if (
+      !cameraConsent.checked
+    ) {
+
+      alert(
+        "顔写真の送信への同意が必要です。"
+      );
+
+      updateCaptureButton();
+
+      return;
+
+    }
+
 
     if (
       !faceDetected
@@ -3941,6 +4155,10 @@ retakeButton.addEventListener(
     );
 
 
+    /*
+     * 本人確認リセット
+     */
+
     livenessActive =
       false;
 
@@ -3960,6 +4178,14 @@ retakeButton.addEventListener(
       0;
 
 
+    /*
+     * カメラ側同意も再確認
+     */
+
+    cameraConsent.checked =
+      false;
+
+
     livenessBox.classList.add(
       "hidden"
     );
@@ -3967,6 +4193,13 @@ retakeButton.addEventListener(
     livenessBox.classList.remove(
       "livenessSuccess"
     );
+
+
+    captureButton.disabled =
+      true;
+
+    captureButton.textContent =
+      "📷 写真送信への同意が必要です";
 
 
     try {
@@ -3977,8 +4210,10 @@ retakeButton.addEventListener(
           .getUserMedia({
 
             video: {
+
               facingMode:
                 "user"
+
             },
 
             audio:
@@ -4083,6 +4318,23 @@ sendButton.addEventListener(
     );
 
 
+    /*
+     * カメラ側同意を再確認
+     */
+
+    if (
+      !cameraConsent.checked
+    ) {
+
+      showSendError(
+        "顔写真の送信への同意が必要です。"
+      );
+
+      return;
+
+    }
+
+
     if (!photoBlob) {
 
       showSendError(
@@ -4143,19 +4395,6 @@ sendButton.addEventListener(
     }
 
 
-    if (
-      !consent.checked
-    ) {
-
-      showSendError(
-        "顔写真の送信への同意が必要です。"
-      );
-
-      return;
-
-    }
-
-
     sendButton.disabled =
       true;
 
@@ -4184,20 +4423,23 @@ sendButton.addEventListener(
         );
 
 
+      /*
+       * カメラ画面で同意した場合のみ
+       * ランキングへの同意として扱う
+       */
+
       const rankingConsentValue =
         testMode
           ? false
-          : consent.checked;
+          : cameraConsent.checked;
 
 
       let response;
 
 
-      /*
-       * ==========================================
+      /* ==========================================
        * ルーム付き
-       * ==========================================
-       */
+       * ========================================== */
 
       if (room) {
 
@@ -4224,10 +4466,6 @@ sendButton.addEventListener(
             rankingConsentValue
           );
 
-
-        /*
-         * Supabase JWTを取得
-         */
 
         const accessToken =
           await getAccessToken();
@@ -4273,17 +4511,11 @@ sendButton.addEventListener(
       }
 
 
-      /*
-       * ==========================================
+      /* ==========================================
        * 通常
-       * ==========================================
-       */
+       * ========================================== */
 
       else {
-
-        /*
-         * Supabase JWTを取得
-         */
 
         const accessToken =
           await getAccessToken();
@@ -4342,10 +4574,6 @@ sendButton.addEventListener(
         };
 
 
-        /*
-         * JWTがある場合はAuthorization追加
-         */
-
         if (accessToken) {
 
           smoothHeaders.Authorization =
@@ -4375,11 +4603,9 @@ sendButton.addEventListener(
       }
 
 
-      /*
-       * ==========================================
-       * HTTPレスポンス確認
-       * ==========================================
-       */
+      /* ==========================================
+       * HTTPレスポンス
+       * ========================================== */
 
       const responseText =
         await response.text();
@@ -4406,11 +4632,9 @@ sendButton.addEventListener(
       }
 
 
-      /*
-       * ==========================================
+      /* ==========================================
        * 成功
-       * ==========================================
-       */
+       * ========================================== */
 
       window.finalTotal =
         total;
@@ -5314,7 +5538,15 @@ document.getElementById(
       true;
 
     captureButton.textContent =
-      "📸 本人確認中…";
+      "📷 写真送信への同意が必要です";
+
+
+    /*
+     * カメラ側同意をリセット
+     */
+
+    cameraConsent.checked =
+      false;
 
 
     livenessBox.classList.add(
