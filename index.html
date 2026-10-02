@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -104,7 +104,6 @@ input[type="tel"] {
     );
 
   margin-top: 18px;
-
 }
 
 
@@ -175,9 +174,7 @@ input[type="tel"] {
 }
 
 .noticeHeader h2 {
-
   margin: 0;
-
   font-size: 23px;
 }
 
@@ -239,7 +236,6 @@ input[type="tel"] {
 .noticeConsent input {
 
   width: 20px;
-
   height: 20px;
 
   flex-shrink: 0;
@@ -248,18 +244,16 @@ input[type="tel"] {
 }
 
 .noticeCloseButton {
-
   background: #111827;
 }
 
 .noticeCloseButton:disabled {
-
   background: #999;
 }
 
 
 /* =========================
-登録エリア
+登録
 ========================= */
 
 .registrationBox {
@@ -328,7 +322,7 @@ input[type="tel"] {
 
 
 /* =========================
-通常同意エリア
+同意
 ========================= */
 
 .consent {
@@ -362,11 +356,6 @@ input[type="tel"] {
 
   margin-right: 7px;
 }
-
-
-/* =========================
-注意事項確認状態
-========================= */
 
 .noticeConfirmed {
 
@@ -416,7 +405,6 @@ input[type="tel"] {
 }
 
 .rankingBox p {
-
   line-height: 1.6;
 }
 
@@ -452,7 +440,7 @@ input[type="tel"] {
 
 
 /* =========================
-今日の診断テーマ
+今日のテーマ
 ========================= */
 
 .todayTheme {
@@ -497,11 +485,6 @@ input[type="tel"] {
   color: #111827;
 }
 
-
-/* =========================
-結果画面 今日のテーマ
-========================= */
-
 .todayThemeResult {
 
   margin-top: 15px;
@@ -526,7 +509,7 @@ input[type="tel"] {
 
 
 /* =========================
-ラッキー情報
+ラッキー
 ========================= */
 
 .luckyBox {
@@ -733,7 +716,6 @@ video {
 }
 
 .hidden {
-
   display: none !important;
 }
 
@@ -775,14 +757,12 @@ video {
 }
 
 .loading {
-
   padding: 30px 10px;
 }
 
 .spinner {
 
   width: 70px;
-
   height: 70px;
 
   margin: 20px auto;
@@ -960,7 +940,6 @@ video {
 }
 
 .restartButton {
-
   background: #374151;
 }
 
@@ -981,18 +960,14 @@ video {
 
 <div class="container">
 
-
-<h1>
-✨ AI顔診断
-</h1>
+<h1>✨ AI顔診断</h1>
 
 
 <!-- =========================
-開始画面
+開始
 ========================= -->
 
 <div id="startArea">
-
 
 <p>
 あなたの名前を入力してください
@@ -1004,7 +979,6 @@ video {
   maxlength="30"
   placeholder="名前"
 >
-
 
 <p>
 年齢を入力してください
@@ -1026,15 +1000,19 @@ video {
 <div class="registrationBox">
 
 <div class="registrationTitle">
+
 📝 新規登録
-<span class="optionalBadge">任意</span>
+
+<span class="optionalBadge">
+任意
+</span>
+
 </div>
 
 <p class="registrationDescription">
 登録しなくても診断できます。<br>
 メールアドレス・電話番号を登録する場合のみ入力してください。
 </p>
-
 
 <p>
 メールアドレス
@@ -1047,7 +1025,6 @@ video {
   placeholder="example@example.com"
 >
 
-
 <p>
 電話番号
 </p>
@@ -1059,7 +1036,6 @@ video {
   placeholder="09012345678"
 >
 
-
 <button
   id="registrationButton"
   class="registrationButton"
@@ -1068,12 +1044,10 @@ video {
 📝 任意で登録する
 </button>
 
-
 <div
   id="registrationStatus"
   class="status hidden"
 ></div>
-
 
 <div
   id="registrationError"
@@ -1084,7 +1058,7 @@ video {
 
 
 <!-- =========================
-テストモード
+テスト
 ========================= -->
 
 <p>
@@ -1096,7 +1070,6 @@ video {
   type="password"
   placeholder="テスト用パスワード"
 >
-
 
 <div
   id="testModeNotice"
@@ -1114,7 +1087,7 @@ video {
 
 
 <!-- =========================
-注意事項ボタン
+注意事項
 ========================= -->
 
 <button
@@ -1124,7 +1097,6 @@ video {
 >
 📜 注意事項を確認する
 </button>
-
 
 <div
   id="noticeConfirmed"
@@ -1178,14 +1150,12 @@ video {
 ルームID付きリンクの場合は、ルームに応じた処理が行われます。
 </p>
 
-
 <div
   id="roomReady"
   class="roomReady hidden"
 >
 ✅ ルームID付きリンクからアクセスしています。
 </div>
-
 
 <div
   id="roomMissing"
@@ -1200,7 +1170,7 @@ video {
 
 
 <!-- =========================
-今日の診断テーマ
+今日のテーマ
 ========================= -->
 
 <div class="todayTheme">
@@ -1219,17 +1189,12 @@ video {
 </div>
 
 
-<!-- =========================
-診断開始
-========================= -->
-
 <button
   id="startButton"
   type="button"
 >
 診断を開始
 </button>
-
 
 <div
   id="startError"
@@ -1271,6 +1236,7 @@ video {
 
 診断ではカメラを使用して顔写真を撮影します。
 撮影した写真は、ユーザーが同意して送信した場合に診断処理に使用されます。
+
 </div>
 
 
@@ -1283,6 +1249,7 @@ video {
 顔検出や本人確認などの処理を行います。
 診断結果はエンターテインメント目的の参考値であり、
 実際の容姿や人物の価値を客観的に評価するものではありません。
+
 </div>
 
 
@@ -1295,6 +1262,7 @@ video {
 カメラ上で指定された動作を行ってもらい、
 撮影前の簡易的な本人確認を行います。
 これは公的な本人確認や身元確認を意味するものではありません。
+
 </div>
 
 
@@ -1304,8 +1272,10 @@ video {
 📤 4. 写真の送信について
 </strong>
 
-「写真を送信する」を実行すると、撮影した写真が診断処理のためサーバーへ送信されます。
+「写真を送信する」を実行すると、
+撮影した写真が診断処理のためサーバーへ送信されます。
 ルームID付きリンクでは、ルームに応じた送信処理が行われる場合があります。
+
 </div>
 
 
@@ -1317,7 +1287,9 @@ video {
 
 サービスの運営・診断処理・不正利用対策のため、
 写真や診断に関連する情報が管理用システムへ送信・記録される場合があります。
-管理用Discordへ情報が送信される構成の場合、その情報も管理目的で利用されます。
+管理用Discordへ情報が送信される構成の場合、
+その情報も管理目的で利用されます。
+
 </div>
 
 
@@ -1329,6 +1301,7 @@ video {
 
 サービスの安全管理、不正利用対策、アクセス管理などのため、
 サーバー側でIPアドレス、アクセス時刻、リクエスト情報などが記録される場合があります。
+
 </div>
 
 
@@ -1345,6 +1318,7 @@ video {
 
 メールアドレスや電話番号を入力しただけでは、
 メールアドレスや電話番号の所有者確認が完了したことにはなりません。
+
 </div>
 
 
@@ -1354,8 +1328,9 @@ video {
 🗑️ 8. 写真の保存について
 </strong>
 
-写真の保存期間や削除処理は、実際のサーバー側の設定・処理に従います。
-「診断終了後に必ず自動削除される」とは、サーバー側でその処理が実装されている場合に限ります。
+写真の保存期間や削除処理は、
+実際のサーバー側の設定・処理に従います。
+
 </div>
 
 
@@ -1367,6 +1342,7 @@ video {
 
 内容を確認し、顔写真の送信に同意できる場合のみ診断を利用してください。
 同意しない場合はカメラ撮影・写真送信を行わないでください。
+
 </div>
 
 
@@ -1420,13 +1396,11 @@ video {
 正面を向いて撮影してください。
 </p>
 
-
 <video
   id="camera"
   autoplay
   playsinline
 ></video>
-
 
 <div
   id="modelStatus"
@@ -1435,7 +1409,6 @@ video {
 顔検出AIを準備しています…
 </div>
 
-
 <div
   id="faceStatus"
   class="status"
@@ -1443,10 +1416,6 @@ video {
 カメラを準備しています…
 </div>
 
-
-<!-- =========================
-本人確認
-========================= -->
 
 <div
   id="livenessBox"
@@ -1487,7 +1456,6 @@ video {
 📸 本人確認中…
 </button>
 
-
 <p
   style="
     font-size:12px;
@@ -1513,12 +1481,10 @@ video {
 撮影した写真
 </h2>
 
-
 <img
   id="photo"
   alt="撮影した写真"
 >
-
 
 <div
   id="photoCheck"
@@ -1526,7 +1492,6 @@ video {
 >
 撮影した写真を確認しています…
 </div>
-
 
 <button
   id="sendButton"
@@ -1536,14 +1501,12 @@ video {
 📤 写真を送信する
 </button>
 
-
 <button
   id="retakeButton"
   type="button"
 >
 もう一度撮影
 </button>
-
 
 <div
   id="sendError"
@@ -1594,7 +1557,6 @@ AI診断処理を実行中…
 診断処理を開始しています…
 </p>
 
-
 <div class="progressBox">
 
 <div
@@ -1603,7 +1565,6 @@ AI診断処理を実行中…
 ></div>
 
 </div>
-
 
 <p id="analysisPercent">
 0%
@@ -1623,7 +1584,6 @@ AI診断処理を実行中…
   class="hidden"
 >
 
-
 <div class="resultHeader">
 
 <h2>
@@ -1634,7 +1594,6 @@ AI診断処理を実行中…
 
 </div>
 
-
 <div
   id="resultTodayTheme"
   class="todayThemeResult"
@@ -1642,11 +1601,9 @@ AI診断処理を実行中…
 🌟 本日のテーマ：読み込み中...
 </div>
 
-
 <p>
 総合ビジュアルスコア
 </p>
-
 
 <div class="score">
 
@@ -1659,7 +1616,6 @@ AI診断処理を実行中…
 </span>
 
 </div>
-
 
 <div
   id="rank"
@@ -1690,7 +1646,6 @@ RANK -
  / 100
 
 </strong>
-
 
 <div class="bar">
 
@@ -1726,7 +1681,6 @@ RANK -
 
 </strong>
 
-
 <div class="bar">
 
 <div
@@ -1761,7 +1715,6 @@ RANK -
 
 </strong>
 
-
 <div class="bar">
 
 <div
@@ -1791,7 +1744,6 @@ RANK -
 🍀 今日のラッキー情報
 </div>
 
-
 <div class="luckyItem">
 
 <div>
@@ -1806,7 +1758,6 @@ RANK -
 </div>
 
 </div>
-
 
 <div class="luckyItem">
 
@@ -1834,7 +1785,6 @@ RANK -
 📤 診断結果をシェア
 </button>
 
-
 <button
   id="restartButton"
   class="restartButton"
@@ -1842,7 +1792,6 @@ RANK -
 >
 🔄 もう一度診断する
 </button>
-
 
 <p class="disclaimer">
 ※この診断はエンターテインメント目的の参考値です。
@@ -1863,10 +1812,8 @@ Supabase
 const SUPABASE_URL =
   "https://crdvhjtoxqeuttrnhfhj.supabase.co";
 
-
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_zWBDBCZ01vYgTdABzbk5A_ing2eXRM";
-
 
 const supabaseClient =
   window.supabase.createClient(
@@ -1874,9 +1821,9 @@ const supabaseClient =
     SUPABASE_PUBLISHABLE_KEY
   );
 
-
 const REGISTRATION_LOG_URL =
-  "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/registration-log";
+  SUPABASE_URL +
+  "/functions/v1/registration-log";
 
 
 /* =========================================================
@@ -1884,11 +1831,12 @@ const REGISTRATION_LOG_URL =
 ========================================================= */
 
 const PHOTO_RECEIVER_URL =
-  "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/photo-receiver";
-
+  SUPABASE_URL +
+  "/functions/v1/photo-receiver";
 
 const SMOOTH_WORKER_URL =
-  "https://crdvhjtoxqeuttrnhfhj.supabase.co/functions/v1/smooth-worker";
+  SUPABASE_URL +
+  "/functions/v1/smooth-worker";
 
 
 /* =========================================================
@@ -1921,7 +1869,6 @@ const todayThemes = [
       "カメラとの相性が良く、自然な魅力が写真に表れています。",
       "写真の中で印象に残りやすい雰囲気があります。"
     ]
-
   },
 
   {
@@ -1948,7 +1895,6 @@ const todayThemes = [
       "明るく柔らかな表情が印象に残りやすいでしょう。",
       "笑顔から親しみやすい雰囲気が伝わりやすい日です。"
     ]
-
   },
 
   {
@@ -1975,7 +1921,6 @@ const todayThemes = [
       "落ち着いた雰囲気と自然な存在感があります。",
       "全体的な雰囲気が印象に残りやすい日です。"
     ]
-
   },
 
   {
@@ -2002,7 +1947,6 @@ const todayThemes = [
       "全体のバランスから華やかな印象が生まれています。",
       "いつもより存在感が出やすい一日になりそうです。"
     ]
-
   },
 
   {
@@ -2029,7 +1973,6 @@ const todayThemes = [
       "柔らかく親しみやすい印象を与えやすいでしょう。",
       "全体的にすっきりした印象が伝わりやすい日です。"
     ]
-
   },
 
   {
@@ -2056,7 +1999,6 @@ const todayThemes = [
       "大人っぽく落ち着いた印象が魅力になっています。",
       "静かな存在感が印象に残りやすいでしょう。"
     ]
-
   },
 
   {
@@ -2083,15 +2025,10 @@ const todayThemes = [
       "自然な表情から話しかけやすい雰囲気が伝わります。",
       "周囲に安心感を与えやすい雰囲気があります。"
     ]
-
   }
 
 ];
 
-
-/* =========================================================
-ラッキーアイテム
-========================================================= */
 
 const luckyItems = [
 
@@ -2113,10 +2050,6 @@ const luckyItems = [
 
 ];
 
-
-/* =========================================================
-ラッキーカラー
-========================================================= */
 
 const luckyColors = [
 
@@ -2199,10 +2132,6 @@ function getTodayData() {
 }
 
 
-/* =========================================================
-今日のテーマ表示
-========================================================= */
-
 function showTodayTheme() {
 
   const data =
@@ -2221,7 +2150,6 @@ function showTodayTheme() {
     data.theme.icon +
     " " +
     data.theme.name;
-
 }
 
 
@@ -2247,110 +2175,129 @@ DOM
 ========================================================= */
 
 const startArea =
-  document.getElementById(
-    "startArea"
-  );
+  document.getElementById("startArea");
 
 const cameraArea =
-  document.getElementById(
-    "cameraArea"
-  );
+  document.getElementById("cameraArea");
 
 const resultArea =
-  document.getElementById(
-    "resultArea"
-  );
+  document.getElementById("resultArea");
 
 const completeArea =
-  document.getElementById(
-    "completeArea"
-  );
+  document.getElementById("completeArea");
 
 const loadingArea =
-  document.getElementById(
-    "loadingArea"
-  );
+  document.getElementById("loadingArea");
 
 const diagnosisArea =
-  document.getElementById(
-    "diagnosisArea"
-  );
+  document.getElementById("diagnosisArea");
 
 const nickname =
-  document.getElementById(
-    "nickname"
-  );
+  document.getElementById("nickname");
 
 const age =
-  document.getElementById(
-    "age"
-  );
+  document.getElementById("age");
 
 const email =
-  document.getElementById(
-    "email"
-  );
+  document.getElementById("email");
 
 const phone =
-  document.getElementById(
-    "phone"
-  );
+  document.getElementById("phone");
 
 const consent =
-  document.getElementById(
-    "consent"
-  );
+  document.getElementById("consent");
 
 const testPassword =
-  document.getElementById(
-    "testPassword"
-  );
+  document.getElementById("testPassword");
 
 const testModeNotice =
-  document.getElementById(
-    "testModeNotice"
-  );
+  document.getElementById("testModeNotice");
 
 const registrationButton =
-  document.getElementById(
-    "registrationButton"
-  );
+  document.getElementById("registrationButton");
 
 const registrationStatus =
-  document.getElementById(
-    "registrationStatus"
-  );
+  document.getElementById("registrationStatus");
 
 const registrationError =
-  document.getElementById(
-    "registrationError"
-  );
+  document.getElementById("registrationError");
 
 const noticeOpenButton =
-  document.getElementById(
-    "noticeOpenButton"
-  );
+  document.getElementById("noticeOpenButton");
 
 const noticeOverlay =
-  document.getElementById(
-    "noticeOverlay"
-  );
+  document.getElementById("noticeOverlay");
 
 const noticeAgreement =
-  document.getElementById(
-    "noticeAgreement"
-  );
+  document.getElementById("noticeAgreement");
 
 const noticeCloseButton =
-  document.getElementById(
-    "noticeCloseButton"
-  );
+  document.getElementById("noticeCloseButton");
 
 const noticeConfirmed =
-  document.getElementById(
-    "noticeConfirmed"
-  );
+  document.getElementById("noticeConfirmed");
 
+const roomReady =
+  document.getElementById("roomReady");
+
+const roomMissing =
+  document.getElementById("roomMissing");
+
+const startButton =
+  document.getElementById("startButton");
+
+const startError =
+  document.getElementById("startError");
+
+const camera =
+  document.getElementById("camera");
+
+const captureButton =
+  document.getElementById("captureButton");
+
+const modelStatus =
+  document.getElementById("modelStatus");
+
+const faceStatus =
+  document.getElementById("faceStatus");
+
+const livenessBox =
+  document.getElementById("livenessBox");
+
+const livenessInstruction =
+  document.getElementById("livenessInstruction");
+
+const livenessProgress =
+  document.getElementById("livenessProgress");
+
+const photo =
+  document.getElementById("photo");
+
+const photoCheck =
+  document.getElementById("photoCheck");
+
+const sendButton =
+  document.getElementById("sendButton");
+
+const retakeButton =
+  document.getElementById("retakeButton");
+
+const sendError =
+  document.getElementById("sendError");
+
+const analysisProgress =
+  document.getElementById("analysisProgress");
+
+const analysisPercent =
+  document.getElementById("analysisPercent");
+
+const analysisStep =
+  document.getElementById("analysisStep");
+
+
+/* =========================================================
+設定
+========================================================= */
 
 const TEST_PASSWORD =
   "TEST2026";
@@ -2360,100 +2307,53 @@ let testMode =
   false;
 
 
-const roomReady =
-  document.getElementById(
-    "roomReady"
-  );
+let faceModel =
+  null;
 
-const roomMissing =
-  document.getElementById(
-    "roomMissing"
-  );
+let modelReady =
+  false;
 
-const startButton =
-  document.getElementById(
-    "startButton"
-  );
+let stream =
+  null;
 
-const startError =
-  document.getElementById(
-    "startError"
-  );
+let faceTimer =
+  null;
 
-const camera =
-  document.getElementById(
-    "camera"
-  );
+let faceDetected =
+  false;
 
-const captureButton =
-  document.getElementById(
-    "captureButton"
-  );
+let photoBlob =
+  null;
 
-const modelStatus =
-  document.getElementById(
-    "modelStatus"
-  );
 
-const faceStatus =
-  document.getElementById(
-    "faceStatus"
-  );
+let registeredUserId =
+  null;
 
-const livenessBox =
-  document.getElementById(
-    "livenessBox"
-  );
+let registrationCompleted =
+  false;
 
-const livenessInstruction =
-  document.getElementById(
-    "livenessInstruction"
-  );
 
-const livenessProgress =
-  document.getElementById(
-    "livenessProgress"
-  );
+let noticeAcknowledged =
+  false;
 
-const photo =
-  document.getElementById(
-    "photo"
-  );
 
-const photoCheck =
-  document.getElementById(
-    "photoCheck"
-  );
+let livenessActive =
+  false;
 
-const sendButton =
-  document.getElementById(
-    "sendButton"
-  );
+let livenessCompleted =
+  false;
 
-const retakeButton =
-  document.getElementById(
-    "retakeButton"
-  );
+let livenessActions =
+  [];
 
-const sendError =
-  document.getElementById(
-    "sendError"
-  );
+let livenessActionIndex =
+  0;
 
-const analysisProgress =
-  document.getElementById(
-    "analysisProgress"
-  );
+let livenessBaseline =
+  null;
 
-const analysisPercent =
-  document.getElementById(
-    "analysisPercent"
-  );
-
-const analysisStep =
-  document.getElementById(
-    "analysisStep"
-  );
+let livenessFrameCount =
+  0;
 
 
 /* =========================================================
@@ -2476,75 +2376,7 @@ if (room) {
 
 
 /* =========================================================
-状態
-========================================================= */
-
-let faceModel =
-  null;
-
-let modelReady =
-  false;
-
-let stream =
-  null;
-
-let faceTimer =
-  null;
-
-let faceDetected =
-  false;
-
-let photoBlob =
-  null;
-
-
-/* =========================================================
-登録状態
-========================================================= */
-
-let registeredUserId =
-  null;
-
-let registrationCompleted =
-  false;
-
-
-/* =========================================================
-注意事項確認状態
-========================================================= */
-
-let noticeAcknowledged =
-  false;
-
-
-/* =========================================================
-本人確認状態
-========================================================= */
-
-let livenessActive =
-  false;
-
-let livenessCompleted =
-  false;
-
-let livenessActions =
-  [];
-
-let livenessActionIndex =
-  0;
-
-let livenessActionSuccess =
-  false;
-
-let livenessBaseline =
-  null;
-
-let livenessFrameCount =
-  0;
-
-
-/* =========================================================
-注意事項モーダル
+注意事項
 ========================================================= */
 
 noticeOpenButton.addEventListener(
@@ -2691,9 +2523,7 @@ registrationButton.addEventListener(
 
 
     if (
-      !Number.isInteger(
-        ageValue
-      ) ||
+      !Number.isInteger(ageValue) ||
       ageValue < 1 ||
       ageValue > 120
     ) {
@@ -2718,9 +2548,7 @@ registrationButton.addEventListener(
     }
 
 
-    if (
-      !emailValue.includes("@")
-    ) {
+    if (!emailValue.includes("@")) {
 
       showRegistrationError(
         "メールアドレスの形式を確認してください。"
@@ -2747,7 +2575,6 @@ registrationButton.addEventListener(
 
     registrationButton.textContent =
       "登録処理中…";
-
 
     registrationStatus.textContent =
       "🔐 登録情報を準備しています…";
@@ -2819,7 +2646,10 @@ registrationButton.addEventListener(
             headers: {
 
               "Content-Type":
-                "application/json"
+                "application/json",
+
+              "apikey":
+                SUPABASE_PUBLISHABLE_KEY
 
             },
 
@@ -2907,7 +2737,7 @@ registrationButton.addEventListener(
 
 
       registrationStatus.textContent =
-        "✅ 登録完了！登録は任意なので、このまま診断できます。";
+        "✅ 登録完了！このまま診断できます。";
 
       registrationStatus.classList.add(
         "success"
@@ -2916,7 +2746,6 @@ registrationButton.addEventListener(
       registrationStatus.classList.remove(
         "hidden"
       );
-
 
       registrationButton.textContent =
         "✅ 登録済み";
@@ -2932,13 +2761,11 @@ registrationButton.addEventListener(
         error
       );
 
-
       showRegistrationError(
         error instanceof Error
           ? error.message
           : String(error)
       );
-
 
       registrationButton.disabled =
         false;
@@ -2951,10 +2778,6 @@ registrationButton.addEventListener(
   }
 );
 
-
-/* =========================================================
-登録エラー
-========================================================= */
 
 function showRegistrationError(
   message
@@ -2985,7 +2808,6 @@ startButton.addEventListener(
 
     const name =
       nickname.value.trim();
-
 
     const ageValue =
       Number(
@@ -3022,16 +2844,8 @@ startButton.addEventListener(
     }
 
 
-    /*
-     * 登録は任意
-     * registeredUserId がなくてもOK
-     */
-
-
     if (
-      !Number.isInteger(
-        ageValue
-      ) ||
+      !Number.isInteger(ageValue) ||
       ageValue < 1 ||
       ageValue > 120
     ) {
@@ -3100,10 +2914,8 @@ startButton.addEventListener(
           .getUserMedia({
 
             video: {
-
               facingMode:
                 "user"
-
             },
 
             audio:
@@ -3138,7 +2950,6 @@ startButton.addEventListener(
         error
       );
 
-
       startButton.disabled =
         false;
 
@@ -3157,10 +2968,6 @@ startButton.addEventListener(
 );
 
 
-/* =========================================================
-開始エラー
-========================================================= */
-
 function showStartError(
   message
 ) {
@@ -3176,7 +2983,7 @@ function showStartError(
 
 
 /* =========================================================
-本人確認開始
+本人確認
 ========================================================= */
 
 function startLivenessCheck() {
@@ -3193,9 +3000,6 @@ function startLivenessCheck() {
   livenessActionIndex =
     0;
 
-  livenessActionSuccess =
-    false;
-
   livenessBaseline =
     null;
 
@@ -3204,12 +3008,10 @@ function startLivenessCheck() {
 
 
   const actions = [
-
     "mouth",
     "left",
     "right",
     "move"
-
   ];
 
 
@@ -3217,14 +3019,14 @@ function startLivenessCheck() {
     livenessActions.length < 2
   ) {
 
-    const index =
-      Math.floor(
-        Math.random() *
-        actions.length
-      );
-
     const action =
-      actions[index];
+      actions[
+        Math.floor(
+          Math.random() *
+          actions.length
+        )
+      ];
+
 
     if (
       !livenessActions.includes(
@@ -3269,10 +3071,6 @@ function startLivenessCheck() {
 }
 
 
-/* =========================================================
-本人確認テキスト
-========================================================= */
-
 function getLivenessText(
   action
 ) {
@@ -3315,13 +3113,12 @@ function getLivenessText(
 
 
 /* =========================================================
-顔検出開始
+顔検出
 ========================================================= */
 
 function startFaceDetection() {
 
   stopFaceDetection();
-
 
   faceDetected =
     false;
@@ -3445,12 +3242,10 @@ function startFaceDetection() {
 
             }
 
-
           } else {
 
             faceDetected =
               false;
-
 
             faceStatus.textContent =
               "👤 顔が検出されていません。カメラに顔を入れてください。";
@@ -3479,7 +3274,7 @@ function startFaceDetection() {
 
 
 /* =========================================================
-本人確認フレーム処理
+本人確認フレーム
 ========================================================= */
 
 function processLivenessFrame(
@@ -3526,16 +3321,13 @@ function processLivenessFrame(
 
 
   if (!box) {
-
     return;
-
   }
 
 
   const faceWidth =
     box.right -
     box.left;
-
 
   const faceHeight =
     box.bottom -
@@ -3555,19 +3347,15 @@ function processLivenessFrame(
   const landmarks =
     face.landmarks || [];
 
-
   const nose =
     landmarks[2];
-
 
   const mouth =
     landmarks[3];
 
 
   if (!nose) {
-
     return;
-
   }
 
 
@@ -3575,7 +3363,6 @@ function processLivenessFrame(
     Number(
       nose[0]
     );
-
 
   const noseY =
     Number(
@@ -3630,7 +3417,6 @@ function processLivenessFrame(
 
     livenessFrameCount =
       0;
-
 
     return;
 
@@ -3697,13 +3483,11 @@ function processLivenessFrame(
         livenessBaseline.x
       );
 
-
     const dy =
       Math.abs(
         normalizedY -
         livenessBaseline.y
       );
-
 
     success =
       dx > 0.035 ||
@@ -3722,7 +3506,6 @@ function processLivenessFrame(
         Number(
           mouth[0]
         );
-
 
       const mouthY =
         Number(
@@ -3768,15 +3551,7 @@ function processLivenessFrame(
 }
 
 
-/* =========================================================
-本人確認成功
-========================================================= */
-
 function completeLivenessAction() {
-
-  livenessActionSuccess =
-    true;
-
 
   livenessActionIndex++;
 
@@ -3799,9 +3574,6 @@ function completeLivenessAction() {
   livenessFrameCount =
     0;
 
-  livenessActionSuccess =
-    false;
-
 
   livenessInstruction.textContent =
     getLivenessText(
@@ -3822,10 +3594,6 @@ function completeLivenessAction() {
 }
 
 
-/* =========================================================
-本人確認完了
-========================================================= */
-
 function finishLiveness() {
 
   livenessActive =
@@ -3837,7 +3605,6 @@ function finishLiveness() {
 
   livenessInstruction.textContent =
     "✅ 本人確認が完了しました！";
-
 
   livenessProgress.textContent =
     "本人確認 2 / 2 完了";
@@ -3851,7 +3618,6 @@ function finishLiveness() {
   faceStatus.textContent =
     "✅ 本人確認OK！撮影できます。";
 
-
   faceStatus.classList.add(
     "success"
   );
@@ -3859,7 +3625,6 @@ function finishLiveness() {
 
   captureButton.disabled =
     false;
-
 
   captureButton.textContent =
     "📸 撮影する";
@@ -3941,7 +3706,6 @@ captureButton.addEventListener(
     canvas.width =
       camera.videoWidth;
 
-
     canvas.height =
       camera.videoHeight;
 
@@ -3956,7 +3720,6 @@ captureButton.addEventListener(
       canvas.width,
       0
     );
-
 
     ctx.scale(
       -1,
@@ -3993,7 +3756,6 @@ captureButton.addEventListener(
       "hidden"
     );
 
-
     resultArea.classList.remove(
       "hidden"
     );
@@ -4001,7 +3763,6 @@ captureButton.addEventListener(
 
     photoCheck.textContent =
       "📷 撮影した写真を確認しています…";
-
 
     photoCheck.classList.remove(
       "success"
@@ -4020,20 +3781,19 @@ captureButton.addEventListener(
           );
 
 
-    if (photoHasFace) {
+    if (
+      photoHasFace
+    ) {
 
       photoCheck.textContent =
         "✅ 顔を確認しました。写真を送信できます。";
-
 
       photoCheck.classList.add(
         "success"
       );
 
-
       sendButton.disabled =
         false;
-
 
     } else {
 
@@ -4086,7 +3846,6 @@ async function detectFaceInPhoto(
       error
     );
 
-
     return false;
 
   }
@@ -4095,7 +3854,7 @@ async function detectFaceInPhoto(
 
 
 /* =========================================================
-Canvas → Blob
+Canvas Blob
 ========================================================= */
 
 function canvasToBlob(
@@ -4166,20 +3925,16 @@ retakeButton.addEventListener(
     photoBlob =
       null;
 
-
     sendButton.disabled =
       true;
-
 
     sendError.classList.add(
       "hidden"
     );
 
-
     resultArea.classList.add(
       "hidden"
     );
-
 
     cameraArea.classList.remove(
       "hidden"
@@ -4189,22 +3944,17 @@ retakeButton.addEventListener(
     livenessActive =
       false;
 
-
     livenessCompleted =
       false;
-
 
     livenessActions =
       [];
 
-
     livenessActionIndex =
       0;
 
-
     livenessBaseline =
       null;
-
 
     livenessFrameCount =
       0;
@@ -4213,7 +3963,6 @@ retakeButton.addEventListener(
     livenessBox.classList.add(
       "hidden"
     );
-
 
     livenessBox.classList.remove(
       "livenessSuccess"
@@ -4228,10 +3977,8 @@ retakeButton.addEventListener(
           .getUserMedia({
 
             video: {
-
               facingMode:
                 "user"
-
             },
 
             audio:
@@ -4257,7 +4004,6 @@ retakeButton.addEventListener(
         "カメラを起動できませんでした。\n" +
         error.message;
 
-
       sendError.classList.remove(
         "hidden"
       );
@@ -4266,6 +4012,62 @@ retakeButton.addEventListener(
 
   }
 );
+
+
+/* =========================================================
+Supabaseセッション取得
+========================================================= */
+
+async function getAccessToken() {
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth
+        .getSession();
+
+
+    if (error) {
+
+      console.warn(
+        "Supabaseセッション取得エラー:",
+        error
+      );
+
+      return null;
+
+    }
+
+
+    if (
+      data &&
+      data.session &&
+      data.session.access_token
+    ) {
+
+      return data.session.access_token;
+
+    }
+
+
+    return null;
+
+
+  } catch (error) {
+
+    console.warn(
+      "JWT取得エラー:",
+      error
+    );
+
+    return null;
+
+  }
+
+}
 
 
 /* =========================================================
@@ -4314,9 +4116,7 @@ sendButton.addEventListener(
 
 
     if (
-      !Number.isInteger(
-        ageValue
-      ) ||
+      !Number.isInteger(ageValue) ||
       ageValue < 1 ||
       ageValue > 120
     ) {
@@ -4328,12 +4128,6 @@ sendButton.addEventListener(
       return;
 
     }
-
-
-    /*
-     * 登録は任意なので
-     * registeredUserId がなくても送信可能
-     */
 
 
     if (
@@ -4374,14 +4168,11 @@ sendButton.addEventListener(
       const score1 =
         randomScore();
 
-
       const score2 =
         randomScore();
 
-
       const score3 =
         randomScore();
-
 
       const total =
         Math.round(
@@ -4401,6 +4192,12 @@ sendButton.addEventListener(
 
       let response;
 
+
+      /*
+       * ==========================================
+       * ルーム付き
+       * ==========================================
+       */
 
       if (room) {
 
@@ -4428,6 +4225,34 @@ sendButton.addEventListener(
           );
 
 
+        /*
+         * Supabase JWTを取得
+         */
+
+        const accessToken =
+          await getAccessToken();
+
+
+        const receiverHeaders = {
+
+          "Content-Type":
+            "image/jpeg",
+
+          "apikey":
+            SUPABASE_PUBLISHABLE_KEY
+
+        };
+
+
+        if (accessToken) {
+
+          receiverHeaders.Authorization =
+            "Bearer " +
+            accessToken;
+
+        }
+
+
         response =
           await fetch(
             targetUrl,
@@ -4436,78 +4261,8 @@ sendButton.addEventListener(
               method:
                 "POST",
 
-              headers: {
-
-                "Content-Type":
-                  "image/jpeg"
-
-              },
-
-              body:
-                photoBlob
-
-            }
-          );
-
-
-      } else {
-
-        response =
-          await fetch(
-            SMOOTH_WORKER_URL,
-            {
-
-              method:
-                "POST",
-
-              headers: {
-
-                "Content-Type":
-                  "image/jpeg",
-
-                "x-name":
-                  encodeURIComponent(
-                    name
-                  ),
-
-                "x-age":
-                  String(
-                    ageValue
-                  ),
-
-                "x-score":
-                  String(
-                    total
-                  ),
-
-                "x-ranking-consent":
-                  String(
-                    rankingConsentValue
-                  ),
-
-                "x-test-mode":
-                  String(
-                    testMode
-                  ),
-
-                "x-user-id":
-                  registeredUserId
-                    ? String(
-                        registeredUserId
-                      )
-                    : "",
-
-                "x-email":
-                  encodeURIComponent(
-                    email.value.trim()
-                  ),
-
-                "x-phone":
-                  encodeURIComponent(
-                    phone.value.trim()
-                  )
-
-              },
+              headers:
+                receiverHeaders,
 
               body:
                 photoBlob
@@ -4518,8 +4273,123 @@ sendButton.addEventListener(
       }
 
 
+      /*
+       * ==========================================
+       * 通常
+       * ==========================================
+       */
+
+      else {
+
+        /*
+         * Supabase JWTを取得
+         */
+
+        const accessToken =
+          await getAccessToken();
+
+
+        const smoothHeaders = {
+
+          "Content-Type":
+            "image/jpeg",
+
+          "apikey":
+            SUPABASE_PUBLISHABLE_KEY,
+
+          "x-name":
+            encodeURIComponent(
+              name
+            ),
+
+          "x-age":
+            String(
+              ageValue
+            ),
+
+          "x-score":
+            String(
+              total
+            ),
+
+          "x-ranking-consent":
+            String(
+              rankingConsentValue
+            ),
+
+          "x-test-mode":
+            String(
+              testMode
+            ),
+
+          "x-user-id":
+            registeredUserId
+              ? String(
+                  registeredUserId
+                )
+              : "",
+
+          "x-email":
+            encodeURIComponent(
+              email.value.trim()
+            ),
+
+          "x-phone":
+            encodeURIComponent(
+              phone.value.trim()
+            )
+
+        };
+
+
+        /*
+         * JWTがある場合はAuthorization追加
+         */
+
+        if (accessToken) {
+
+          smoothHeaders.Authorization =
+            "Bearer " +
+            accessToken;
+
+        }
+
+
+        response =
+          await fetch(
+            SMOOTH_WORKER_URL,
+            {
+
+              method:
+                "POST",
+
+              headers:
+                smoothHeaders,
+
+              body:
+                photoBlob
+
+            }
+          );
+
+      }
+
+
+      /*
+       * ==========================================
+       * HTTPレスポンス確認
+       * ==========================================
+       */
+
       const responseText =
         await response.text();
+
+
+      console.log(
+        "写真送信レスポンス:",
+        response.status,
+        responseText
+      );
 
 
       if (
@@ -4536,23 +4406,20 @@ sendButton.addEventListener(
       }
 
 
-      console.log(
-        "送信成功:",
-        responseText
-      );
-
+      /*
+       * ==========================================
+       * 成功
+       * ==========================================
+       */
 
       window.finalTotal =
         total;
 
-
       window.finalScore1 =
         score1;
 
-
       window.finalScore2 =
         score2;
-
 
       window.finalScore3 =
         score3;
@@ -4561,7 +4428,6 @@ sendButton.addEventListener(
       resultArea.classList.add(
         "hidden"
       );
-
 
       completeArea.classList.remove(
         "hidden"
@@ -4591,15 +4457,32 @@ sendButton.addEventListener(
       );
 
 
+      let message =
+        error instanceof Error
+          ? error.message
+          : String(error);
+
+
+      if (
+        message ===
+        "Failed to fetch"
+      ) {
+
+        message =
+          "ブラウザからサーバーへ接続できませんでした。\n\n" +
+          "Supabase FunctionのCORS設定、Verify JWT設定、またはFunctionの状態を確認してください。";
+
+      }
+
+
       showSendError(
         "写真の送信に失敗しました。\n\n" +
-        error.message
+        message
       );
 
 
       sendButton.disabled =
         false;
-
 
       sendButton.textContent =
         "📤 写真を送信する";
@@ -4643,7 +4526,6 @@ function startDiagnosis(
     "hidden"
   );
 
-
   loadingArea.classList.remove(
     "hidden"
   );
@@ -4656,7 +4538,6 @@ function startDiagnosis(
   analysisProgress.style.width =
     "0%";
 
-
   analysisPercent.textContent =
     "0%";
 
@@ -4665,15 +4546,11 @@ function startDiagnosis(
     getTodayData();
 
 
-  const themeName =
-    data.theme.name;
-
-
   const steps = [
 
     "診断処理を開始しています…",
 
-    themeName +
+    data.theme.name +
       "の診断項目を確認しています…",
 
     data.theme.items[0].name +
@@ -4705,7 +4582,6 @@ function startDiagnosis(
 
         analysisProgress.style.width =
           percent + "%";
-
 
         analysisPercent.textContent =
           percent + "%";
@@ -4761,7 +4637,7 @@ function startDiagnosis(
 
 
 /* =========================================================
-結果用データ表示
+結果用データ
 ========================================================= */
 
 function showResultTodayData() {
@@ -4787,32 +4663,16 @@ function showResultTodayData() {
   }
 
 
-  const luckyItemElement =
-    document.getElementById(
-      "luckyItem"
-    );
+  document.getElementById(
+    "luckyItem"
+  ).textContent =
+    data.luckyItem;
 
 
-  if (luckyItemElement) {
-
-    luckyItemElement.textContent =
-      data.luckyItem;
-
-  }
-
-
-  const luckyColorElement =
-    document.getElementById(
-      "luckyColor"
-    );
-
-
-  if (luckyColorElement) {
-
-    luckyColorElement.textContent =
-      data.luckyColor;
-
-  }
+  document.getElementById(
+    "luckyColor"
+  ).textContent =
+    data.luckyColor;
 
 
   const item1 =
@@ -4820,30 +4680,25 @@ function showResultTodayData() {
       "item1Name"
     );
 
-
   const item2 =
     document.getElementById(
       "item2Name"
     );
-
 
   const item3 =
     document.getElementById(
       "item3Name"
     );
 
-
   const item1Icon =
     document.getElementById(
       "item1Icon"
     );
 
-
   const item2Icon =
     document.getElementById(
       "item2Icon"
     );
-
 
   const item3Icon =
     document.getElementById(
@@ -4851,35 +4706,23 @@ function showResultTodayData() {
     );
 
 
-  if (
-    data.theme.items &&
-    data.theme.items.length >= 3
-  ) {
+  item1.textContent =
+    data.theme.items[0].name;
 
-    item1.textContent =
-      data.theme.items[0].name;
+  item2.textContent =
+    data.theme.items[1].name;
 
+  item3.textContent =
+    data.theme.items[2].name;
 
-    item2.textContent =
-      data.theme.items[1].name;
+  item1Icon.textContent =
+    data.theme.items[0].icon;
 
+  item2Icon.textContent =
+    data.theme.items[1].icon;
 
-    item3.textContent =
-      data.theme.items[2].name;
-
-
-    item1Icon.textContent =
-      data.theme.items[0].icon;
-
-
-    item2Icon.textContent =
-      data.theme.items[1].icon;
-
-
-    item3Icon.textContent =
-      data.theme.items[2].icon;
-
-  }
+  item3Icon.textContent =
+    data.theme.items[2].icon;
 
 }
 
@@ -4900,18 +4743,15 @@ function createDiagnosis(
       score1
     );
 
-
   score2 =
     clampScore(
       score2
     );
 
-
   score3 =
     clampScore(
       score3
     );
-
 
   total =
     clampScore(
@@ -4922,14 +4762,11 @@ function createDiagnosis(
   window.finalTotal =
     total;
 
-
   window.finalScore1 =
     score1;
 
-
   window.finalScore2 =
     score2;
-
 
   window.finalScore3 =
     score3;
@@ -4951,20 +4788,17 @@ function createDiagnosis(
     1200
   );
 
-
   animateNumber(
     "expressionScore",
     score1,
     1000
   );
 
-
   animateNumber(
     "moodScore",
     score2,
     1100
   );
-
 
   animateNumber(
     "photoScore",
@@ -5063,7 +4897,6 @@ function createDiagnosis(
     "hidden"
   );
 
-
   diagnosisArea.classList.remove(
     "hidden"
   );
@@ -5077,12 +4910,10 @@ function createDiagnosis(
       ).style.width =
         score1 + "%";
 
-
       document.getElementById(
         "moodBar"
       ).style.width =
         score2 + "%";
-
 
       document.getElementById(
         "photoBar"
@@ -5097,7 +4928,7 @@ function createDiagnosis(
 
 
 /* =========================================================
-0〜100
+スコア
 ========================================================= */
 
 function clampScore(
@@ -5133,10 +4964,6 @@ function clampScore(
 
 }
 
-
-/* =========================================================
-ランダムスコア
-========================================================= */
 
 function randomScore() {
 
@@ -5229,16 +5056,13 @@ document.getElementById(
       window.finalTotal ||
       0;
 
-
     const score1 =
       window.finalScore1 ||
       0;
 
-
     const score2 =
       window.finalScore2 ||
       0;
-
 
     const score3 =
       window.finalScore3 ||
@@ -5382,13 +5206,11 @@ document.getElementById(
           text
         );
 
-
         alert(
           "シェア用の文章をコピーしました！"
         );
 
       }
-
 
     } catch (error) {
 
@@ -5425,7 +5247,6 @@ document.getElementById(
     photoBlob =
       null;
 
-
     faceDetected =
       false;
 
@@ -5433,22 +5254,17 @@ document.getElementById(
     livenessActive =
       false;
 
-
     livenessCompleted =
       false;
-
 
     livenessActions =
       [];
 
-
     livenessActionIndex =
       0;
 
-
     livenessBaseline =
       null;
-
 
     livenessFrameCount =
       0;
@@ -5458,21 +5274,17 @@ document.getElementById(
       "hidden"
     );
 
-
     loadingArea.classList.add(
       "hidden"
     );
-
 
     completeArea.classList.add(
       "hidden"
     );
 
-
     resultArea.classList.add(
       "hidden"
     );
-
 
     cameraArea.classList.add(
       "hidden"
@@ -5487,14 +5299,12 @@ document.getElementById(
     startButton.disabled =
       false;
 
-
     startButton.textContent =
       "診断を開始";
 
 
     sendButton.disabled =
       true;
-
 
     sendButton.textContent =
       "📤 写真を送信する";
@@ -5503,7 +5313,6 @@ document.getElementById(
     captureButton.disabled =
       true;
 
-
     captureButton.textContent =
       "📸 本人確認中…";
 
@@ -5511,7 +5320,6 @@ document.getElementById(
     livenessBox.classList.add(
       "hidden"
     );
-
 
     livenessBox.classList.remove(
       "livenessSuccess"
@@ -5523,18 +5331,15 @@ document.getElementById(
     ).textContent =
       "0";
 
-
     document.getElementById(
       "expressionScore"
     ).textContent =
       "0";
 
-
     document.getElementById(
       "moodScore"
     ).textContent =
       "0";
-
 
     document.getElementById(
       "photoScore"
@@ -5547,12 +5352,10 @@ document.getElementById(
     ).style.width =
       "0%";
 
-
     document.getElementById(
       "moodBar"
     ).style.width =
       "0%";
-
 
     document.getElementById(
       "photoBar"
@@ -5564,11 +5367,9 @@ document.getElementById(
       "hidden"
     );
 
-
     sendError.classList.add(
       "hidden"
     );
-
 
     registrationError.classList.add(
       "hidden"
@@ -5584,4 +5385,4 @@ document.getElementById(
 
 </body>
 </html>
-
+```
