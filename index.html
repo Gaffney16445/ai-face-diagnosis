@@ -18,6 +18,10 @@
 
 <style>
 
+/* =========================
+基本
+========================= */
+
 * {
   box-sizing: border-box;
 }
@@ -26,7 +30,13 @@ body {
   margin: 0;
   padding: 20px;
   min-height: 100vh;
-  font-family: sans-serif;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
   text-align: center;
 
   background:
@@ -72,7 +82,24 @@ input[type="password"] {
     1px solid #ccc;
 
   border-radius: 12px;
+
+  outline: none;
 }
+
+input:focus {
+
+  border-color:
+    #6366f1;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(99,102,241,.15);
+}
+
+
+/* =========================
+同意
+========================= */
 
 .consent {
 
@@ -106,20 +133,345 @@ input[type="password"] {
   margin-right: 7px;
 }
 
-.consent h3 {
 
-  margin-top: 20px;
+/* =========================
+注意事項ボタン
+========================= */
 
-  margin-bottom: 8px;
+.noticeLauncher {
+
+  margin-top: 18px;
+
+  padding: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff7ed,
+      #ffedd5
+    );
+
+  border:
+    2px solid #f59e0b;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0,0,0,.08);
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    transform .15s ease,
+    box-shadow .15s ease;
+}
+
+.noticeLauncher:active {
+
+  transform:
+    scale(.98);
+
+  box-shadow:
+    0 2px 6px
+    rgba(0,0,0,.08);
+}
+
+.noticeLauncherTitle {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
 
   font-size: 17px;
+
+  font-weight: bold;
+
+  color: #92400e;
 }
 
-.consent p {
+.noticeLauncherSub {
 
-  line-height: 1.7;
+  margin-top: 6px;
+
+  font-size: 12px;
+
+  color: #92400e;
+}
+
+.noticeArrow {
+
+  font-size: 22px;
+}
+
+
+/* =========================
+注意事項モーダル
+========================= */
+
+.noticeOverlay {
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9999;
+
+  display: none;
+
+  align-items: flex-end;
+
+  justify-content: center;
+
+  padding: 0;
+
+  background:
+    rgba(0,0,0,.65);
+}
+
+.noticeOverlay.show {
+
+  display: flex;
+}
+
+.noticeModal {
+
+  width: 100%;
+
+  max-width: 560px;
+
+  max-height: 88vh;
+
+  overflow: hidden;
+
+  background: white;
+
+  border-radius:
+    24px 24px 0 0;
+
+  box-shadow:
+    0 -10px 40px
+    rgba(0,0,0,.35);
+
+  animation:
+    noticeUp .22s ease-out;
+}
+
+@keyframes noticeUp {
+
+  from {
+
+    transform:
+      translateY(100%);
+
+    opacity: 0;
+
+  }
+
+  to {
+
+    transform:
+      translateY(0);
+
+    opacity: 1;
+
+  }
 
 }
+
+.noticeHeader {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 18px 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5,
+      #9333ea
+    );
+
+  color: white;
+}
+
+.noticeHeaderTitle {
+
+  font-size: 20px;
+
+  font-weight: bold;
+}
+
+.noticeClose {
+
+  width: 42px;
+
+  height: 42px;
+
+  margin: 0;
+
+  padding: 0;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,255,255,.18);
+
+  font-size: 22px;
+
+  line-height: 42px;
+}
+
+.noticeContent {
+
+  max-height:
+    calc(88vh - 150px);
+
+  overflow-y: auto;
+
+  padding: 20px;
+
+  text-align: left;
+
+  -webkit-overflow-scrolling:
+    touch;
+}
+
+.noticeContent h3 {
+
+  margin:
+    22px 0 8px;
+
+  font-size: 17px;
+
+  color: #111827;
+}
+
+.noticeContent h3:first-child {
+
+  margin-top: 0;
+}
+
+.noticeContent p {
+
+  margin: 8px 0;
+
+  line-height: 1.75;
+
+  font-size: 13px;
+
+  color: #374151;
+}
+
+.noticeWarning {
+
+  margin:
+    12px 0;
+
+  padding: 12px;
+
+  background:
+    #fff7ed;
+
+  border:
+    1px solid #fdba74;
+
+  border-radius: 12px;
+
+  color: #9a3412;
+
+  font-size: 13px;
+
+  line-height: 1.65;
+}
+
+.noticeDanger {
+
+  margin:
+    12px 0;
+
+  padding: 12px;
+
+  background:
+    #fef2f2;
+
+  border:
+    1px solid #fca5a5;
+
+  border-radius: 12px;
+
+  color: #991b1b;
+
+  font-size: 13px;
+
+  line-height: 1.65;
+}
+
+.noticeInfo {
+
+  margin:
+    12px 0;
+
+  padding: 12px;
+
+  background:
+    #eff6ff;
+
+  border:
+    1px solid #93c5fd;
+
+  border-radius: 12px;
+
+  color: #1e40af;
+
+  font-size: 13px;
+
+  line-height: 1.65;
+}
+
+.noticeCheckList {
+
+  margin-top: 10px;
+
+  padding: 14px;
+
+  background:
+    #f9fafb;
+
+  border-radius: 12px;
+
+  font-size: 13px;
+
+  line-height: 1.9;
+}
+
+.noticeFooter {
+
+  padding: 12px 20px 20px;
+
+  background: white;
+
+  border-top:
+    1px solid #e5e7eb;
+}
+
+.noticeFooter button {
+
+  margin-top: 0;
+}
+
+
+/* =========================
+ランキング
+========================= */
 
 .rankingBox {
 
@@ -183,7 +535,7 @@ input[type="password"] {
 
 
 /* =========================
-今日の診断テーマ
+今日のテーマ
 ========================= */
 
 .todayTheme {
@@ -205,7 +557,8 @@ input[type="password"] {
   border-radius: 18px;
 
   box-shadow:
-    0 5px 15px rgba(0,0,0,.08);
+    0 5px 15px
+    rgba(0,0,0,.08);
 }
 
 .todayThemeTitle {
@@ -230,7 +583,7 @@ input[type="password"] {
 
 
 /* =========================
-結果画面 今日のテーマ
+結果テーマ
 ========================= */
 
 .todayThemeResult {
@@ -338,6 +691,19 @@ input[type="password"] {
   border-radius: 18px;
 
   text-align: center;
+}
+
+.livenessBox.success {
+
+  background:
+    linear-gradient(
+      135deg,
+      #ecfdf5,
+      #dcfce7
+    );
+
+  border-color:
+    #4ade80;
 }
 
 .livenessTitle {
@@ -687,6 +1053,7 @@ video {
 
 <body>
 
+
 <div class="container">
 
 <h1>
@@ -700,6 +1067,7 @@ video {
 
 <div id="startArea">
 
+
 <p>
 あなたの名前を入力してください
 </p>
@@ -710,6 +1078,7 @@ video {
   maxlength="30"
   placeholder="名前"
 >
+
 
 <p>
 年齢を入力してください
@@ -723,6 +1092,7 @@ video {
   placeholder="年齢"
 >
 
+
 <p>
 管理者テスト用パスワード（機能確認）
 </p>
@@ -732,6 +1102,7 @@ video {
   type="password"
   placeholder="テスト用パスワード"
 >
+
 
 <div
   id="testModeNotice"
@@ -744,211 +1115,52 @@ video {
     font-size:13px;
   "
 >
-🧪 テストモードON：顔認識をスキップします。ランキングには登録されません。
+🧪 テストモードON：顔認識をスキップします。
 </div>
 
 
 <!-- =========================
-同意・個人情報
+コンパクトな注意事項
+========================= -->
+
+<div
+  class="noticeLauncher"
+  id="noticeLauncher"
+  role="button"
+  tabindex="0"
+>
+
+  <div class="noticeLauncherTitle">
+
+    <span>
+      ⚠️ 注意事項
+    </span>
+
+    <span class="noticeArrow">
+      ›
+    </span>
+
+  </div>
+
+  <div class="noticeLauncherSub">
+    診断を開始する前に、必ず詳細を確認してください
+  </div>
+
+</div>
+
+
+<!-- =========================
+同意
 ========================= -->
 
 <div class="consent">
 
 <strong>
-📷 写真・個人情報の取り扱いについて
+📷 写真・個人情報の取り扱い
 </strong>
 
 <p>
-本サービスでは、AI顔診断を行うため、利用者がカメラで撮影し、送信した顔写真を使用します。
-</p>
-
-<p>
-撮影・送信された写真は、診断処理、顔検出、不正利用防止、サービスの運営などの目的で処理される場合があります。
-</p>
-
-<h3>
-📦 写真の保存について
-</h3>
-
-<p>
-送信された写真は、Supabaseなどの外部サービスを利用して処理・保存される場合があります。
-</p>
-
-<p>
-<strong>
-⚠️ 診断が終了しただけで、サーバー上の写真がAIによって自動削除されることを保証していません。
-</strong>
-</p>
-
-<p>
-ブラウザ上の一時的な写真データが削除された場合でも、サーバーや外部サービスに保存された写真が削除されたことを意味するものではありません。
-</p>
-
-<p>
-写真を送信する場合は、写真が保存される可能性があることを理解したうえで利用してください。
-</p>
-
-
-<h3>
-📤 Discordへの送信について
-</h3>
-
-<p>
-本サービスでは、サーバー側の設定や利用する機能によって、診断に関連する情報がDiscordの管理用・ランキング用・その他設定されたチャンネルへ送信される場合があります。
-</p>
-
-<p>
-送信される可能性のある情報には、顔写真、ニックネーム、年齢、診断スコア、ランキング関連情報、管理や不正利用防止に必要な情報などが含まれる場合があります。
-</p>
-
-<p>
-<strong>
-⚠️ Discordへ送信された情報は、本サイト上で削除した場合でも、Discord上の投稿まで自動的に削除されるとは限りません。
-</strong>
-</p>
-
-<p>
-Discord上で保存・管理される情報については、Discordのサービス上の取り扱いも関係します。
-</p>
-
-
-<h3>
-🌐 外部サービスについて
-</h3>
-
-<p>
-本サービスでは、写真の処理・保存、認証、データ処理、通知などのためにSupabase、Discord、TensorFlow.jsその他の外部サービスを利用する場合があります。
-</p>
-
-<p>
-外部サービスを経由して情報が処理される場合、それぞれのサービスの利用規約やプライバシーポリシーが適用される場合があります。
-</p>
-
-
-<h3>
-👤 取得する可能性がある情報
-</h3>
-
-<p>
-利用する機能に応じて、顔写真、ニックネーム、年齢、診断スコア、診断履歴、アカウント情報、メールアドレス、電話番号、ユーザー識別情報、IPアドレスなどの通信情報などを取得・処理する場合があります。
-</p>
-
-
-<h3>
-🚫 禁止事項
-</h3>
-
-<p>
-以下の目的で本サービスを利用することを禁止します。
-</p>
-
-<p>
-・本人の同意なく第三者の顔写真を撮影・送信する行為
-</p>
-
-<p>
-・本人の同意なく第三者の個人情報を登録・送信する行為
-</p>
-
-<p>
-・他人になりすます行為
-</p>
-
-<p>
-・嫌がらせ、脅迫、誹謗中傷、プライバシー侵害を目的とする行為
-</p>
-
-<p>
-・不正アクセス、サーバーへの攻撃、サービスの妨害
-</p>
-
-<p>
-・その他、法令または公序良俗に反する行為
-</p>
-
-
-<h3>
-⚖️ 利用者の責任
-</h3>
-
-<p>
-利用者は、自らの意思と責任において本サービスを利用するものとします。
-</p>
-
-<p>
-他人の顔写真や個人情報を送信する場合は、必要な本人の同意および適切な権利を取得してください。
-</p>
-
-<p>
-利用者が第三者の写真や個人情報を無断で送信したことによって発生したトラブルについては、利用者自身の責任で対応するものとします。
-</p>
-
-
-<h3>
-⚠️ 免責事項
-</h3>
-
-<p>
-本サービスはエンターテインメントを目的としたサービスです。
-</p>
-
-<p>
-表示されるスコア、ランク、コメントなどは、実際の容姿、人物の価値、性格、能力、健康状態などを客観的・医学的・科学的に評価するものではありません。
-</p>
-
-<p>
-運営者は、診断結果の正確性、完全性、継続的なサービス提供を保証するものではありません。
-</p>
-
-<p>
-通信障害、サーバー障害、端末やブラウザの不具合、外部サービスの障害、メンテナンス、その他の予期しない事情によって、本サービスを利用できない場合があります。
-</p>
-
-<p>
-本サービスの利用によって利用者または第三者に損害やトラブルが発生した場合、法令上許される範囲で運営者の責任を限定するものとします。
-</p>
-
-<p>
-ただし、運営者に故意または重大な過失がある場合など、法令上責任を免れることができない場合については、この限りではありません。
-</p>
-
-<p>
-<strong>
-「何が起きても運営者が一切責任を負わない」という意味ではなく、適用される法律の範囲内で責任を定めるものとします。
-</strong>
-</p>
-
-
-<h3>
-🔐 ご利用前の確認
-</h3>
-
-<p>
-写真を送信する利用者は、以下の内容を確認してください。
-</p>
-
-<p>
-☑ 自分自身の意思で写真を送信している
-</p>
-
-<p>
-☑ 写真がサーバーや外部サービスで処理・保存される可能性を理解している
-</p>
-
-<p>
-☑ 診断終了後にサーバー上の写真が必ず自動削除されるわけではないことを理解している
-</p>
-
-<p>
-☑ Discordなどの外部サービスへ情報が送信される可能性を理解している
-</p>
-
-<p>
-☑ 他人の写真や個人情報を無断で送信していない
-</p>
-
-<p>
-☑ 診断結果がエンターテインメント目的であることを理解している
+診断を利用するには、注意事項を確認したうえで同意してください。
 </p>
 
 
@@ -959,7 +1171,7 @@ Discord上で保存・管理される情報については、Discordのサービ
   type="checkbox"
 >
 
-上記の内容を確認し、写真および必要な情報の取り扱いに同意して診断を開始します。
+注意事項を確認し、写真および必要な情報の取り扱いに同意します。
 
 </label>
 
@@ -971,12 +1183,13 @@ Discord上で保存・管理される情報については、Discordのサービ
 </div>
 
 <p>
-上の同意にチェックすると、撮影した写真が診断処理のため送信されます。
+同意すると、撮影した写真が診断処理のためサーバーへ送信されます。
 </p>
 
 <p>
 写真の送信先や処理方法は、本サービスのサーバー側の設定および利用する機能によって異なる場合があります。
 </p>
+
 
 <div
   id="roomReady"
@@ -984,6 +1197,7 @@ Discord上で保存・管理される情報については、Discordのサービ
 >
 ✅ ランキング対応リンクからアクセスしています。
 </div>
+
 
 <div
   id="roomMissing"
@@ -1024,10 +1238,281 @@ Discord上で保存・管理される情報については、Discordのサービ
 診断を開始
 </button>
 
+
 <div
   id="startError"
   class="error hidden"
 ></div>
+
+</div>
+
+
+<!-- =========================
+注意事項モーダル
+========================= -->
+
+<div
+  id="noticeOverlay"
+  class="noticeOverlay"
+>
+
+<div class="noticeModal">
+
+<div class="noticeHeader">
+
+<div class="noticeHeaderTitle">
+⚠️ ご利用前の注意事項
+</div>
+
+<button
+  id="noticeCloseTop"
+  class="noticeClose"
+  type="button"
+>
+×
+</button>
+
+</div>
+
+
+<div class="noticeContent">
+
+
+<h3>
+📷 1. 写真の利用について
+</h3>
+
+<p>
+本サービスでは、AI顔診断を行うため、利用者がカメラで撮影し、送信した顔写真を使用します。
+</p>
+
+<p>
+撮影・送信された写真は、診断処理、顔検出、不正利用防止、サービスの運営などの目的で処理される場合があります。
+</p>
+
+
+<div class="noticeWarning">
+
+<strong>
+⚠️ 写真の保存について
+</strong>
+
+<p>
+送信された写真は、Supabaseなどの外部サービスを利用して処理・保存される場合があります。
+</p>
+
+<p>
+診断が終了しただけで、サーバー上の写真がAIによって自動削除されることを保証していません。
+</p>
+
+<p>
+ブラウザ上の一時的な写真データが削除された場合でも、サーバーや外部サービスに保存された写真が削除されたことを意味するものではありません。
+</p>
+
+</div>
+
+
+<h3>
+📤 2. Discordへの送信について
+</h3>
+
+<p>
+本サービスでは、サーバー側の設定や利用する機能によって、診断に関連する情報がDiscordの管理用・ランキング用・その他設定されたチャンネルへ送信される場合があります。
+</p>
+
+<p>
+送信される可能性のある情報には、顔写真、ニックネーム、年齢、診断スコア、ランキング関連情報、管理や不正利用防止に必要な情報などが含まれる場合があります。
+</p>
+
+<div class="noticeWarning">
+
+<strong>
+⚠️ Discordについて
+</strong>
+
+<p>
+Discordへ送信された情報は、本サイト上で削除した場合でも、Discord上の投稿まで自動的に削除されるとは限りません。
+</p>
+
+<p>
+Discord上で保存・管理される情報については、Discord側のサービスの取り扱いも関係します。
+</p>
+
+</div>
+
+
+<h3>
+🌐 3. 外部サービスについて
+</h3>
+
+<p>
+本サービスでは、写真の処理・保存、認証、データ処理、通知などのためにSupabase、Discord、TensorFlow.jsその他の外部サービスを利用する場合があります。
+</p>
+
+<p>
+外部サービスを経由して情報が処理される場合、それぞれのサービスの利用規約やプライバシーポリシーが適用される場合があります。
+</p>
+
+
+<h3>
+👤 4. 取得・処理する可能性がある情報
+</h3>
+
+<p>
+利用する機能に応じて、以下の情報を取得・処理する場合があります。
+</p>
+
+<div class="noticeInfo">
+
+・顔写真<br>
+・ニックネーム<br>
+・年齢<br>
+・診断スコア<br>
+・診断履歴<br>
+・アカウント情報<br>
+・メールアドレス<br>
+・電話番号<br>
+・ユーザー識別情報<br>
+・IPアドレスなどの通信情報
+
+</div>
+
+<p>
+実際に取得・送信される情報は、その時点のサイトおよびサーバー側の機能・設定によって異なります。
+</p>
+
+
+<h3>
+🚫 5. 禁止事項
+</h3>
+
+<p>
+以下の目的で本サービスを利用しないでください。
+</p>
+
+<div class="noticeDanger">
+
+・本人の同意なく第三者の顔写真を撮影・送信する行為<br><br>
+
+・本人の同意なく第三者の個人情報を登録・送信する行為<br><br>
+
+・他人になりすます行為<br><br>
+
+・嫌がらせ、脅迫、誹謗中傷、プライバシー侵害を目的とする行為<br><br>
+
+・不正アクセス、サーバーへの攻撃、サービスの妨害<br><br>
+
+・その他、法令または公序良俗に反する行為
+
+</div>
+
+
+<h3>
+⚖️ 6. 利用者の責任
+</h3>
+
+<p>
+利用者は、自らの意思と責任において本サービスを利用するものとします。
+</p>
+
+<p>
+他人の顔写真や個人情報を送信する場合は、必要な本人の同意および適切な権利を取得してください。
+</p>
+
+<p>
+利用者が第三者の写真や個人情報を無断で送信したことによって発生したトラブルについては、利用者自身の責任で対応するものとします。
+</p>
+
+
+<h3>
+⚠️ 7. 免責事項
+</h3>
+
+<p>
+本サービスはエンターテインメントを目的としたサービスです。
+</p>
+
+<p>
+表示されるスコア、ランク、コメントなどは、実際の容姿、人物の価値、性格、能力、健康状態などを客観的・医学的・科学的に評価するものではありません。
+</p>
+
+<p>
+運営者は、診断結果の正確性、完全性、継続的なサービス提供を保証するものではありません。
+</p>
+
+<p>
+通信障害、サーバー障害、端末やブラウザの不具合、外部サービスの障害、メンテナンス、その他の予期しない事情によって、本サービスを利用できない場合があります。
+</p>
+
+<p>
+本サービスの利用によって利用者または第三者に損害やトラブルが発生した場合、法令上許される範囲で運営者の責任を限定するものとします。
+</p>
+
+<p>
+ただし、運営者に故意または重大な過失がある場合など、法令上責任を免れることができない場合については、この限りではありません。
+</p>
+
+<div class="noticeWarning">
+
+<strong>
+重要
+</strong>
+
+<p>
+「何が起きても運営者が一切責任を負わない」という意味ではなく、適用される法律の範囲内で責任を定めるものとします。
+</p>
+
+</div>
+
+
+<h3>
+🔐 8. 利用前の確認
+</h3>
+
+<div class="noticeCheckList">
+
+☑ 自分自身の意思で写真を送信している<br>
+
+☑ 写真がサーバーや外部サービスで処理・保存される可能性を理解している<br>
+
+☑ 診断終了後にサーバー上の写真が必ず自動削除されるわけではないことを理解している<br>
+
+☑ Discordなどの外部サービスへ情報が送信される可能性を理解している<br>
+
+☑ 他人の写真や個人情報を無断で送信していない<br>
+
+☑ 診断結果がエンターテインメント目的であることを理解している
+
+</div>
+
+
+<h3>
+📌 9. 注意事項について
+</h3>
+
+<p>
+本注意事項は、本サービスの利用条件や情報の取り扱いについて利用者に分かりやすく説明するためのものです。
+</p>
+
+<p>
+実際のデータ処理・保存・削除・外部サービスへの送信は、現在のサイトおよびサーバー側の実装・設定に従って行われます。
+</p>
+
+</div>
+
+
+<div class="noticeFooter">
+
+<button
+  id="noticeCloseBottom"
+  type="button"
+>
+確認して閉じる
+</button>
+
+</div>
+
+</div>
 
 </div>
 
@@ -1069,10 +1554,6 @@ Discord上で保存・管理される情報については、Discordのサービ
 カメラを準備しています…
 </div>
 
-
-<!-- =========================
-本人確認チャレンジ
-========================= -->
 
 <div
   id="livenessBox"
@@ -1276,6 +1757,7 @@ AI診断処理を実行中…
 
 </div>
 
+
 <div
   id="rank"
   class="rank"
@@ -1403,6 +1885,7 @@ RANK -
 🍀 今日のラッキー情報
 </div>
 
+
 <div class="luckyItem">
 
 <div>
@@ -1445,6 +1928,7 @@ RANK -
 📤 診断結果をシェア
 </button>
 
+
 <button
   id="restartButton"
   class="restartButton"
@@ -1452,6 +1936,7 @@ RANK -
 >
 🔄 もう一度診断する
 </button>
+
 
 <p class="disclaimer">
 ※この診断はエンターテインメント目的の参考値です。
@@ -1464,6 +1949,7 @@ RANK -
 
 
 <script>
+
 
 /* =========================
 送信先
@@ -1819,6 +2305,7 @@ function showResultTodayData() {
 
   }
 
+
   const luckyItemElement =
     document.getElementById(
       "luckyItem"
@@ -1831,6 +2318,7 @@ function showResultTodayData() {
 
   }
 
+
   const luckyColorElement =
     document.getElementById(
       "luckyColor"
@@ -1842,6 +2330,7 @@ function showResultTodayData() {
       data.luckyColor;
 
   }
+
 
   const item1 =
     document.getElementById(
@@ -1858,6 +2347,7 @@ function showResultTodayData() {
       "item3Name"
     );
 
+
   const item1Icon =
     document.getElementById(
       "item1Icon"
@@ -1872,6 +2362,7 @@ function showResultTodayData() {
     document.getElementById(
       "item3Icon"
     );
+
 
   if (
     data.theme.items &&
@@ -1902,6 +2393,134 @@ function showResultTodayData() {
 
 
 showTodayTheme();
+
+
+/* =========================
+注意事項モーダル
+========================= */
+
+const noticeLauncher =
+document.getElementById(
+  "noticeLauncher"
+);
+
+const noticeOverlay =
+document.getElementById(
+  "noticeOverlay"
+);
+
+const noticeCloseTop =
+document.getElementById(
+  "noticeCloseTop"
+);
+
+const noticeCloseBottom =
+document.getElementById(
+  "noticeCloseBottom"
+);
+
+
+function openNotice() {
+
+  noticeOverlay.classList.add(
+    "show"
+  );
+
+  document.body.style.overflow =
+    "hidden";
+
+}
+
+
+function closeNotice() {
+
+  noticeOverlay.classList.remove(
+    "show"
+  );
+
+  document.body.style.overflow =
+    "";
+
+}
+
+
+noticeLauncher.addEventListener(
+  "click",
+  openNotice
+);
+
+
+noticeLauncher.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (
+      event.key === "Enter" ||
+      event.key === " "
+    ) {
+
+      event.preventDefault();
+
+      openNotice();
+
+    }
+
+  }
+);
+
+
+noticeCloseTop.addEventListener(
+  "click",
+  closeNotice
+);
+
+
+noticeCloseBottom.addEventListener(
+  "click",
+  closeNotice
+);
+
+
+/*
+ * 黒い背景をタップした場合も閉じる
+ */
+
+noticeOverlay.addEventListener(
+  "click",
+  function(event) {
+
+    if (
+      event.target ===
+      noticeOverlay
+    ) {
+
+      closeNotice();
+
+    }
+
+  }
+);
+
+
+/*
+ * スマホの戻る操作などを考慮して
+ * ESCでも閉じられるようにする
+ */
+
+document.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (
+      event.key === "Escape"
+    ) {
+
+      closeNotice();
+
+    }
+
+  }
+);
 
 
 /* =========================
@@ -2218,17 +2837,21 @@ startButton.addEventListener(
       "hidden"
     );
 
+
     const name =
       nickname.value.trim();
+
 
     const ageValue =
       Number(
         age.value
       );
 
+
     testMode =
       testPassword.value ===
       TEST_PASSWORD;
+
 
     if (testMode) {
 
@@ -2242,6 +2865,7 @@ startButton.addEventListener(
 
     }
 
+
     if (!name) {
 
       showStartError(
@@ -2251,6 +2875,7 @@ startButton.addEventListener(
       return;
 
     }
+
 
     if (
       !Number.isInteger(
@@ -2268,17 +2893,19 @@ startButton.addEventListener(
 
     }
 
+
     if (
       !consent.checked
     ) {
 
       showStartError(
-        "写真・個人情報の取り扱いについて確認し、同意してください。"
+        "まず「⚠️ 注意事項」の詳細を確認し、内容に同意してください。"
       );
 
       return;
 
     }
+
 
     if (
       !modelReady &&
@@ -2293,11 +2920,13 @@ startButton.addEventListener(
 
     }
 
+
     startButton.disabled =
       true;
 
     startButton.textContent =
       "カメラを起動中…";
+
 
     try {
 
@@ -2318,8 +2947,10 @@ startButton.addEventListener(
 
           });
 
+
       camera.srcObject =
         stream;
+
 
       startArea.classList.add(
         "hidden"
@@ -2329,10 +2960,13 @@ startButton.addEventListener(
         "hidden"
       );
 
+
       faceStatus.textContent =
         "カメラ起動完了。顔を確認しています…";
 
+
       startFaceDetection();
+
 
     } catch (error) {
 
@@ -2340,11 +2974,13 @@ startButton.addEventListener(
         error
       );
 
+
       startButton.disabled =
         false;
 
       startButton.textContent =
         "診断を開始";
+
 
       showStartError(
         "カメラを起動できませんでした。\n\n" +
@@ -2376,7 +3012,7 @@ function showStartError(
 
 
 /* =========================
-本人確認チャレンジ開始
+本人確認チャレンジ
 ========================= */
 
 function startLivenessCheck() {
@@ -2406,11 +3042,8 @@ function startLivenessCheck() {
   const actions = [
 
     "mouth",
-
     "left",
-
     "right",
-
     "move"
 
   ];
@@ -2426,8 +3059,10 @@ function startLivenessCheck() {
         actions.length
       );
 
+
     const action =
       actions[index];
+
 
     if (
       !livenessActions.includes(
@@ -2484,6 +3119,7 @@ function getLivenessText(
 
   }
 
+
   if (
     action === "left"
   ) {
@@ -2491,6 +3127,7 @@ function getLivenessText(
     return "↩️ 顔を少し左に向けてください";
 
   }
+
 
   if (
     action === "right"
@@ -2500,6 +3137,7 @@ function getLivenessText(
 
   }
 
+
   if (
     action === "move"
   ) {
@@ -2507,6 +3145,7 @@ function getLivenessText(
     return "🙂 顔を少し動かしてください";
 
   }
+
 
   return "🙂 少し動いてください";
 
@@ -2534,18 +3173,22 @@ function startFaceDetection() {
     livenessCompleted =
       true;
 
+
     faceStatus.textContent =
       "🧪 テストモード：顔認識・本人確認をスキップしています。";
+
 
     faceStatus.classList.add(
       "success"
     );
+
 
     captureButton.disabled =
       false;
 
     captureButton.textContent =
       "📸 撮影する";
+
 
     return;
 
@@ -2612,6 +3255,7 @@ function startFaceDetection() {
             faceStatus.textContent =
               "✅ 顔を検出しました";
 
+
             faceStatus.classList.add(
               "success"
             );
@@ -2623,6 +3267,7 @@ function startFaceDetection() {
 
               firstFaceFound =
                 true;
+
 
               startLivenessCheck();
 
@@ -2649,6 +3294,7 @@ function startFaceDetection() {
 
             faceStatus.textContent =
               "👤 顔が検出されていません。カメラに顔を入れてください。";
+
 
             faceStatus.classList.remove(
               "success"
@@ -2731,6 +3377,7 @@ function processLivenessFrame(
     box.right -
     box.left;
 
+
   const faceHeight =
     box.bottom -
     box.top;
@@ -2771,6 +3418,7 @@ function processLivenessFrame(
     Number(
       nose[0]
     );
+
 
   const noseY =
     Number(
@@ -2822,8 +3470,10 @@ function processLivenessFrame(
 
     };
 
+
     livenessFrameCount =
       0;
+
 
     return;
 
@@ -2890,11 +3540,13 @@ function processLivenessFrame(
         livenessBaseline.x
       );
 
+
     const dy =
       Math.abs(
         normalizedY -
         livenessBaseline.y
       );
+
 
     success =
       dx > 0.035 ||
@@ -2915,6 +3567,7 @@ function processLivenessFrame(
         Number(
           mouth[0]
         );
+
 
       const mouthY =
         Number(
@@ -2990,8 +3643,10 @@ function completeLivenessAction() {
   livenessBaseline =
     null;
 
+
   livenessFrameCount =
     0;
+
 
   livenessActionSuccess =
     false;
@@ -3025,6 +3680,7 @@ function finishLiveness() {
   livenessActive =
     false;
 
+
   livenessCompleted =
     true;
 
@@ -3054,6 +3710,7 @@ function finishLiveness() {
   captureButton.disabled =
     false;
 
+
   captureButton.textContent =
     "📸 撮影する";
 
@@ -3071,6 +3728,7 @@ function stopFaceDetection() {
     clearInterval(
       faceTimer
     );
+
 
     faceTimer =
       null;
@@ -3117,6 +3775,7 @@ captureButton.addEventListener(
 
     captureButton.disabled =
       true;
+
 
     captureButton.textContent =
       "📸 撮影しています…";
@@ -3228,7 +3887,6 @@ captureButton.addEventListener(
 
       sendButton.disabled =
         false;
-
 
     } else {
 
@@ -3361,16 +4019,20 @@ retakeButton.addEventListener(
     photoBlob =
       null;
 
+
     sendButton.disabled =
       true;
+
 
     sendError.classList.add(
       "hidden"
     );
 
+
     resultArea.classList.add(
       "hidden"
     );
+
 
     cameraArea.classList.remove(
       "hidden"
@@ -3395,9 +4057,11 @@ retakeButton.addEventListener(
     livenessFrameCount =
       0;
 
+
     livenessBox.classList.add(
       "hidden"
     );
+
 
     livenessBox.classList.remove(
       "success"
@@ -3440,6 +4104,7 @@ retakeButton.addEventListener(
       sendError.textContent =
         "カメラを起動できませんでした。\n" +
         error.message;
+
 
       sendError.classList.remove(
         "hidden"
@@ -3531,7 +4196,7 @@ sendButton.addEventListener(
     ) {
 
       showSendError(
-        "写真・個人情報の取り扱いについて同意してください。"
+        "注意事項を確認し、同意してください。"
       );
 
       return;
@@ -3542,6 +4207,7 @@ sendButton.addEventListener(
     sendButton.disabled =
       true;
 
+
     sendButton.textContent =
       "送信中…";
 
@@ -3551,11 +4217,14 @@ sendButton.addEventListener(
       const score1 =
         randomScore();
 
+
       const score2 =
         randomScore();
 
+
       const score3 =
         randomScore();
+
 
       const total =
         Math.round(
@@ -3702,11 +4371,14 @@ sendButton.addEventListener(
       window.finalTotal =
         total;
 
+
       window.finalScore1 =
         score1;
 
+
       window.finalScore2 =
         score2;
+
 
       window.finalScore3 =
         score3;
@@ -3715,6 +4387,7 @@ sendButton.addEventListener(
       resultArea.classList.add(
         "hidden"
       );
+
 
       completeArea.classList.remove(
         "hidden"
@@ -3753,6 +4426,7 @@ sendButton.addEventListener(
       sendButton.disabled =
         false;
 
+
       sendButton.textContent =
         "📤 写真を送信する";
 
@@ -3772,6 +4446,7 @@ function showSendError(
 
   sendError.textContent =
     message;
+
 
   sendError.classList.remove(
     "hidden"
@@ -3795,6 +4470,7 @@ function startDiagnosis(
     "hidden"
   );
 
+
   loadingArea.classList.remove(
     "hidden"
   );
@@ -3806,6 +4482,7 @@ function startDiagnosis(
 
   analysisProgress.style.width =
     "0%";
+
 
   analysisPercent.textContent =
     "0%";
@@ -3855,6 +4532,7 @@ function startDiagnosis(
 
         analysisProgress.style.width =
           percent + "%";
+
 
         analysisPercent.textContent =
           percent + "%";
@@ -3925,15 +4603,18 @@ function createDiagnosis(
       score1
     );
 
+
   score2 =
     clampScore(
       score2
     );
 
+
   score3 =
     clampScore(
       score3
     );
+
 
   total =
     clampScore(
@@ -3957,17 +4638,20 @@ function createDiagnosis(
     1200
   );
 
+
   animateNumber(
     "expressionScore",
     score1,
     1000
   );
 
+
   animateNumber(
     "moodScore",
     score2,
     1100
   );
+
 
   animateNumber(
     "photoScore",
@@ -4070,6 +4754,7 @@ function createDiagnosis(
     "hidden"
   );
 
+
   diagnosisArea.classList.remove(
     "hidden"
   );
@@ -4083,10 +4768,12 @@ function createDiagnosis(
       ).style.width =
         score1 + "%";
 
+
       document.getElementById(
         "moodBar"
       ).style.width =
         score2 + "%";
+
 
       document.getElementById(
         "photoBar"
@@ -4232,14 +4919,18 @@ document.getElementById(
     const total =
       window.finalTotal || 0;
 
+
     const score1 =
       window.finalScore1 || 0;
+
 
     const score2 =
       window.finalScore2 || 0;
 
+
     const score3 =
       window.finalScore3 || 0;
+
 
     const data =
       getTodayData();
@@ -4378,6 +5069,7 @@ document.getElementById(
           text
         );
 
+
         alert(
           "シェア用の文章をコピーしました！"
         );
@@ -4420,6 +5112,7 @@ document.getElementById(
     photoBlob =
       null;
 
+
     faceDetected =
       false;
 
@@ -4427,17 +5120,22 @@ document.getElementById(
     livenessActive =
       false;
 
+
     livenessCompleted =
       false;
+
 
     livenessActions =
       [];
 
+
     livenessActionIndex =
       0;
 
+
     livenessBaseline =
       null;
+
 
     livenessFrameCount =
       0;
@@ -4447,17 +5145,21 @@ document.getElementById(
       "hidden"
     );
 
+
     loadingArea.classList.add(
       "hidden"
     );
+
 
     completeArea.classList.add(
       "hidden"
     );
 
+
     resultArea.classList.add(
       "hidden"
     );
+
 
     cameraArea.classList.add(
       "hidden"
@@ -4472,12 +5174,14 @@ document.getElementById(
     startButton.disabled =
       false;
 
+
     startButton.textContent =
       "診断を開始";
 
 
     sendButton.disabled =
       true;
+
 
     sendButton.textContent =
       "📤 写真を送信する";
@@ -4486,6 +5190,7 @@ document.getElementById(
     captureButton.disabled =
       true;
 
+
     captureButton.textContent =
       "📸 本人確認中…";
 
@@ -4493,6 +5198,7 @@ document.getElementById(
     livenessBox.classList.add(
       "hidden"
     );
+
 
     livenessBox.classList.remove(
       "success"
@@ -4504,15 +5210,18 @@ document.getElementById(
     ).textContent =
       "0";
 
+
     document.getElementById(
       "expressionScore"
     ).textContent =
       "0";
 
+
     document.getElementById(
       "moodScore"
     ).textContent =
       "0";
+
 
     document.getElementById(
       "photoScore"
@@ -4525,10 +5234,12 @@ document.getElementById(
     ).style.width =
       "0%";
 
+
     document.getElementById(
       "moodBar"
     ).style.width =
       "0%";
+
 
     document.getElementById(
       "photoBar"
@@ -4540,6 +5251,7 @@ document.getElementById(
       "hidden"
     );
 
+
     sendError.classList.add(
       "hidden"
     );
@@ -4548,6 +5260,7 @@ document.getElementById(
     showTodayTheme();
 
   }
+
 );
 
 </script>
