@@ -4042,6 +4042,8 @@ captureButton.addEventListener(
 
 async function detectFaceInPhoto(imageElement) {
 
+async function detectFaceInPhoto(imageElement) {
+
   if (!modelReady || !faceModel) {
     console.error("顔検出モデルが準備できていません");
     return false;
@@ -4049,24 +4051,27 @@ async function detectFaceInPhoto(imageElement) {
 
   try {
 
-    // iPhone Safari向け：画像の読み込み完了を待つ
-    if (!imageElement.complete) {
-      await new Promise((resolve, reject) => {
-        imageElement.onload = resolve;
-        imageElement.onerror = reject;
-      });
-    }
+    // 画像・動画・Canvasのサイズを取得
+    const imageWidth =
+      imageElement.naturalWidth ||
+      imageElement.videoWidth ||
+      imageElement.width;
 
-    // 画像サイズを確認
-    if (
-      !imageElement.naturalWidth ||
-      !imageElement.naturalHeight
-    ) {
-      console.error("画像サイズを取得できません");
+    const imageHeight =
+      imageElement.naturalHeight ||
+      imageElement.videoHeight ||
+      imageElement.height;
+
+    if (!imageWidth || !imageHeight) {
+      console.error(
+        "顔検出用画像のサイズが取得できません",
+        imageWidth,
+        imageHeight
+      );
       return false;
     }
 
-    // 顔検出
+    // Canvasから直接顔検出
     const predictions =
       await faceModel.estimateFaces(
         imageElement,
@@ -4095,6 +4100,7 @@ async function detectFaceInPhoto(imageElement) {
   }
 
 }
+
 
 
 /* =========================================================
