@@ -3926,89 +3926,93 @@ captureButton.addEventListener(
     stopFaceDetection();
 
 
-    const canvas =
-      document.createElement(
-        "canvas"
-      );
-
-
-    canvas.width =
-      camera.videoWidth;
-
-    canvas.height =
-      camera.videoHeight;
-
-
-    const ctx =
-      canvas.getContext(
-        "2d"
-      );
-
-
-    ctx.translate(
-      canvas.width,
-      0
+    
+// カメラ映像の準備ができているか確認
+if (camera.readyState < 2) {
+  await new Promise((resolve) => {
+    camera.addEventListener(
+      "loadeddata",
+      resolve,
+      { once: true }
     );
+  });
+}
 
-    ctx.scale(
-      -1,
-      1
-    );
+const videoWidth = camera.videoWidth;
+const videoHeight = camera.videoHeight;
 
+if (!videoWidth || !videoHeight) {
+  alert("カメラ映像を取得できませんでした。もう一度撮影してください。");
+  captureButton.disabled = false;
+  captureButton.textContent = "📷 撮影する";
+  startFaceDetection();
+  return;
+}
 
-    ctx.drawImage(
-      camera,
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
+const canvas =
+  document.createElement("canvas");
 
+canvas.width = videoWidth;
+canvas.height = videoHeight;
 
-    photo.src =
-      canvas.toDataURL(
-        "image/jpeg",
-        0.9
-      );
+const ctx = canvas.getContext("2d");
 
+if (!ctx) {
+  alert("写真の作成に失敗しました。");
+  captureButton.disabled = false;
+  captureButton.textContent = "📷 撮影する";
+  startFaceDetection();
+  return;
+}
 
-    photoBlob =
-      await canvasToBlob(
-        canvas
-      );
+// 写真を左右反転して撮影
+ctx.translate(canvas.width, 0);
+ctx.scale(-1, 1);
 
+ctx.drawImage(
+  camera,
+  0,
+  0,
+  canvas.width,
+  canvas.height
+);
 
-    stopCamera();
+// 写真表示用
+photo.src = canvas.toDataURL(
+  "image/jpeg",
+  0.9
+);
 
+// 送信用画像
+photoBlob = await canvasToBlob(canvas);
 
-    cameraArea.classList.add(
-      "hidden"
-    );
+if (!photoBlob) {
+  alert("写真の作成に失敗しました。もう一度撮影してください。");
+  captureButton.disabled = false;
+  captureButton.textContent = "📷 撮影する";
+  startFaceDetection();
+  return;
+}
 
-    resultArea.classList.remove(
-      "hidden"
-    );
+stopCamera();
 
+cameraArea.classList.add("hidden");
+resultArea.classList.remove("hidden");
 
-    photoCheck.textContent =
-      "📷 撮影した写真を確認しています…";
+photoCheck.textContent =
+  "📷 撮影した写真を確認しています…";
 
-    photoCheck.classList.remove(
-      "success"
-    );
+photoCheck.classList.remove("success");
 
+sendButton.disabled = true;
 
-    sendButton.disabled =
-      true;
+// 重要：photoではなくcanvasを直接渡す
+const photoHasFace =
+  testMode
+    ? true
+    : await detectFaceInPhoto(canvas);
 
-
-    const photoHasFace =
-      testMode
-        ? true
-        : await detectFaceInPhoto(
-            photo
-          );
-
+    
 
     if (
       photoHasFace
