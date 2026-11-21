@@ -4039,34 +4039,49 @@ captureButton.addEventListener(
 写真顔検出
 ========================================================= */
 
-async function detectFaceInPhoto(
-  imageElement
-) {
 
-  if (
-    !modelReady ||
-    !faceModel
-  ) {
+async function detectFaceInPhoto(imageElement) {
 
+  if (!modelReady || !faceModel) {
+    console.error("顔検出モデルが準備できていません");
     return false;
-
   }
-
 
   try {
 
+    // iPhone Safari向け：画像の読み込み完了を待つ
+    if (!imageElement.complete) {
+      await new Promise((resolve, reject) => {
+        imageElement.onload = resolve;
+        imageElement.onerror = reject;
+      });
+    }
+
+    // 画像サイズを確認
+    if (
+      !imageElement.naturalWidth ||
+      !imageElement.naturalHeight
+    ) {
+      console.error("画像サイズを取得できません");
+      return false;
+    }
+
+    // 顔検出
     const predictions =
       await faceModel.estimateFaces(
         imageElement,
         false
       );
 
+    console.log(
+      "顔検出結果:",
+      predictions
+    );
 
     return Boolean(
       predictions &&
       predictions.length > 0
     );
-
 
   } catch (error) {
 
@@ -4078,33 +4093,6 @@ async function detectFaceInPhoto(
     return false;
 
   }
-
-}
-
-
-/* =========================================================
-Canvas Blob
-========================================================= */
-
-function canvasToBlob(
-  canvas
-) {
-
-  return new Promise(
-    function(resolve) {
-
-      canvas.toBlob(
-        function(blob) {
-
-          resolve(blob);
-
-        },
-        "image/jpeg",
-        0.9
-      );
-
-    }
-  );
 
 }
 
