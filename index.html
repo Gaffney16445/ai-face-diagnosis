@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -578,6 +579,8 @@ input[type="tel"] {
   color: #555;
 
   border-radius: 8px;
+
+  font-size: 13px;
 }
 
 
@@ -894,7 +897,6 @@ video {
 .success {
 
   background: #dcfce7;
-  
 
   color: #166534;
 }
@@ -1996,7 +1998,8 @@ RANK -
 
 
 <script>
-  /* =========================================================
+
+/* =========================================================
 Supabase
 ========================================================= */
 
@@ -2041,9 +2044,18 @@ const todayThemes = [
     name: "今日の写真映え",
 
     items: [
-      { icon: "📸", name: "写真映え" },
-      { icon: "😊", name: "表情の魅力" },
-      { icon: "✨", name: "カメラ映り" }
+      {
+        icon: "📸",
+        name: "写真映え"
+      },
+      {
+        icon: "😊",
+        name: "表情の魅力"
+      },
+      {
+        icon: "✨",
+        name: "カメラ映り"
+      }
     ],
 
     comments: [
@@ -2058,9 +2070,18 @@ const todayThemes = [
     name: "今日の笑顔度",
 
     items: [
-      { icon: "😊", name: "笑顔の印象" },
-      { icon: "✨", name: "表情の明るさ" },
-      { icon: "🌸", name: "親しみやすさ" }
+      {
+        icon: "😊",
+        name: "笑顔の印象"
+      },
+      {
+        icon: "✨",
+        name: "表情の明るさ"
+      },
+      {
+        icon: "🌸",
+        name: "親しみやすさ"
+      }
     ],
 
     comments: [
@@ -2075,9 +2096,18 @@ const todayThemes = [
     name: "今日の雰囲気",
 
     items: [
-      { icon: "✨", name: "全体の雰囲気" },
-      { icon: "🌙", name: "落ち着き" },
-      { icon: "💫", name: "存在感" }
+      {
+        icon: "✨",
+        name: "全体の雰囲気"
+      },
+      {
+        icon: "🌙",
+        name: "落ち着き"
+      },
+      {
+        icon: "💫",
+        name: "存在感"
+      }
     ],
 
     comments: [
@@ -2092,9 +2122,18 @@ const todayThemes = [
     name: "今日の魅力度",
 
     items: [
-      { icon: "👑", name: "魅力の強さ" },
-      { icon: "✨", name: "存在感" },
-      { icon: "💎", name: "印象の華やかさ" }
+      {
+        icon: "👑",
+        name: "魅力の強さ"
+      },
+      {
+        icon: "✨",
+        name: "存在感"
+      },
+      {
+        icon: "💎",
+        name: "印象の華やかさ"
+      }
     ],
 
     comments: [
@@ -2109,9 +2148,18 @@ const todayThemes = [
     name: "今日の第一印象",
 
     items: [
-      { icon: "💫", name: "第一印象" },
-      { icon: "🌸", name: "親しみやすさ" },
-      { icon: "✨", name: "清潔感" }
+      {
+        icon: "💫",
+        name: "第一印象"
+      },
+      {
+        icon: "🌸",
+        name: "親しみやすさ"
+      },
+      {
+        icon: "✨",
+        name: "清潔感"
+      }
     ],
 
     comments: [
@@ -2126,9 +2174,18 @@ const todayThemes = [
     name: "今日のクール度",
 
     items: [
-      { icon: "😎", name: "クールな印象" },
-      { icon: "👀", name: "目元の印象" },
-      { icon: "🌙", name: "落ち着いた雰囲気" }
+      {
+        icon: "😎",
+        name: "クールな印象"
+      },
+      {
+        icon: "👀",
+        name: "目元の印象"
+      },
+      {
+        icon: "🌙",
+        name: "落ち着いた雰囲気"
+      }
     ],
 
     comments: [
@@ -2143,9 +2200,18 @@ const todayThemes = [
     name: "今日の親しみやすさ",
 
     items: [
-      { icon: "🌸", name: "親しみやすさ" },
-      { icon: "😊", name: "柔らかい表情" },
-      { icon: "💬", name: "話しかけやすさ" }
+      {
+        icon: "🌸",
+        name: "親しみやすさ"
+      },
+      {
+        icon: "😊",
+        name: "柔らかい表情"
+      },
+      {
+        icon: "💬",
+        name: "話しかけやすさ"
+      }
     ],
 
     comments: [
@@ -2159,6 +2225,7 @@ const todayThemes = [
 
 
 const luckyItems = [
+
   "🧢 キャップ",
   "⌚ 腕時計",
   "🎧 イヤホン",
@@ -2174,10 +2241,12 @@ const luckyItems = [
   "🧢 お気に入りの帽子",
   "🎒 リュック",
   "🧦 お気に入りの靴下"
+
 ];
 
 
 const luckyColors = [
+
   "💙 水色",
   "💜 紫",
   "💗 ピンク",
@@ -2190,6 +2259,7 @@ const luckyColors = [
   "🖤 黒",
   "🤎 ブラウン",
   "💙 ネイビー"
+
 ];
 
 
@@ -2549,6 +2619,10 @@ cameraConsent.addEventListener(
 
 function updateCaptureButton() {
 
+  /*
+   * カメラ画面の同意がない
+   */
+
   if (
     !cameraConsent.checked
   ) {
@@ -2564,6 +2638,10 @@ function updateCaptureButton() {
   }
 
 
+  /*
+   * テストモード
+   */
+
   if (testMode) {
 
     captureButton.disabled =
@@ -2576,6 +2654,10 @@ function updateCaptureButton() {
 
   }
 
+
+  /*
+   * 本人確認完了
+   */
 
   if (
     faceDetected &&
@@ -2592,6 +2674,10 @@ function updateCaptureButton() {
 
   }
 
+
+  /*
+   * まだ本人確認中
+   */
 
   captureButton.disabled =
     true;
@@ -2613,30 +2699,19 @@ async function loadFaceModel() {
 
   try {
 
+    // iPhoneを含む各ブラウザで利用可能なTensorFlowバックエンドを初期化
     await tf.ready();
 
     faceModel =
       await blazeface.load();
 
+    // モデルの初回実行を読み込み段階で済ませ、撮影画面での初回遅延を軽減
     try {
-
-      const warmup =
-        tf.zeros([128, 128, 3]);
-
-      await faceModel.estimateFaces(
-        warmup,
-        false
-      );
-
+      const warmup = tf.zeros([128, 128, 3]);
+      await faceModel.estimateFaces(warmup, false);
       warmup.dispose();
-
     } catch (warmupError) {
-
-      console.warn(
-        "顔検出AIの初回準備:",
-        warmupError
-      );
-
+      console.warn("顔検出AIの初回準備:", warmupError);
     }
 
     modelReady =
@@ -2849,11 +2924,8 @@ registrationButton.addEventListener(
           20000
         );
 
-      const response =
-        registrationSendResult.response;
-
-      const responseText =
-        registrationSendResult.responseText;
+      const response = registrationSendResult.response;
+      const responseText = registrationSendResult.responseText;
 
 
       let responseData =
@@ -3034,6 +3106,12 @@ startButton.addEventListener(
     }
 
 
+    /*
+     * 注意事項の確認はここでは必須にしない。
+     * カメラ画面で同意を確認する。
+     */
+
+
     if (
       !modelReady &&
       !testMode
@@ -3079,21 +3157,13 @@ startButton.addEventListener(
         stream;
 
       camera.muted = true;
+      camera.setAttribute("playsinline", "");
+      camera.setAttribute("webkit-playsinline", "");
+      await waitForCameraReady(camera);
 
-      camera.setAttribute(
-        "playsinline",
-        ""
-      );
-
-      camera.setAttribute(
-        "webkit-playsinline",
-        ""
-      );
-
-      await waitForCameraReady(
-        camera
-      );
-
+      /*
+       * カメラ画面へ移動
+       */
 
       startArea.classList.add(
         "hidden"
@@ -3103,6 +3173,10 @@ startButton.addEventListener(
         "hidden"
       );
 
+
+      /*
+       * カメラ側の同意は毎回必ず確認
+       */
 
       cameraConsent.checked =
         false;
@@ -3182,10 +3256,12 @@ function startLivenessCheck() {
 
 
   const actions = [
+
     "mouth",
     "left",
     "right",
     "move"
+
   ];
 
 
@@ -3286,80 +3362,40 @@ function getLivenessText(
 カメラ映像の準備（iPhone向け）
 ========================================================= */
 
-async function waitForCameraReady(
-  videoElement,
-  timeoutMs = 10000
-) {
-
+async function waitForCameraReady(videoElement, timeoutMs = 10000) {
   videoElement.muted = true;
-
-  videoElement.setAttribute(
-    "playsinline",
-    ""
-  );
-
-  videoElement.setAttribute(
-    "webkit-playsinline",
-    ""
-  );
-
+  videoElement.setAttribute("playsinline", "");
+  videoElement.setAttribute("webkit-playsinline", "");
   videoElement.autoplay = true;
 
-
+  // iPhoneでは video.play() のPromiseが解決されない場合があるため、
+  // awaitせず再生を開始し、映像サイズが取得できるかを別途確認する。
   if (videoElement.srcObject) {
-
     try {
-
-      await videoElement.play();
-
+      const playPromise = videoElement.play();
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(error => {
+          console.warn("video.play():", error);
+        });
+      }
     } catch (playError) {
-
-      console.warn(
-        "video.play()待機:",
-        playError
-      );
-
+      console.warn("video.play()開始:", playError);
     }
-
   }
 
-
-  const startedAt =
-    Date.now();
-
-
+  const startedAt = Date.now();
   while (
-
-    (
-      videoElement.readyState < 2 ||
-      !videoElement.videoWidth ||
-      !videoElement.videoHeight
-    ) &&
-
-    Date.now() - startedAt <
-    timeoutMs
-
+    (videoElement.readyState < 2 || !videoElement.videoWidth || !videoElement.videoHeight) &&
+    Date.now() - startedAt < timeoutMs
   ) {
-
-    await new Promise(
-      resolve =>
-        setTimeout(
-          resolve,
-          120
-        )
-    );
-
+    await new Promise(resolve => setTimeout(resolve, 120));
   }
-
 
   return Boolean(
-
     videoElement.readyState >= 2 &&
     videoElement.videoWidth > 0 &&
     videoElement.videoHeight > 0
-
   );
-
 }
 
 
@@ -3368,249 +3404,88 @@ async function waitForCameraReady(
 ========================================================= */
 
 function startFaceDetection() {
-
   stopFaceDetection();
-
   faceDetected = false;
 
-
   if (testMode) {
-
     faceDetected = true;
-
     livenessCompleted = true;
-
-    faceStatus.textContent =
-      "🧪 テストモード：顔認識・本人確認をスキップしています。";
-
-    faceStatus.classList.add(
-      "success"
-    );
-
-    livenessBox.classList.add(
-      "hidden"
-    );
-
+    faceStatus.textContent = "🧪 テストモード：顔認識・本人確認をスキップしています。";
+    faceStatus.classList.add("success");
+    livenessBox.classList.add("hidden");
     updateCaptureButton();
-
     return;
-
   }
 
-
   updateCaptureButton();
-
   let firstFaceFound = false;
-
-  const thisRunId =
-    faceDetectionRunId;
-
-
-  const detectNextFrame =
-    async function() {
-
-      if (
-        thisRunId !== faceDetectionRunId ||
-        !stream
-      ) {
-
-        return;
-
-      }
-
-
-      if (
-        !modelReady ||
-        !faceModel
-      ) {
-
-        faceTimer =
-          setTimeout(
-            detectNextFrame,
-            500
-          );
-
-        return;
-
-      }
-
-
-      if (
-        camera.readyState < 2 ||
-        !camera.videoWidth ||
-        !camera.videoHeight
-      ) {
-
-        faceTimer =
-          setTimeout(
-            detectNextFrame,
-            250
-          );
-
-        return;
-
-      }
-
-
-      if (faceDetectionBusy) {
-
-        faceTimer =
-          setTimeout(
-            detectNextFrame,
-            250
-          );
-
-        return;
-
-      }
-
-
-      faceDetectionBusy =
-        true;
-
-
-      try {
-
-        const predictions =
-          await faceModel.estimateFaces(
-            camera,
-            false
-          );
-
-
-        if (
-          thisRunId !== faceDetectionRunId
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          predictions &&
-          predictions.length > 0
-        ) {
-
-          faceDetected =
-            true;
-
-          const face =
-            predictions[0];
-
-
-          faceStatus.textContent =
-            "✅ 顔を検出しました";
-
-          faceStatus.classList.add(
-            "success"
-          );
-
-
-          if (!firstFaceFound) {
-
-            firstFaceFound =
-              true;
-
-            startLivenessCheck();
-
-          }
-
-
-          if (
-            livenessActive &&
-            !livenessCompleted
-          ) {
-
-            processLivenessFrame(
-              face
-            );
-
-          }
-
-
-          updateCaptureButton();
-
-
-        } else {
-
-          faceDetected =
-            false;
-
-          faceStatus.textContent =
-            "👤 顔が検出されていません。明るい場所で、顔全体をカメラに向けてください。";
-
-          faceStatus.classList.remove(
-            "success"
-          );
-
-          updateCaptureButton();
-
-        }
-
-
-      } catch (error) {
-
-        console.error(
-          "顔検出エラー:",
-          error
-        );
-
-        faceStatus.textContent =
-          "顔検出を準備中です。少し待ってください…";
-
-      } finally {
-
-        faceDetectionBusy =
-          false;
-
-
-        if (
-          thisRunId === faceDetectionRunId
-        ) {
-
-          faceTimer =
-            setTimeout(
-              detectNextFrame,
-              450
-            );
-
-        }
-
-      }
-
-    };
-
-
-  waitForCameraReady(
-    camera
-  ).then(
-    ready => {
-
-      if (
-        thisRunId !== faceDetectionRunId
-      ) {
-
-        return;
-
-      }
-
-
-      if (!ready) {
-
-        faceStatus.textContent =
-          "カメラ映像を準備できません。カメラを一度閉じて再度お試しください。";
-
-        return;
-
-      }
-
-
-      detectNextFrame();
-
+  const thisRunId = faceDetectionRunId;
+
+  // setIntervalはiPhoneで推論が重なることがあるため、1回ずつ順番に実行する
+  const detectNextFrame = async function() {
+    if (thisRunId !== faceDetectionRunId || !stream) return;
+
+    if (!modelReady || !faceModel) {
+      faceTimer = setTimeout(detectNextFrame, 500);
+      return;
     }
-  );
 
+    if (camera.readyState < 2 || !camera.videoWidth || !camera.videoHeight) {
+      faceTimer = setTimeout(detectNextFrame, 250);
+      return;
+    }
+
+    if (faceDetectionBusy) {
+      faceTimer = setTimeout(detectNextFrame, 250);
+      return;
+    }
+
+    faceDetectionBusy = true;
+    try {
+      const predictions = await faceModel.estimateFaces(camera, false);
+      if (thisRunId !== faceDetectionRunId) return;
+
+      if (predictions && predictions.length > 0) {
+        faceDetected = true;
+        const face = predictions[0];
+        faceStatus.textContent = "✅ 顔を検出しました";
+        faceStatus.classList.add("success");
+
+        if (!firstFaceFound) {
+          firstFaceFound = true;
+          startLivenessCheck();
+        }
+
+        if (livenessActive && !livenessCompleted) {
+          processLivenessFrame(face);
+        }
+        updateCaptureButton();
+      } else {
+        faceDetected = false;
+        faceStatus.textContent = "👤 顔が検出されていません。明るい場所で、顔全体をカメラに向けてください。";
+        faceStatus.classList.remove("success");
+        updateCaptureButton();
+      }
+    } catch (error) {
+      console.error("顔検出エラー:", error);
+      faceStatus.textContent = "顔検出を準備中です。少し待ってください…";
+    } finally {
+      faceDetectionBusy = false;
+      if (thisRunId === faceDetectionRunId) {
+        faceTimer = setTimeout(detectNextFrame, 450);
+      }
+    }
+  };
+
+  // iPhoneでは映像サイズが確定してから検出を開始
+  waitForCameraReady(camera).then(ready => {
+    if (thisRunId !== faceDetectionRunId) return;
+    if (!ready) {
+      faceStatus.textContent = "カメラ映像を準備できません。カメラを一度閉じて再度お試しください。";
+      return;
+    }
+    detectNextFrame();
+  });
 }
 
 
@@ -3804,6 +3679,7 @@ function processLivenessFrame(
 
   }
 
+
   else if (
     currentAction === "right"
   ) {
@@ -3816,6 +3692,7 @@ function processLivenessFrame(
       );
 
   }
+
 
   else if (
     currentAction === "move"
@@ -3838,6 +3715,7 @@ function processLivenessFrame(
       dy > 0.035;
 
   }
+
 
   else if (
     currentAction === "mouth"
@@ -3987,21 +3865,77 @@ function finishLiveness() {
 ========================================================= */
 
 function stopFaceDetection() {
-
+  // 実行中の推論結果が古い画面状態を上書きしないよう世代番号を更新
   faceDetectionRunId++;
 
-
   if (faceTimer) {
-
-    clearTimeout(
-      faceTimer
-    );
-
-    faceTimer =
-      null;
-
+    clearTimeout(faceTimer);
+    faceTimer = null;
   }
+}
 
+
+/* =========================================================
+CanvasをBlobに変換（iPhone互換）
+========================================================= */
+
+function canvasToBlob(canvas) {
+  return new Promise((resolve, reject) => {
+    let finished = false;
+
+    const finish = blob => {
+      if (finished) return;
+      finished = true;
+      if (blob) resolve(blob);
+      else reject(new Error("写真データを作成できませんでした"));
+    };
+
+    // 通常はこちらを使用。iOSでコールバックが返らない場合に備えて
+    // タイムアウト後はtoDataURL経由に切り替える。
+    const fallbackTimer = setTimeout(() => {
+      try {
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
+        const base64 = dataUrl.split(",")[1];
+        if (!base64) throw new Error("画像データが空です");
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        finish(new Blob([bytes], { type: "image/jpeg" }));
+      } catch (error) {
+        if (!finished) {
+          finished = true;
+          reject(error);
+        }
+      }
+    }, 2500);
+
+    try {
+      if (typeof canvas.toBlob === "function") {
+        canvas.toBlob(blob => {
+          clearTimeout(fallbackTimer);
+          finish(blob);
+        }, "image/jpeg", 0.9);
+      } else {
+        clearTimeout(fallbackTimer);
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
+        const base64 = dataUrl.split(",")[1];
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        finish(new Blob([bytes], { type: "image/jpeg" }));
+      }
+    } catch (error) {
+      clearTimeout(fallbackTimer);
+      if (!finished) {
+        finished = true;
+        reject(error);
+      }
+    }
+  });
 }
 
 
@@ -4012,6 +3946,10 @@ function stopFaceDetection() {
 captureButton.addEventListener(
   "click",
   async function() {
+
+    /*
+     * カメラ側の同意を再確認
+     */
 
     if (
       !cameraConsent.checked
@@ -4028,7 +3966,9 @@ captureButton.addEventListener(
     }
 
 
-    if (!faceDetected) {
+    if (
+      !faceDetected
+    ) {
 
       alert(
         "顔が検出されていません。"
@@ -4062,183 +4002,112 @@ captureButton.addEventListener(
 
     stopFaceDetection();
 
+    try {
 
-    const cameraReady =
-      await waitForCameraReady(
-        camera,
-        5000
-      );
+// カメラ映像の準備ができているか確認
+const cameraReady = await waitForCameraReady(camera, 5000);
+if (!cameraReady) {
+  alert("カメラ映像の準備ができませんでした。もう一度お試しください。");
+  captureButton.disabled = false;
+  captureButton.textContent = "📷 撮影する";
+  startFaceDetection();
+  return;
+}
 
+const videoWidth = camera.videoWidth;
+const videoHeight = camera.videoHeight;
 
-    if (!cameraReady) {
+if (!videoWidth || !videoHeight) {
+  alert("カメラ映像を取得できませんでした。もう一度撮影してください。");
+  captureButton.disabled = false;
+  captureButton.textContent = "📷 撮影する";
+  startFaceDetection();
+  return;
+}
 
-      alert(
-        "カメラ映像の準備ができませんでした。もう一度お試しください。"
-      );
+const canvas =
+  document.createElement("canvas");
 
-      captureButton.disabled =
-        false;
+canvas.width = videoWidth;
+canvas.height = videoHeight;
 
-      captureButton.textContent =
-        "📷 撮影する";
+const ctx = canvas.getContext("2d");
 
-      startFaceDetection();
+if (!ctx) {
+  alert("写真の作成に失敗しました。");
+  captureButton.disabled = false;
+  captureButton.textContent = "📷 撮影する";
+  startFaceDetection();
+  return;
+}
 
-      return;
+// 写真を左右反転して撮影
+ctx.translate(canvas.width, 0);
+ctx.scale(-1, 1);
 
-    }
+ctx.drawImage(
+  camera,
+  0,
+  0,
+  canvas.width,
+  canvas.height
+);
 
+// 写真表示用
+photo.src = canvas.toDataURL(
+  "image/jpeg",
+  0.9
+);
 
-    const videoWidth =
-      camera.videoWidth;
+// 送信用画像
+photoBlob = await canvasToBlob(canvas);
 
-    const videoHeight =
-      camera.videoHeight;
+if (!photoBlob) {
+  alert("写真の作成に失敗しました。もう一度撮影してください。");
+  captureButton.disabled = false;
+  captureButton.textContent = "📷 撮影する";
+  startFaceDetection();
+  return;
+}
 
+stopCamera();
 
-    if (
-      !videoWidth ||
-      !videoHeight
-    ) {
+cameraArea.classList.add("hidden");
+resultArea.classList.remove("hidden");
 
-      alert(
-        "カメラ映像を取得できませんでした。もう一度撮影してください。"
-      );
+photoCheck.textContent =
+  "📷 撮影した写真を確認しています…";
 
-      captureButton.disabled =
-        false;
+photoCheck.classList.remove("success");
 
-      captureButton.textContent =
-        "📷 撮影する";
+sendButton.disabled = true;
 
-      startFaceDetection();
+// 撮影前にリアルタイム顔検出と本人確認が完了しているため、
+// 撮影後に別の顔検出を重ねず、そのまま送信可能にする。
+// iPhone SafariでCanvasの再検出だけ失敗する問題を避ける。
+photoCheck.textContent =
+  "✅ 撮影できました。写真を送信できます。";
 
-      return;
+photoCheck.classList.add("success");
+sendButton.disabled = false;
 
-    }
+    } catch (error) {
 
+      console.error("撮影処理エラー:", error);
 
-    const canvas =
-      document.createElement(
-        "canvas"
-      );
+      alert("撮影中にエラーが発生しました。カメラを確認して、もう一度お試しください。");
 
+      captureButton.disabled = false;
+      captureButton.textContent = "📷 撮影する";
 
-    canvas.width =
-      videoWidth;
+      cameraArea.classList.remove("hidden");
+      resultArea.classList.add("hidden");
 
-    canvas.height =
-      videoHeight;
-
-
-    const ctx =
-      canvas.getContext("2d");
-
-
-    if (!ctx) {
-
-      alert(
-        "写真の作成に失敗しました。"
-      );
-
-      captureButton.disabled =
-        false;
-
-      captureButton.textContent =
-        "📷 撮影する";
-
-      startFaceDetection();
-
-      return;
-
-    }
-
-
-    ctx.translate(
-      canvas.width,
-      0
-    );
-
-    ctx.scale(
-      -1,
-      1
-    );
-
-
-    ctx.drawImage(
-      camera,
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
-
-
-    photo.src =
-      canvas.toDataURL(
-        "image/jpeg",
-        0.9
-      );
-
-
-    photoBlob =
-      await canvasToBlob(
-        canvas
-      );
-
-
-    if (!photoBlob) {
-
-      alert(
-        "写真の作成に失敗しました。もう一度撮影してください。"
-      );
-
-      captureButton.disabled =
-        false;
-
-      captureButton.textContent =
-        "📷 撮影する";
-
-      startFaceDetection();
-
-      return;
+      if (stream && stream.getVideoTracks().some(track => track.readyState === "live")) {
+        startFaceDetection();
+      }
 
     }
-
-
-    stopCamera();
-
-
-    cameraArea.classList.add(
-      "hidden"
-    );
-
-    resultArea.classList.remove(
-      "hidden"
-    );
-
-
-    photoCheck.textContent =
-      "📷 撮影した写真を確認しています…";
-
-    photoCheck.classList.remove(
-      "success"
-    );
-
-
-    sendButton.disabled =
-      true;
-
-
-    photoCheck.textContent =
-      "✅ 撮影できました。写真を送信できます。";
-
-    photoCheck.classList.add(
-      "success"
-    );
-
-    sendButton.disabled =
-      false;
 
   }
 );
@@ -4248,26 +4117,17 @@ captureButton.addEventListener(
 写真顔検出
 ========================================================= */
 
-async function detectFaceInPhoto(
-  imageElement
-) {
 
-  if (
-    !modelReady ||
-    !faceModel
-  ) {
+async function detectFaceInPhoto(imageElement) {
 
-    console.error(
-      "顔検出モデルが準備できていません"
-    );
-
+  if (!modelReady || !faceModel) {
+    console.error("顔検出モデルが準備できていません");
     return false;
-
   }
-
 
   try {
 
+    // 画像・動画・Canvasのサイズを取得
     const imageWidth =
       imageElement.naturalWidth ||
       imageElement.videoWidth ||
@@ -4278,41 +4138,31 @@ async function detectFaceInPhoto(
       imageElement.videoHeight ||
       imageElement.height;
 
-
-    if (
-      !imageWidth ||
-      !imageHeight
-    ) {
-
+    if (!imageWidth || !imageHeight) {
       console.error(
         "顔検出用画像のサイズが取得できません",
         imageWidth,
         imageHeight
       );
-
       return false;
-
     }
 
-
+    // Canvasから直接顔検出
     const predictions =
       await faceModel.estimateFaces(
         imageElement,
         false
       );
 
-
     console.log(
       "顔検出結果:",
       predictions
     );
 
-
     return Boolean(
       predictions &&
       predictions.length > 0
     );
-
 
   } catch (error) {
 
@@ -4326,6 +4176,7 @@ async function detectFaceInPhoto(
   }
 
 }
+
 
 
 /* =========================================================
@@ -4389,6 +4240,10 @@ retakeButton.addEventListener(
     );
 
 
+    /*
+     * 本人確認リセット
+     */
+
     livenessActive =
       false;
 
@@ -4407,6 +4262,10 @@ retakeButton.addEventListener(
     livenessFrameCount =
       0;
 
+
+    /*
+     * カメラ側同意も再確認
+     */
 
     cameraConsent.checked =
       false;
@@ -4452,21 +4311,9 @@ retakeButton.addEventListener(
         stream;
 
       camera.muted = true;
-
-      camera.setAttribute(
-        "playsinline",
-        ""
-      );
-
-      camera.setAttribute(
-        "webkit-playsinline",
-        ""
-      );
-
-      await waitForCameraReady(
-        camera
-      );
-
+      camera.setAttribute("playsinline", "");
+      camera.setAttribute("webkit-playsinline", "");
+      await waitForCameraReady(camera);
 
       faceStatus.textContent =
         "カメラ起動完了。顔を確認しています…";
@@ -4495,48 +4342,18 @@ retakeButton.addEventListener(
 通信待ちの上限
 ========================================================= */
 
-function promiseWithTimeout(
-  promise,
-  timeoutMs,
-  message
-) {
-
+function promiseWithTimeout(promise, timeoutMs, message) {
   let timeoutId;
 
+  const timeoutPromise = new Promise(function(_, reject) {
+    timeoutId = setTimeout(function() {
+      reject(new Error(message));
+    }, timeoutMs);
+  });
 
-  const timeoutPromise =
-    new Promise(
-      function(_, reject) {
-
-        timeoutId =
-          setTimeout(
-            function() {
-
-              reject(
-                new Error(message)
-              );
-
-            },
-            timeoutMs
-          );
-
-      }
-    );
-
-
-  return Promise.race([
-    promise,
-    timeoutPromise
-  ]).finally(
-    function() {
-
-      clearTimeout(
-        timeoutId
-      );
-
-    }
-  );
-
+  return Promise.race([promise, timeoutPromise]).finally(function() {
+    clearTimeout(timeoutId);
+  });
 }
 
 
@@ -4603,73 +4420,34 @@ async function getAccessToken() {
 写真送信タイムアウト対策
 ========================================================= */
 
-async function fetchWithTimeout(
-  url,
-  options,
-  timeoutMs = 45000
-) {
-
-  const controller =
-    new AbortController();
-
-  const timeoutId =
-    setTimeout(
-      function() {
-
-        controller.abort();
-
-      },
-      timeoutMs
-    );
-
+async function fetchWithTimeout(url, options, timeoutMs = 45000) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(function() {
+    controller.abort();
+  }, timeoutMs);
 
   try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal
+    });
 
-    const response =
-      await fetch(
-        url,
-        {
-          ...options,
-          signal: controller.signal
-        }
-      );
-
-
-    const responseText =
-      await response.text();
-
-
+    // レスポンス本文の読み込みもタイムアウト監視に含める
+    const responseText = await response.text();
     return {
       response: response,
       responseText: responseText
     };
-
-
   } catch (error) {
-
-    if (
-      error &&
-      error.name === "AbortError"
-    ) {
-
+    if (error && error.name === "AbortError") {
       throw new Error(
-        "通信が" +
-        Math.round(timeoutMs / 1000) +
-        "秒以内に完了しませんでした。通信状態を確認して再試行してください。"
+        "通信が" + Math.round(timeoutMs / 1000) + "秒以内に完了しませんでした。通信状態を確認して再試行してください。"
       );
-
     }
-
     throw error;
-
   } finally {
-
-    clearTimeout(
-      timeoutId
-    );
-
+    clearTimeout(timeoutId);
   }
-
 }
 
 
@@ -4685,6 +4463,10 @@ sendButton.addEventListener(
       "hidden"
     );
 
+
+    /*
+     * カメラ側同意を再確認
+     */
 
     if (
       !cameraConsent.checked
@@ -4712,6 +4494,7 @@ sendButton.addEventListener(
 
     const name =
       nickname.value.trim();
+
 
     const ageValue =
       Number(
@@ -4786,30 +4569,48 @@ sendButton.addEventListener(
         );
 
 
+      /*
+       * ランキング掲載はサイトの注意事項・ルールに記載済み。
+       * 通常診断はランキング対象にする。
+       * 管理者テストモードのデータだけはランキングから除外する。
+       */
+
       const rankingConsentValue =
         !testMode;
 
 
       let response;
+      let responseText = "";
 
-      let responseText =
-        "";
 
+      /* ==========================================
+       * ルーム付き
+       * ========================================== */
 
       if (room) {
 
         const targetUrl =
           PHOTO_RECEIVER_URL +
           "?room=" +
-          encodeURIComponent(room) +
+          encodeURIComponent(
+            room
+          ) +
           "&nickname=" +
-          encodeURIComponent(name) +
+          encodeURIComponent(
+            name
+          ) +
           "&age=" +
-          encodeURIComponent(ageValue) +
+          encodeURIComponent(
+            ageValue
+          ) +
           "&score=" +
-          encodeURIComponent(total) +
+          encodeURIComponent(
+            total
+          ) +
           "&rankingConsent=" +
-          encodeURIComponent(rankingConsentValue);
+          encodeURIComponent(
+            rankingConsentValue
+          );
 
 
         const accessToken =
@@ -4822,7 +4623,7 @@ sendButton.addEventListener(
             "image/jpeg",
 
           "apikey":
-            SUPABASE_PUBLISHABLE_KEY
+  SUPABASE_PUBLISHABLE_KEY,
 
         };
 
@@ -4846,14 +4647,15 @@ sendButton.addEventListener(
             }
           );
 
-
-        response =
-          sendResult.response;
-
-        responseText =
-          sendResult.responseText;
+        response = sendResult.response;
+        responseText = sendResult.responseText;
 
       }
+
+
+      /* ==========================================
+       * 通常
+       * ========================================== */
 
       else {
 
@@ -4867,26 +4669,38 @@ sendButton.addEventListener(
             "image/jpeg",
 
           "apikey":
-            SUPABASE_PUBLISHABLE_KEY,
-
+  SUPABASE_PUBLISHABLE_KEY,
+          
           "x-name":
-            encodeURIComponent(name),
+            encodeURIComponent(
+              name
+            ),
 
           "x-age":
-            String(ageValue),
+            String(
+              ageValue
+            ),
 
           "x-score":
-            String(total),
+            String(
+              total
+            ),
 
           "x-ranking-consent":
-            String(rankingConsentValue),
+            String(
+              rankingConsentValue
+            ),
 
           "x-test-mode":
-            String(testMode),
+            String(
+              testMode
+            ),
 
           "x-user-id":
             registeredUserId
-              ? String(registeredUserId)
+              ? String(
+                  registeredUserId
+                )
               : "",
 
           "x-email":
@@ -4921,15 +4735,15 @@ sendButton.addEventListener(
             }
           );
 
-
-        response =
-          sendResult.response;
-
-        responseText =
-          sendResult.responseText;
+        response = sendResult.response;
+        responseText = sendResult.responseText;
 
       }
 
+
+      /* ==========================================
+       * HTTPレスポンス
+       * ========================================== */
 
       console.log(
         "写真送信レスポンス:",
@@ -4938,7 +4752,9 @@ sendButton.addEventListener(
       );
 
 
-      if (!response.ok) {
+      if (
+        !response.ok
+      ) {
 
         throw new Error(
           "HTTP " +
@@ -4949,6 +4765,10 @@ sendButton.addEventListener(
 
       }
 
+
+      /* ==========================================
+       * 成功
+       * ========================================== */
 
       window.finalTotal =
         total;
@@ -5348,33 +5168,52 @@ function createDiagnosis(
   let rank;
 
 
-  if (total >= 95) {
+  if (
+    total >= 95
+  ) {
 
-    rank = "SS";
+    rank =
+      "SS";
 
-  } else if (total >= 90) {
+  } else if (
+    total >= 90
+  ) {
 
-    rank = "S";
+    rank =
+      "S";
 
-  } else if (total >= 85) {
+  } else if (
+    total >= 85
+  ) {
 
-    rank = "A+";
+    rank =
+      "A+";
 
-  } else if (total >= 80) {
+  } else if (
+    total >= 80
+  ) {
 
-    rank = "A";
+    rank =
+      "A";
 
-  } else if (total >= 70) {
+  } else if (
+    total >= 70
+  ) {
 
-    rank = "B";
+    rank =
+      "B";
 
-  } else if (total >= 50) {
+  } else if (
+    total >= 50
+  ) {
 
-    rank = "C";
+    rank =
+      "C";
 
   } else {
 
-    rank = "D";
+    rank =
+      "D";
 
   }
 
@@ -5595,33 +5434,52 @@ document.getElementById(
     let rank;
 
 
-    if (total >= 95) {
+    if (
+      total >= 95
+    ) {
 
-      rank = "SS";
+      rank =
+        "SS";
 
-    } else if (total >= 90) {
+    } else if (
+      total >= 90
+    ) {
 
-      rank = "S";
+      rank =
+        "S";
 
-    } else if (total >= 85) {
+    } else if (
+      total >= 85
+    ) {
 
-      rank = "A+";
+      rank =
+        "A+";
 
-    } else if (total >= 80) {
+    } else if (
+      total >= 80
+    ) {
 
-      rank = "A";
+      rank =
+        "A";
 
-    } else if (total >= 70) {
+    } else if (
+      total >= 70
+    ) {
 
-      rank = "B";
+      rank =
+        "B";
 
-    } else if (total >= 50) {
+    } else if (
+      total >= 50
+    ) {
 
-      rank = "C";
+      rank =
+        "C";
 
     } else {
 
-      rank = "D";
+      rank =
+        "D";
 
     }
 
@@ -5816,6 +5674,10 @@ document.getElementById(
     captureButton.textContent =
       "📷 写真送信への同意が必要です";
 
+
+    /*
+     * カメラ側同意をリセット
+     */
 
     cameraConsent.checked =
       false;
