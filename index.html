@@ -2498,10 +2498,6 @@ let faceDetected =
 let photoBlob =
   null;
 
-// 撮影プレビュー用URL（写真データ本体とは分けて管理）
-let photoObjectUrl =
-  null;
-
 let registeredUserId =
   null;
 
@@ -2856,52 +2852,16 @@ registrationButton.addEventListener(
 
     try {
 
-      let userId =
-        registeredUserId;
+      // 既存のSupabaseセッションを最優先で再利用する。
+      // セッションがあるのに匿名ユーザーを新規作成してUUIDが変わる問題を防ぐ。
+      const authUser =
+        await ensureSupabaseUser();
 
+      const userId =
+        authUser.id;
 
-      if (!userId) {
-
-        const {
-          data,
-          error
-        } =
-          await promiseWithTimeout(
-            supabaseClient.auth.signInAnonymously(),
-            15000,
-            "ユーザー登録の通信がタイムアウトしました。通信状態を確認して再試行してください。"
-          );
-
-
-        if (error) {
-
-          throw new Error(
-            "Supabaseユーザー作成に失敗しました。\n" +
-            error.message
-          );
-
-        }
-
-
-        if (
-          !data ||
-          !data.user
-        ) {
-
-          throw new Error(
-            "SupabaseユーザーIDを取得できませんでした。"
-          );
-
-        }
-
-
-        userId =
-          data.user.id;
-
-        registeredUserId =
-          userId;
-
-      }
+      registeredUserId =
+        userId;
 
 
       registrationStatus.textContent =
@@ -3372,10 +3332,10 @@ async function waitForCameraReady(videoElement, timeoutMs = 10000) {
   videoElement.setAttribute("webkit-playsinline", "");
   videoElement.autoplay = true;
 
+  // iPhoneでは video.play() のPromiseが解決されない場合があるため、
+  // awaitせず再生を開始し、映像サイズが取得できるかを別途確認する。
   if (videoElement.srcObject) {
     try {
-      // iPhone Safariでは play() のPromiseが長時間解決しない場合がある。
-      // 再生開始だけ要求し、映像サイズは下のループで別に確認する。
       const playPromise = videoElement.play();
       if (playPromise && typeof playPromise.catch === "function") {
         playPromise.catch(error => {
@@ -3880,136 +3840,64 @@ function stopFaceDetection() {
 
 
 /* =========================================================
-Canvas画像をBlobに変換（iPhone / Safari互換）
+CanvasをBlobに変換（iPhone互換）
 ========================================================= */
-
-function canvasDataUrlToBlob(dataUrl) {
-  const commaIndex = dataUrl.indexOf(",");
-  if (commaIndex < 0) {
-    throw new Error("Canvas画像データの形式が正しくありません");
-  }
-
-  const header = dataUrl.slice(0, commaIndex);
-  const base64 = dataUrl.slice(commaIndex + 1);
-  const mimeMatch = header.match(/^data:([^;]+);base64$/i);
-  const mimeType = mimeMatch ? mimeMatch[1] : "image/jpeg";
-
-  if (!base64) {
-    throw new Error("Canvas画像データが空です");
-  }
-
-  const binary = atob(base64);
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) {
-    bytes[i] = binary.charCodeAt(i);
-  }
-
-  return new Blob([bytes], { type: mimeType });
-}
 
 function canvasToBlob(canvas) {
   return new Promise((resolve, reject) => {
     let finished = false;
-    let fallbackTimer = null;
 
-    const finish = (error, blob) => {
+    const finish = blob => {
       if (finished) return;
       finished = true;
-      if (fallbackTimer !== null) {
-        clearTimeout(fallbackTimer);
-        fallbackTimer = null;
-      }
-
-      if (error) {
-        reject(error);
-      } else if (blob && blob.size > 0) {
-        resolve(blob);
-      } else {
-        reject(new Error("写真データを作成できませんでした"));
-      }
+      if (blob) resolve(blob);
+      else reject(new Error("写真データを作成できませんでした"));
     };
 
-    const useDataUrlFallback = () => {
-      if (finished) return;
+    // 通常はこちらを使用。iOSでコールバックが返らない場合に備えて
+    // タイムアウト後はtoDataURL経由に切り替える。
+    const fallbackTimer = setTimeout(() => {
       try {
-        const dataUrl = canvas.toDataURL("image/jpeg", 0.88);
-        const blob = canvasDataUrlToBlob(dataUrl);
-        finish(null, blob);
-      } catch (error) {
-        finish(error instanceof Error ? error : new Error(String(error)));
-      }
-    };
-
-    // toBlobがiOSで応答しないケースに備え、一定時間後に代替経路へ移る。
-    fallbackTimer = setTimeout(useDataUrlFallback, 2500);
-
-    if (typeof canvas.toBlob !== "function") {
-      useDataUrlFallback();
-      return;
-    }
-
-    try {
-      canvas.toBlob(blob => {
-        if (finished) return;
-
-        if (blob && blob.size > 0) {
-          finish(null, blob);
-        } else {
-          // toBlobがnullを返した場合も、dataURL方式を一度試す。
-          useDataUrlFallback();
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
+        const base64 = dataUrl.split(",")[1];
+        if (!base64) throw new Error("画像データが空です");
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
         }
-      }, "image/jpeg", 0.88);
-    } catch (error) {
-      // toBlob自体が例外を出す端末ではdataURL方式へ切り替える。
-      useDataUrlFallback();
-    }
-  });
-}
-
-/* =========================================================
-撮影写真のプレビュー読み込み
-========================================================= */
-
-function loadPhotoPreview(blob) {
-  return new Promise((resolve, reject) => {
-    if (!blob || !blob.size) {
-      reject(new Error("プレビュー用の写真データがありません"));
-      return;
-    }
-
-    if (photoObjectUrl) {
-      URL.revokeObjectURL(photoObjectUrl);
-      photoObjectUrl = null;
-    }
-
-    let settled = false;
-    const timeoutId = setTimeout(() => {
-      finish(new Error("撮影した写真の表示に時間がかかっています"));
-    }, 8000);
-
-    const finish = error => {
-      if (settled) return;
-      settled = true;
-      clearTimeout(timeoutId);
-      photo.onload = null;
-      photo.onerror = null;
-      if (error) reject(error);
-      else resolve();
-    };
-
-    photo.onload = () => finish(null);
-    photo.onerror = () => finish(new Error("撮影した写真を画面に表示できませんでした"));
+        finish(new Blob([bytes], { type: "image/jpeg" }));
+      } catch (error) {
+        if (!finished) {
+          finished = true;
+          reject(error);
+        }
+      }
+    }, 2500);
 
     try {
-      photoObjectUrl = URL.createObjectURL(blob);
-      photo.src = photoObjectUrl;
-
-      // キャッシュ等でイベント登録直後に読み込み済みの場合にも対応。
-      if (photo.complete && photo.naturalWidth > 0) {
-        finish(null);
+      if (typeof canvas.toBlob === "function") {
+        canvas.toBlob(blob => {
+          clearTimeout(fallbackTimer);
+          finish(blob);
+        }, "image/jpeg", 0.9);
+      } else {
+        clearTimeout(fallbackTimer);
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
+        const base64 = dataUrl.split(",")[1];
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        finish(new Blob([bytes], { type: "image/jpeg" }));
       }
     } catch (error) {
-      finish(error instanceof Error ? error : new Error(String(error)));
+      clearTimeout(fallbackTimer);
+      if (!finished) {
+        finished = true;
+        reject(error);
+      }
     }
   });
 }
@@ -4023,102 +3911,168 @@ captureButton.addEventListener(
   "click",
   async function() {
 
-    // 写真送信への同意を再確認
-    if (!cameraConsent.checked) {
-      alert("顔写真の送信への同意が必要です。");
+    /*
+     * カメラ側の同意を再確認
+     */
+
+    if (
+      !cameraConsent.checked
+    ) {
+
+      alert(
+        "顔写真の送信への同意が必要です。"
+      );
+
       updateCaptureButton();
+
       return;
+
     }
 
-    // 撮影前の顔検出・本人確認は従来どおり必須
-    if (!faceDetected) {
-      alert("顔が検出されていません。");
+
+    if (
+      !faceDetected
+    ) {
+
+      alert(
+        "顔が検出されていません。"
+      );
+
       return;
+
     }
 
-    if (!testMode && !livenessCompleted) {
-      alert("本人確認が完了していません。");
+
+    if (
+      !testMode &&
+      !livenessCompleted
+    ) {
+
+      alert(
+        "本人確認が完了していません。"
+      );
+
       return;
+
     }
 
-    captureButton.disabled = true;
-    captureButton.textContent = "📸 撮影しています…";
+
+    captureButton.disabled =
+      true;
+
+    captureButton.textContent =
+      "📸 撮影しています…";
+
+
     stopFaceDetection();
 
     try {
-      // iPhoneでは撮影直前にvideoの寸法が一時的に未確定になることがある。
-      const cameraReady = await waitForCameraReady(camera, 7000);
-      if (!cameraReady) {
-        throw new Error("カメラ映像の準備ができませんでした。もう一度お試しください。");
-      }
 
-      const videoWidth = camera.videoWidth;
-      const videoHeight = camera.videoHeight;
-      if (!videoWidth || !videoHeight) {
-        throw new Error("カメラ映像のサイズを取得できませんでした。");
-      }
+// カメラ映像の準備ができているか確認
+const cameraReady = await waitForCameraReady(camera, 5000);
+if (!cameraReady) {
+  alert("カメラ映像の準備ができませんでした。もう一度お試しください。");
+  captureButton.disabled = false;
+  captureButton.textContent = "📷 撮影する";
+  startFaceDetection();
+  return;
+}
 
-      // 高解像度iPhoneでCanvasが巨大になりメモリを圧迫するのを防ぐ。
-      // 長辺1920pxに制限し、縦横比は維持する。
-      const maxSide = 1920;
-      const scale = Math.min(1, maxSide / Math.max(videoWidth, videoHeight));
-      const canvas = document.createElement("canvas");
-      canvas.width = Math.max(1, Math.round(videoWidth * scale));
-      canvas.height = Math.max(1, Math.round(videoHeight * scale));
+const videoWidth = camera.videoWidth;
+const videoHeight = camera.videoHeight;
 
-      const ctx = canvas.getContext("2d", { alpha: false });
-      if (!ctx) {
-        throw new Error("写真を作成するためのCanvasを準備できませんでした。");
-      }
+if (!videoWidth || !videoHeight) {
+  alert("カメラ映像を取得できませんでした。もう一度撮影してください。");
+  captureButton.disabled = false;
+  captureButton.textContent = "📷 撮影する";
+  startFaceDetection();
+  return;
+}
 
-      // 従来どおり、プレビューと送信画像は左右反転した自撮り画像にする。
-      ctx.translate(canvas.width, 0);
-      ctx.scale(-1, 1);
-      ctx.drawImage(camera, 0, 0, canvas.width, canvas.height);
+const canvas =
+  document.createElement("canvas");
 
-      // 先にBlobを確実に作り、そのBlobからプレビューを表示する。
-      // 巨大なBase64文字列を別途保持しないため、iPhoneのメモリ負荷を抑える。
-      photoBlob = await canvasToBlob(canvas);
-      if (!photoBlob || photoBlob.size === 0) {
-        throw new Error("写真データを作成できませんでした。");
-      }
+canvas.width = videoWidth;
+canvas.height = videoHeight;
 
-      await loadPhotoPreview(photoBlob);
+const ctx = canvas.getContext("2d");
 
-      // 写真データとプレビューの両方が準備できてから画面を切り替える。
-      stopCamera();
-      cameraArea.classList.add("hidden");
-      resultArea.classList.remove("hidden");
+if (!ctx) {
+  alert("写真の作成に失敗しました。");
+  captureButton.disabled = false;
+  captureButton.textContent = "📷 撮影する";
+  startFaceDetection();
+  return;
+}
 
-      photoCheck.textContent = "✅ 撮影できました。写真を送信できます。";
-      photoCheck.classList.add("success");
-      sendButton.disabled = false;
+// 写真を左右反転して撮影
+ctx.translate(canvas.width, 0);
+ctx.scale(-1, 1);
+
+ctx.drawImage(
+  camera,
+  0,
+  0,
+  canvas.width,
+  canvas.height
+);
+
+// 写真表示用
+photo.src = canvas.toDataURL(
+  "image/jpeg",
+  0.9
+);
+
+// 送信用画像
+photoBlob = await canvasToBlob(canvas);
+
+if (!photoBlob) {
+  alert("写真の作成に失敗しました。もう一度撮影してください。");
+  captureButton.disabled = false;
+  captureButton.textContent = "📷 撮影する";
+  startFaceDetection();
+  return;
+}
+
+stopCamera();
+
+cameraArea.classList.add("hidden");
+resultArea.classList.remove("hidden");
+
+photoCheck.textContent =
+  "📷 撮影した写真を確認しています…";
+
+photoCheck.classList.remove("success");
+
+sendButton.disabled = true;
+
+// 撮影前にリアルタイム顔検出と本人確認が完了しているため、
+// 撮影後に別の顔検出を重ねず、そのまま送信可能にする。
+// iPhone SafariでCanvasの再検出だけ失敗する問題を避ける。
+photoCheck.textContent =
+  "✅ 撮影できました。写真を送信できます。";
+
+photoCheck.classList.add("success");
+sendButton.disabled = false;
 
     } catch (error) {
+
       console.error("撮影処理エラー:", error);
 
-      photoBlob = null;
-      if (photoObjectUrl) {
-        URL.revokeObjectURL(photoObjectUrl);
-        photoObjectUrl = null;
-      }
-      photo.removeAttribute("src");
-
-      cameraArea.classList.remove("hidden");
-      resultArea.classList.add("hidden");
-      sendButton.disabled = true;
+      alert("撮影中にエラーが発生しました。カメラを確認して、もう一度お試しください。");
 
       captureButton.disabled = false;
       captureButton.textContent = "📷 撮影する";
 
-      // カメラがまだ動作中なら、顔検出を再開して再撮影できるようにする。
+      cameraArea.classList.remove("hidden");
+      resultArea.classList.add("hidden");
+
       if (stream && stream.getVideoTracks().some(track => track.readyState === "live")) {
         startFaceDetection();
       }
 
-      const detail = error && error.message ? error.message : "原因を特定できないエラーです。";
-      alert("撮影に失敗しました。カメラ映像を確認して、もう一度お試しください。\n\n詳細: " + detail);
     }
+
   }
 );
 
@@ -4233,12 +4187,6 @@ retakeButton.addEventListener(
 
     photoBlob =
       null;
-
-    if (photoObjectUrl) {
-      URL.revokeObjectURL(photoObjectUrl);
-      photoObjectUrl = null;
-    }
-    photo.removeAttribute("src");
 
     sendButton.disabled =
       true;
@@ -4374,62 +4322,79 @@ function promiseWithTimeout(promise, timeoutMs, message) {
 
 
 /* =========================================================
-Supabaseセッション取得
+Supabaseセッション取得・UUID統一
 ========================================================= */
 
-async function getAccessToken() {
-
+async function getSupabaseSession() {
   try {
-
-    const {
-      data,
-      error
-    } =
-      await promiseWithTimeout(
-        supabaseClient.auth.getSession(),
-        8000,
-        "ログイン情報の確認に時間がかかっています。"
-      );
-
-
-    if (error) {
-
-      console.warn(
-        "Supabaseセッション取得エラー:",
-        error
-      );
-
-      return null;
-
-    }
-
-
-    if (
-      data &&
-      data.session &&
-      data.session.access_token
-    ) {
-
-      return data.session.access_token;
-
-    }
-
-
-    return null;
-
-
-  } catch (error) {
-
-    console.warn(
-      "JWT取得エラー:",
-      error
+    const result = await promiseWithTimeout(
+      supabaseClient.auth.getSession(),
+      10000,
+      "ログイン情報の確認に時間がかかっています。"
     );
 
-    return null;
+    if (result.error) {
+      console.warn("Supabaseセッション取得エラー:", result.error);
+      return null;
+    }
 
+    return result.data?.session || null;
+  } catch (error) {
+    console.warn("Supabaseセッション取得エラー:", error);
+    return null;
+  }
+}
+
+// 登録時は既存セッションを必ず再利用し、存在しない場合だけ匿名ユーザーを作成する。
+async function ensureSupabaseUser() {
+  let session = await getSupabaseSession();
+
+  if (session?.user?.id) {
+    registeredUserId = session.user.id;
+    return session.user;
   }
 
+  const result = await promiseWithTimeout(
+    supabaseClient.auth.signInAnonymously(),
+    15000,
+    "ユーザー登録の通信がタイムアウトしました。通信状態を確認して再試行してください。"
+  );
+
+  if (result.error) {
+    throw new Error(
+      "Supabaseユーザー作成に失敗しました。\n" + result.error.message
+    );
+  }
+
+  if (!result.data?.user || !result.data?.session?.access_token) {
+    throw new Error("SupabaseユーザーIDまたはログインセッションを取得できませんでした。");
+  }
+
+  registeredUserId = result.data.user.id;
+  return result.data.user;
 }
+
+async function getAccessToken() {
+  const session = await getSupabaseSession();
+
+  if (session?.access_token && session?.user?.id) {
+    // JWTの所有者IDを写真送信時の基準UUIDとして同期する。
+    registeredUserId = session.user.id;
+    return session.access_token;
+  }
+
+  registeredUserId = null;
+  return null;
+}
+
+// ページ再読み込み後も既存の匿名ユーザーUUIDを復元する。
+// 写真送信時にもgetAccessToken()で再確認するため、この処理の完了待ちは不要。
+getSupabaseSession().then(function(session) {
+  if (session?.user?.id) {
+    registeredUserId = session.user.id;
+    console.log("Supabaseセッション復元:", registeredUserId);
+  }
+});
 
 
 /* =========================================================
@@ -4598,6 +4563,15 @@ sendButton.addEventListener(
       let response;
       let responseText = "";
 
+      // 登録済みなら、JWTが取得できない状態で未認証送信を続けない。
+      // これにより写真だけ別UUID/未登録ユーザーとして記録されるのを防ぐ。
+      const accessToken = await getAccessToken();
+
+      if (registrationCompleted && !accessToken) {
+        throw new Error(
+          "登録時のログイン情報を確認できません。ページを再読み込みして、もう一度お試しください。"
+        );
+      }
 
       /* ==========================================
        * ルーム付き
@@ -4627,10 +4601,6 @@ sendButton.addEventListener(
           encodeURIComponent(
             rankingConsentValue
           );
-
-
-        const accessToken =
-          await getAccessToken();
 
 
         const receiverHeaders = {
@@ -4674,10 +4644,6 @@ sendButton.addEventListener(
        * ========================================== */
 
       else {
-
-        const accessToken =
-          await getAccessToken();
-
 
         const smoothHeaders = {
 
